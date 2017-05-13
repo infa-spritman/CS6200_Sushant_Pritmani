@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Created by Sushant on 5/12/2017.
  */
-public class Document {
+public class DocumentModel {
 
     private String docNo;
     private String fileID;

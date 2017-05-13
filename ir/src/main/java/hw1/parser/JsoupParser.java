@@ -1,6 +1,5 @@
 package hw1.parser;
 
-import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -13,7 +12,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
 
-import static org.elasticsearch.common.xcontent.XContentFactory.*;
 
 /**
  * Created by Sushant on 5/11/2017.
@@ -48,6 +46,18 @@ public class JsoupParser {
     public static Elements getTagFromDoc(Document d, String tag) {
         if(d!=null)
             return d.getElementsByTag(tag);
+
+        try {
+            throw new Exception("Document is not parsed properly..");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static Elements getTagFromElement(Element doc, String tag) {
+        if(doc!=null)
+            return doc.getElementsByTag(tag);
 
         try {
             throw new Exception("Document is not parsed properly..");
