@@ -12,11 +12,17 @@ public class JsonGenerator {
         StringBuilder jsonObject = new StringBuilder("");
         for(Element e: docElements){
             jsonObject.append(metaJsonString(indexName,type,e.getElementsByTag("DOCNO").text()));
+            jsonObject.append(dataJsonString(e));
         }
 
         return jsonObject.toString();
     }
 
     private static String metaJsonString(String indexName, String type, String docno) {
+        return null;
+    }
+
+    private static String dataJsonString(Element doc){
+        return null;
     }
 }
