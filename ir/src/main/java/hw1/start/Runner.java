@@ -20,8 +20,8 @@ public class Runner {
         for(File f : files){
             if(f.isFile() && !f.getName().equalsIgnoreCase("readme")){
                Elements doc =JsoupParser.getTagFromDoc(JsoupParser.parseDoc(f.getAbsolutePath()),"DOC");
-               String jsonFile = JsonGenerator.getJsonObject(doc,"hw1", "ap_documents");
-               Response fileResponse = BulkIndex.createIndexRequest(jsonFile, "ap_documents");
+               String jsonFile = JsonGenerator.getJsonObject(doc,"hw1", "ap_dataset");
+               Response fileResponse = BulkIndex.createIndexRequest(jsonFile, "ap_dataset");
                System.out.println(fileResponse.getStatusLine().toString());
 
 

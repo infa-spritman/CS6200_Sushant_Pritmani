@@ -7,7 +7,7 @@ import java.util.List;
  */
 public class DocumentModel {
 
-    private String docNo;
+    private String docno;
     private String fileID;
     private String first;
     private String second;
@@ -16,12 +16,12 @@ public class DocumentModel {
     private String dateline;
     private String text;
 
-    public String getDocNo() {
-        return docNo;
+    public String getDocno() {
+        return docno;
     }
 
-    public void setDocNo(String docNo) {
-        this.docNo = docNo;
+    public void setDocno(String docno) {
+        this.docno = docno;
     }
 
     public String getFileID() {

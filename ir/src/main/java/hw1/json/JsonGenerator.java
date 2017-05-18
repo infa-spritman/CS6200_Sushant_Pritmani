@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hw1.parser.JsoupParser;
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
@@ -62,7 +61,7 @@ public class JsonGenerator {
 
         DocumentModel db = new DocumentModel();
 
-        db.setDocNo(JsoupParser.getTagFromElement(doc,"DOCNO").text());
+        db.setDocno(JsoupParser.getTagFromElement(doc,"DOCNO").text());
         db.setFileID(JsoupParser.getTagFromElement(doc,"FILEID").text());
         db.setFirst(JsoupParser.getTagFromElement(doc,"FIRST").text());
         db.setSecond(JsoupParser.getTagFromElement(doc,"SECOND").text());
