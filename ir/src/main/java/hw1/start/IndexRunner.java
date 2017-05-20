@@ -11,7 +11,7 @@ import java.io.File;
 /**
  * Created by Sushant on 5/12/2017.
  */
-public class Runner {
+public class IndexRunner {
 
     public static void main(String[] args){
 

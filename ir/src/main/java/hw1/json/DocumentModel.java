@@ -15,6 +15,16 @@ public class DocumentModel {
     private List<String> byline;
     private String dateline;
     private String text;
+    private int doclength;
+
+
+    public int getDoclength() {
+        return doclength;
+    }
+
+    public void setDoclength(int doclength) {
+        this.doclength = doclength;
+    }
 
     public String getDocno() {
         return docno;

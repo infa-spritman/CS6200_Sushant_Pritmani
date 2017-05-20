@@ -66,7 +66,8 @@ public class JsonGenerator {
         db.setFirst(JsoupParser.getTagFromElement(doc,"FIRST").text());
         db.setSecond(JsoupParser.getTagFromElement(doc,"SECOND").text());
         db.setDateline(JsoupParser.getTagFromElement(doc,"DATELINE").text());
-        db.setText(JsoupParser.getTagFromElement(doc,"TEXT").text());
+        String text = JsoupParser.getTagFromElement(doc,"TEXT").text();
+        db.setText(text);
 
         List<String> headList = new ArrayList<String>();
         Elements tempHead = JsoupParser.getTagFromElement(doc,"HEAD");
@@ -81,6 +82,8 @@ public class JsonGenerator {
             byLineList.add(by.text());
 
         db.setByline(byLineList);
+
+        db.setDoclength(text.split(" ").length);
 
         return db;
     }
