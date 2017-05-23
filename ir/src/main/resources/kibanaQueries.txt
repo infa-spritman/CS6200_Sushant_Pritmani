@@ -1,0 +1,407 @@
+DELETE /ap_dataset
+
+DELETE /customer
+
+PUT /ap_dataset/
+{
+  "settings": {
+    "index": {
+      "store": {
+        "type": "fs"
+      },
+      "number_of_shards": 1,
+      "number_of_replicas": 1
+    },
+    "analysis": {
+      "analyzer": {
+        "my_english": { 
+          "type": "english",
+          "stopwords_path": "stoplist.txt" 
+        }
+      }
+    }
+  }
+}
+
+PUT /ap_dataset/hw1/_mapping
+{
+  "hw1": {
+    "properties": {
+      "docno": {
+        "type": "keyword",
+        "store": true
+      },
+      "text": {
+        "type": "text",
+        "store": true,
+        "term_vector": "with_positions_offsets_payloads",
+        "analyzer": "my_english",
+        "fielddata": true
+        
+      }
+    }
+  }
+}
+
+####################################
+
+GET /ap_dataset/document/_search
+{
+    "query" : {
+        "terms" : {"text" : [ "atom" ]}
+    },
+    "aggregations" : {
+        "significantCrimeTypes" : {
+            "significant_terms" : {
+              "field" : "text"              
+            }
+        }
+    },
+    "size": 0
+}
+
+
+DELETE ap_dataset
+
+GET /ap_dataset/hw1/_search
+{
+  "query": {
+    "match_all": {}
+  }
+}
+
+GET /ap_dataset/hw1/_search
+{
+  "query": {
+    "match": {"text": "brought"}
+  }
+}
+
+GET /ap_dataset/hw1/_search?explain
+{
+  "query": {
+    "term": {
+      "text": "fox"
+    }
+  }
+}
+
+GET /ap_dataset/hw1/_search
+{
+  "query": {
+    "type": {"value": "hw1"}
+  }
+}
+
+GET ap_documents
+
+GET /ap_dataset/hw1/AP890101-0001?pretty
+
+GET /ap_dataset/hw1/AP890101-0001/_termvectors
+
+GET /ap_dataset/hw1/AP890307-0140/_termvectors
+{
+  "fields" : ["text"],
+  "offsets" : true,
+  "payloads" : true,
+  "positions" : true,
+  "term_statistics" : true,
+  "field_statistics" : true
+}
+
+########avgDoclength
+POST /ap_dataset/hw1/_search?size=0
+{
+    "aggs" : {
+        "avg_doc_length" : { "avg" : { "field" : "doclength" } }
+    }
+}
+
+
+######multitermvectors
+
+POST /ap_dataset/hw1/_mtermvectors
+{
+    "ids" : ["AP890101-0060", "AP890101-0062"],
+    "parameters": {
+        "fields": [
+                "text"
+        ],
+        "term_statistics": true
+    }
+}
+
+
+########################
+GET /ap_dataset/hw1/_search
+{
+    "aggs" : {
+        "genres" : {
+            "terms" : { "field" : "docno"}
+        }
+    }
+}
+
+
+### GEt all doc no
+GET /ap_dataset/hw1/_search?scroll=1m
+{
+    "stored_fields" : ["doclength"],
+    "query" : {
+        "match_all" : {}
+    }
+}
+
+
+
+GET /ap_dataset/hw1/_search 
+{
+   
+    
+}
+
+
+GET /ap_dataset/hw1/_search
+{
+  "query": {
+    "type": {"value": "hw1"}
+  }
+}
+
+
+GET /ap_dataset/hw1/_search
+{
+  "query": { "match_phrase": { "text": "corrupt public" } }
+}
+
+
+POST /ap_dataset/hw1/_search
+{
+    "query": {
+        "query_string": {
+            "query": "Document will discuss allegations, or measures being taken against, corrupt public officials of any governmental jurisdiction worldwide.",
+            "fields": ["text"]
+        }
+    }
+}
+
+##########################3
+POST /ap_dataset/hw1/_search
+{
+  "query": {
+    "function_score": {
+      "script_score": {
+        "script": "ctx._index['text'].tf()"
+      }
+    }
+  }
+}
+
+
+GET /ap_dataset/hw1/_search
+{
+  "query": {
+    "filtered": {
+      "filter": {
+        "script": {
+          "script": "ctx._index['text']['bravo'].tf() > occurrences",
+          "params": {
+            "term_to_lookup": "copyright",
+            "occurrences": 1
+          }
+        }
+      }
+    }
+  }
+}
+
+
+
+################
+
+
+GET /ap_dataset/hw1/_search
+{
+    "query": {
+        "function_score": {
+            "query": {
+                "match": { "text": "bravo" }
+            },
+            "script_score" : {
+                "script" : {
+                  "inline": "params._index['text']['time'].df()"
+                }
+            }
+        }
+    }
+}
+
+
+
+################33
+GET /ap_dataset/hw1/_search
+{
+  "query": {
+    "function_score": {
+      "query": {
+        "match": {
+          "text": "time"
+        }
+      },
+      "boost_mode": "replace",
+      "functions": [
+        {
+          "script_score": {
+            "script": "params._index['text']['time'].df()"
+          }
+        }
+      ]
+    }
+  }
+}
+
+
+################################333333
+POST /ap_dataset/hw1/_search
+{ 
+"query": { 
+  "terms": {
+      "_index": ["ap_dataset"] 
+    }
+}, 
+"script_fields": { 
+"tf": { 
+"script": "ctx._index['text']['time'].df()"
+} 
+} 
+} 
+
+
+###########################################
+
+
+
+GET /ap_dataset/hw1/_search
+{ 
+
+"query": { 
+
+"match": {
+          "text": "document"
+        } 
+
+}, 
+
+"script_fields": { 
+
+"qcount": { 
+
+"script": "_index['text'].docCount();" 
+
+}
+
+} 
+
+} 
+
+
+
+GET /ap_dataset/document/_search
+{
+    "query" : {
+        "terms" : {"text" : [ "corrupt" ]}
+    },
+    "aggregations" : {
+        "significantCrimeTypes" : {
+            "significant_terms" : {
+              "field" : "text"              
+            }
+        }
+    },
+    "size": 3
+}
+
+###############################################3
+GET /ap_dataset/document/_search
+{
+  "query": {
+    "function_score": {
+      "query": {
+        "match": {
+          "text": "cow"
+        }
+      },
+      "boost_mode": "replace",
+      "functions": [
+        {
+          "script_score": {
+            "script": {
+               "lang": "groovy",
+               "inline": "_index['text']['cow'].tf()"
+            }
+          }
+        }
+      ]
+    }
+  }
+}
+
+###############################
+GET /ap_dataset/document/_search
+{
+  "script_score": {
+    "script": {
+      "lang": "groovy",
+      "inline": "Math.log(_score * 2) + my_modifier",
+      "params": {
+        "my_modifier": 8
+      }
+    }
+  }
+}
+
+
+
+
+
+
+####################################################3
+
+
+GET /ap_dataset/hw1/_search
+    {
+        "query" : {
+            "match" : { "text" : "document" }
+        },
+        "script_fields" : {
+            "tf" : {
+                "script" : {
+                "lang": "groovy",
+                "inline": "_index['text']['corrupt'].tf()"
+
+                }
+            },
+            "df" : {
+                "script" : {
+                "lang": "groovy",
+                "inline": "_index['text']['corrupt'].df()"
+
+                }
+            },
+            "doc_count" : {
+                "script" : {
+                "lang": "painless",
+                "inline":  "StringTokenizer tk = new StringTokenizer(params['_source']['text'], ' ');int sentenceCount = tk.countTokens();return sentenceCount;"
+
+                }
+        }
+    }
+}
+
+
+
+
+
+
+
+

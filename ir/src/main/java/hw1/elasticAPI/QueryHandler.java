@@ -35,10 +35,11 @@ import java.util.concurrent.ExecutionException;
  */
 public class QueryHandler {
 
-    public static Response getDocStats(String indexName, String type, String docNo, String fieldName) {
+    public static String getDocStats(String indexName, String type, String docNo, String fieldName) {
 
         Response indexResponse = null;
         RestClient restClient = null;
+        String responseEntity ="";
         try {
             restClient = RestClient.builder(
                     new HttpHost("localhost", 9200, "http")).build();
@@ -60,16 +61,17 @@ public class QueryHandler {
                     ,
                     Collections.singletonMap("pretty", "true"), entity);
 
+            responseEntity = EntityUtils.toString(indexResponse.getEntity());
 
         } catch (Exception e) {
-            System.out.println("Error doing Bulk index...");
+            System.out.println("Error doing DocStats...");
         } finally {
             try {
                 restClient.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            return indexResponse;
+            return responseEntity;
         }
 
     }
@@ -83,16 +85,14 @@ public class QueryHandler {
 
             SearchResponse scrollResp = client.prepareSearch(indexName)
                     .setTypes(type)
-                    .setFetchSource(new String[]{"docno"}, null)
+                    .setFetchSource(new String[]{"docno", "doclength"}, null)
                     .setScroll(new TimeValue(60000))
                     .setSize(10000)
                     .execute().actionGet();
             do {
                 for (SearchHit hit : scrollResp.getHits().getHits()) {
                     Map map = hit.getSource();
-//                    Map.Entry<Integer,String> entry= (Map.Entry<Integer, String>) map.entrySet().iterator().next();
-//                    System.out.println(entry.getValue()+"AS");
-                    docMap.put(map.get(map.keySet().toArray()[0]).toString(), 0);
+                    docMap.put(map.get("docno").toString(), Integer.parseInt(map.get("doclength").toString()));
 
                 }
 
@@ -150,27 +150,37 @@ public class QueryHandler {
     }
 
 
-    public static Pair<Integer, Integer> getTFDF(Response rs, String term) {
+    public static Pair<Integer, Integer> getTFDF(String entity, String term) {
         int tfCount = 0, dfCount = 0;
         try {
             ObjectMapper mapper = new ObjectMapper();
-            String entity = EntityUtils.toString(rs.getEntity());
             final JsonNode jsonNode = mapper.readTree(entity);
-            JsonNode term_vectors = jsonNode.get("term_vectors");
-            JsonNode fieldInfo = term_vectors.get("text");
-            JsonNode fieldStats = fieldInfo.get("field_stastics");
-            JsonNode terms = fieldInfo.get("terms");
+            JsonNode term_vectors,fieldInfo,fieldStats,terms;
+            if(jsonNode.has("term_vectors")){
+                term_vectors = jsonNode.get("term_vectors");
+                if(term_vectors.has("text")){
+                    fieldInfo = term_vectors.get("text");
+//                    if(fieldInfo.has("field_statistics")){
+//                        fieldStats = fieldInfo.get("field_statistics");
+//                    }
+                    if(fieldInfo.has("terms")){
+                        terms = fieldInfo.get("terms");
+                        if(terms.has(term)){
+                            JsonNode particularTermData = terms.get(term);
+                            tfCount = Integer.parseInt(particularTermData.get("term_freq").toString());
+                            dfCount = Integer.parseInt(particularTermData.get("doc_freq").toString());
 
-            if (terms.has(term)) {
-                JsonNode particularTermData = terms.get(term);
-                tfCount = Integer.parseInt(particularTermData.get("term_freq").toString());
-                dfCount = Integer.parseInt(particularTermData.get("doc_freq").toString());
+                        }
+                    }
+                }
             }
 
         } catch (Exception e) {
             e.printStackTrace();
+        }finally {
+            return new Pair<Integer, Integer>(tfCount, dfCount);
+
         }
-        return new Pair<Integer, Integer>(tfCount, dfCount);
     }
 
 
@@ -179,51 +189,54 @@ public class QueryHandler {
 
     public static void main(String args[]) throws UnknownHostException, ExecutionException, InterruptedException {
 
-        System.out.println(getAvgDocLength("ap_dataset", "hw1"));
-//        Response response = QueryHandler.getDocStats("ap_dataset", "hw1", "AP890101-0060", "text");//        try {
-//        Pair<Integer, Integer> bravo = getTFDF(response, "bravo");
-//        System.out.println(bravo.getKey());
-//        System.out.println(bravo.getValue());
 
-//            ObjectMapper mapper =  new ObjectMapper();
-//            String entity = EntityUtils.toString(response.getEntity());
-//            final JsonNode jsonNode = mapper.readTree(entity);
-//            JsonNode term_vectors = jsonNode.get("term_vectors");
-//            JsonNode fieldInfo = term_vectors.get("text");
-//            JsonNode fieldStats = fieldInfo.get("field_stastics");
-//            JsonNode terms = fieldInfo.get("terms");
-//            JsonNode particularTerm = terms.get("appear");
-//            System.out.println(particularTerm);
-//
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        System.out.println(getIDs("ap_dataset", "hw1").size());
-//        Client client = new PreBuiltTransportClient(Settings.EMPTY)
-//                .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("localhost"), 9300));
-//
-//        TermVectorsRequestBuilder termVectorsRequestBuilder = client.prepareTermVectors();
-//        termVectorsRequestBuilder.setIndex("ap_dataset")
-//                                 .setType("hw1")
-//                                 .setId("AP890101-0060")
-//                                 .setSelectedFields("docno")
-//                                 .setTermStatistics(true);
-//
-//        TermVectorsResponse response = termVectorsRequestBuilder.execute().actionGet();
-//        XContentBuilder builder;
-//        try {
-//            builder = XContentFactory.jsonBuilder().startObject();
-//            response.toXContent(builder, ToXContent.EMPTY_PARAMS);
-//            builder.endObject();
-//            System.out.println(builder.prettyPrint().string());
-//        } catch (IOException e) {
-//        }
-//
-//        HashMap<String,String> hd = new HashMap<String, String>();
-//        hd.put("AP890101-0060","");
-//        builtTermVectorRequest(client,"ap_dataset", hd);
-//        client.close();
+        Response indexResponse = null;
+        RestClient restClient = null;
+        String responseEntity ="";
+        try {
+            restClient = RestClient.builder(
+                    new HttpHost("localhost", 9200, "http")).build();
+
+            String json = "{\n" +
+                    "  \"query\": {\n" +
+                    "    \"function_score\": {\n" +
+                    "      \"query\": {\n" +
+                    "        \"match\": {\n" +
+                    "          \"text\": \"cow\"\n" +
+                    "        }\n" +
+                    "      },\n" +
+                    "      \"boost_mode\": \"replace\",\n" +
+                    "      \"functions\": [\n" +
+                    "        {\n" +
+                    "          \"script_score\": {\n" +
+                    "            \"script\": \"_index['text']['cow'].tf()\"\n" +
+                    "          }\n" +
+                    "        }\n" +
+                    "      ]\n" +
+                    "    }\n" +
+                    "  }\n" +
+                    "}";
+
+            HttpEntity entity = new NStringEntity(json, ContentType.APPLICATION_JSON);
+
+            String endPoint = "/ap_dataset/hw1/_search";
+
+            indexResponse = restClient.performRequest("GET", endPoint
+                    ,
+                    Collections.singletonMap("pretty", "true"), entity);
+
+            responseEntity = EntityUtils.toString(indexResponse.getEntity());
+            System.out.println(responseEntity);
+        } catch (Exception e) {
+            System.out.println("Error doing DocStats...");
+        } finally {
+            try {
+                restClient.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
 
 
     }
