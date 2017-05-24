@@ -400,6 +400,95 @@ GET /ap_dataset/hw1/_search
 
 
 
+#######################3 22/5
+
+GET /ap_dataset/hw1/_search
+    {
+        "query" : {
+            "match" : { "text" : "develop" }
+        },
+        "script_fields" : {
+            "tf" : {
+                "script" : {
+                "lang": "groovy",
+                "inline": "_index['text']['development'].tf()"
+
+                }
+            },
+            "df" : {
+                "script" : {
+                "lang": "groovy",
+                "inline": "_index['text']['develop'].df()"
+
+                }
+            },
+            "doc_count" : {
+                "script" : {
+                "lang": "painless",
+                "inline":  "StringTokenizer tk = new StringTokenizer(doc['text'].toString(), ' ');int sentenceCount = tk.countTokens();return sentenceCount;"
+
+                }
+        }
+    }
+}
+
+GET /ap_dataset/hw1/_search
+{
+            "query": {
+                "match_all": {}
+            },
+            "aggs": {
+                "avg_docs_length": {
+                    "avg": {
+                        "script" : {
+                "lang": "painless",
+                "inline":  "StringTokenizer tk = new StringTokenizer(doc['text'].toString(), ' ');int sentenceCount = tk.countTokens();return sentenceCount;"
+
+                }
+                    }
+                }
+            }
+        }
+
+
+
+GET /ap_dataset/hw1/_search
+{
+            "query": {
+                "match_all": {}
+            },
+            "aggs": {
+                "avg_docs_length": {
+                    "avg": {
+                        "script" : {
+                "lang": "painless",
+                "inline":  "StringTokenizer tk = new StringTokenizer(params['_source']['text'], ' ');int sentenceCount = tk.countTokens();return sentenceCount;"
+
+                }
+                    }
+                }
+            }
+        }
+
+
+
+GET /ap_dataset/hw1/AP891207-0038?pretty
+
+POST /ap_dataset/_analyze
+{
+  "analyzer": "my_english",
+  "text": "Document will discuss allegations, or measures being taken against, corrupt public officials of any governmental jurisdiction worldwide."
+}
+
+
+
+
+
+
+
+
+
+
 
 
 

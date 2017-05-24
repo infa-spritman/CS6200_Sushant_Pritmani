@@ -183,7 +183,52 @@ public class QueryHandler {
         }
     }
 
+    public static ArrayList<String> getQueryStemmed(String indexName,String currentLine) {
 
+        Response stemResponse ;
+        RestClient restClient = null;
+        String responseEntity ="";
+        ArrayList<String> terms = new ArrayList<>();
+        try {
+            restClient = RestClient.builder(
+                    new HttpHost("localhost", 9200, "http")).build();
+
+            String json = "{\n" +
+                    "  \"analyzer\": \"my_english\",\n" +
+                    "  \"text\": \""+currentLine+"\"\n" +
+                    "}";
+
+            HttpEntity entity = new NStringEntity(json, ContentType.APPLICATION_JSON);
+
+            String endPoint = "/" + indexName + "/_analyze";
+
+            stemResponse = restClient.performRequest("POST", endPoint
+                    ,
+                    Collections.<String, String>emptyMap(), entity);
+
+            responseEntity = EntityUtils.toString(stemResponse.getEntity());
+
+
+            ObjectMapper mapper = new ObjectMapper();
+            final JsonNode jsonNode = mapper.readTree(responseEntity);
+            terms = (ArrayList<String>) jsonNode.get("tokens").findValuesAsText("token");
+            terms.remove(0);
+
+
+        } catch (Exception e) {
+            System.out.println("Error doing StemResponse...");
+        } finally {
+            try {
+                restClient.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return terms;
+        }
+
+
+
+    }
     ///////////////////////////////////////////////////////////////
 
 
@@ -240,4 +285,6 @@ public class QueryHandler {
 
 
     }
+
+
 }

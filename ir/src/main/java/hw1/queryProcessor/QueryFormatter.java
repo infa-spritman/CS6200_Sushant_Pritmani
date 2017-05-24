@@ -1,5 +1,7 @@
 package hw1.queryProcessor;
 
+import hw1.elasticAPI.QueryHandler;
+
 import java.io.*;
 import java.util.*;
 
@@ -8,10 +10,10 @@ import java.util.*;
  */
 public class QueryFormatter {
 
-    public static Map<Integer,String> getRefinedQueries(String queryPath) {
-        
+    public static Map<Integer, ArrayList<String>> getRefinedQueries(String queryPath,String indexName) {
+
         BufferedReader bis = null;
-        Map<Integer,String> queriesMap = new HashMap<Integer, String>();
+        Map<Integer, ArrayList<String>> queriesMap = new HashMap<Integer, ArrayList<String>>();
         String currentLine;
         try {
             bis = new BufferedReader(new FileReader(queryPath));
@@ -19,8 +21,8 @@ public class QueryFormatter {
                 //System.out.println("pt"+currentLine+"pt");
                 int queryNo = getQueryNo(currentLine);
                 //System.out.println(queryNo);
-                String s = formattedString(currentLine);
-                queriesMap.put(queryNo,s);
+                ArrayList<String> s = formattedString(indexName,currentLine);
+                queriesMap.put(queryNo, s);
             }
 
         } catch (IOException e) {
@@ -36,21 +38,14 @@ public class QueryFormatter {
         return queriesMap;
     }
 
-    private static String formattedString(String currentLine) {
+    private static ArrayList<String> formattedString(String indexName,String currentLine) {
 
-        StringBuilder sb = new StringBuilder();
-        Set<String> stopWords = QueryFormatter.getStopWords("C:\\Users\\Sushant\\Documents\\GitHub\\CS6200_Sushant_Pritmani\\ir\\src\\main\\resources\\stoplist.txt");
-        String[] allText = currentLine
-                .replaceAll("\\d","")
-                .replaceAll("\\p{P}","").trim()
-                .split(" ");
+        ArrayList<String> terms;
 
-        for(String temp : allText){
-            if(temp != null && !stopWords.contains(temp))
-                sb.append(temp+" ");
-        }
+        terms = QueryHandler.getQueryStemmed(indexName,currentLine);
 
-        return sb.toString().trim();
+        return terms;
+
     }
 
     private static Set<String> getStopWords(String stopWordPath) {
@@ -76,15 +71,15 @@ public class QueryFormatter {
         return stopWords;
     }
 
-    private static int getQueryNo(String currentLine){
-        String[] split =currentLine.split(" ");
-        return Integer.parseInt(split[0].replaceAll("\\p{P}","").trim());
+    private static int getQueryNo(String currentLine) {
+        String[] split = currentLine.split(" ");
+        return Integer.parseInt(split[0].replaceAll("\\p{P}", "").trim());
     }
 
-    public static void main(String[] args){
-       Map<Integer,String> tempHm = getRefinedQueries("C:\\Users\\Sushant\\Documents\\GitHub\\CS6200_Sushant_Pritmani\\ir\\src\\main\\resources\\query_desc.51-100.short.txt");
-        for(Map.Entry m:tempHm.entrySet()){
-            System.out.println(m.getKey()+" "+m.getValue());
+    public static void main(String[] args) {
+        Map<Integer, ArrayList<String>> tempHm = getRefinedQueries("C:\\Users\\Sushant\\Documents\\GitHub\\CS6200_Sushant_Pritmani\\ir\\src\\main\\resources\\query_desc.51-100.short.txt","ap_dataset");
+        for (Map.Entry m : tempHm.entrySet()) {
+            System.out.println(m.getKey() + " " + m.getValue());
         }
     }
 }

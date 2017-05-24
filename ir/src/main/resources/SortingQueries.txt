@@ -1,0 +1,103 @@
+GET /ap_dataset/hw1/_search
+    {
+        "query" : {
+            "match" : { "text" : "develop" }
+        },
+        "script_fields" : {
+            "Okapi_tf" : {
+                "script" : {
+                "lang": "groovy",
+                "inline": "int d = _source.doclength; double tf = _index['text']['develop'].tf(); double df = _index['text']['develop'].df();return tf/(tf+0.5+1.5*(d/441.6));"
+
+                }
+            }
+    },
+    "sort" : {
+        "_script" : {
+            "type" : "number",
+            "script" : {
+                "lang": "groovy",
+                "inline": "int d = _source.doclength; double tf = _index['text']['develop'].tf(); double df = _index['text']['develop'].df();return tf/(tf+0.5+1.5*(d/441.6));"
+            },
+            "order" : "desc"
+        }
+    }
+}
+
+GET /ap_dataset/hw1/_search
+{
+            "query": {
+                "match_all": {}
+            },
+            "aggs": {
+                "avg_docs_length": {
+                    "avg": {
+                        "script" : {
+                "lang": "painless",
+                "inline":  "StringTokenizer tk = new StringTokenizer(params['_source']['text'], ' ');int sentenceCount = tk.countTokens();return sentenceCount;"
+
+                }
+                    }
+                }
+            }
+        }
+
+
+
+GET /ap_dataset/hw1/_search
+{
+            "query": {
+                "match_all": {}
+            },
+            "aggs": {
+                "avg_docs_length": {
+                    "avg": {
+                        "script" : {
+                "lang": "painless",
+                "inline":  "StringTokenizer tk = new StringTokenizer(params['_source']['text'], ' ');int sentenceCount = tk.countTokens();return sentenceCount;"
+
+                }
+                    }
+                }
+            }
+        }
+
+
+
+GET /ap_dataset/hw1/AP891207-0038?pretty
+
+POST /ap_dataset/_analyze
+{
+  "analyzer": "my_english",
+  "text": "Document will discuss allegations, or measures being taken against, corrupt public officials of any governmental jurisdiction worldwide."
+}
+
+
+#####################################Sorting
+
+GET /ap_dataset/hw1/_search
+{
+    "query" : {
+        "term" : { "user" : "kimchy" }
+    },
+    "sort" : {
+        "_script" : {
+            "type" : "number",
+            "script" : {
+                "lang": "painless",
+                "inline": "doc['field_name'].value * params.factor",
+                "params" : {
+                    "factor" : 1.1
+                }
+            },
+            "order" : "asc"
+        }
+    }
+}
+
+
+
+
+
+
+
