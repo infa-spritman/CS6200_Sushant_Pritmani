@@ -76,9 +76,9 @@ public class QueryHandler {
 
     }
 
-    public static Map<String, Integer> getIDs(String indexName, String type) {
+    public static Map<String, Double> getIDs(String indexName, String type) {
         Client client = null;
-        Map<String, Integer> docMap = new HashMap<String, Integer>();
+        Map<String, Double> docMap = new HashMap<String, Double>();
         try {
             client = new PreBuiltTransportClient(Settings.EMPTY)
                     .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("localhost"), 9300));
@@ -92,7 +92,11 @@ public class QueryHandler {
             do {
                 for (SearchHit hit : scrollResp.getHits().getHits()) {
                     Map map = hit.getSource();
-                    docMap.put(map.get("docno").toString(), Integer.parseInt(map.get("doclength").toString()));
+                    //double d  = Integer.parseInt(map.get("doclength").toString());
+                    double d = 1/(Integer.parseInt(map.get("doclength").toString())+178081.0);
+                    String docNo = map.get("docno").toString();
+                    docMap.put(docNo, d);
+                    //System.out.println("docno: "+ docNo + " lp: " + d);
 
                 }
 
@@ -234,56 +238,59 @@ public class QueryHandler {
 
     public static void main(String args[]) throws UnknownHostException, ExecutionException, InterruptedException {
 
-
-        Response indexResponse = null;
-        RestClient restClient = null;
-        String responseEntity ="";
-        try {
-            restClient = RestClient.builder(
-                    new HttpHost("localhost", 9200, "http")).build();
-
-            String json = "{\n" +
-                    "  \"query\": {\n" +
-                    "    \"function_score\": {\n" +
-                    "      \"query\": {\n" +
-                    "        \"match\": {\n" +
-                    "          \"text\": \"cow\"\n" +
-                    "        }\n" +
-                    "      },\n" +
-                    "      \"boost_mode\": \"replace\",\n" +
-                    "      \"functions\": [\n" +
-                    "        {\n" +
-                    "          \"script_score\": {\n" +
-                    "            \"script\": \"_index['text']['cow'].tf()\"\n" +
-                    "          }\n" +
-                    "        }\n" +
-                    "      ]\n" +
-                    "    }\n" +
-                    "  }\n" +
-                    "}";
-
-            HttpEntity entity = new NStringEntity(json, ContentType.APPLICATION_JSON);
-
-            String endPoint = "/ap_dataset/hw1/_search";
-
-            indexResponse = restClient.performRequest("GET", endPoint
-                    ,
-                    Collections.singletonMap("pretty", "true"), entity);
-
-            responseEntity = EntityUtils.toString(indexResponse.getEntity());
-            System.out.println(responseEntity);
-        } catch (Exception e) {
-            System.out.println("Error doing DocStats...");
-        } finally {
-            try {
-                restClient.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-        }
-
-
+        System.out.println(2+3.0);
+//        Map<String, Double> iDs = getIDs("ap_dataset", "hw1");
+//        System.out.println("size" + iDs.size());
+        System.out.println(Math.log10(1/4475.0));
+//        Response indexResponse = null;
+//        RestClient restClient = null;
+//        String responseEntity ="";
+//        try {
+//            restClient = RestClient.builder(
+//                    new HttpHost("localhost", 9200, "http")).build();
+//
+//            String json = "{\n" +
+//                    "  \"query\": {\n" +
+//                    "    \"function_score\": {\n" +
+//                    "      \"query\": {\n" +
+//                    "        \"match\": {\n" +
+//                    "          \"text\": \"cow\"\n" +
+//                    "        }\n" +
+//                    "      },\n" +
+//                    "      \"boost_mode\": \"replace\",\n" +
+//                    "      \"functions\": [\n" +
+//                    "        {\n" +
+//                    "          \"script_score\": {\n" +
+//                    "            \"script\": \"_index['text']['cow'].tf()\"\n" +
+//                    "          }\n" +
+//                    "        }\n" +
+//                    "      ]\n" +
+//                    "    }\n" +
+//                    "  }\n" +
+//                    "}";
+//
+//            HttpEntity entity = new NStringEntity(json, ContentType.APPLICATION_JSON);
+//
+//            String endPoint = "/ap_dataset/hw1/_search";
+//
+//            indexResponse = restClient.performRequest("GET", endPoint
+//                    ,
+//                    Collections.singletonMap("pretty", "true"), entity);
+//
+//            responseEntity = EntityUtils.toString(indexResponse.getEntity());
+//            System.out.println(responseEntity);
+//        } catch (Exception e) {
+//            System.out.println("Error doing DocStats...");
+//        } finally {
+//            try {
+//                restClient.close();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//
+//        }
+//
+//
     }
 
 

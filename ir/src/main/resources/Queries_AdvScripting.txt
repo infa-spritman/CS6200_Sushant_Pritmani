@@ -1,0 +1,348 @@
+
+
+GET /ap_dataset/_analyze
+{
+  "analyzer": "my_english",
+  "text": "1988"
+}
+
+
+GET /ap_dataset/hw1/_search
+{
+            "query": {
+                "match_all": {}
+            },
+            "aggs": {
+                "avg_docs_length": {
+                    "avg": {
+                        "script" : {
+                "lang": "painless",
+                "inline":  "StringTokenizer tk = new StringTokenizer(params['_source']['text'], ' ');int sentenceCount = tk.countTokens();return sentenceCount;"
+
+                }
+                    }
+                }
+            }
+        }
+
+
+
+PUT /_cluster/settings
+{
+    "transient" : {
+        "script.max_compilations_per_minute" : 100
+    }
+}
+GET /_cluster/settings
+
+GET /ap_dataset/hw1/_search
+    {
+        "query" : {
+            "match" : { "docno":"AP890202-0124" }
+        },
+        "script_fields" : {
+            "Okapi_tf" : {
+                "script" : {
+                "lang": "painless",   
+                "inline":  "doc['text'].length"
+                  
+                }
+            }
+    }
+}
+
+GET /ap_dataset/hw1/_search
+{
+            "query": {
+                "match_all": {}
+            },
+            "aggs": {
+                "avg_docs_length": {
+                    "avg": {
+                        "script" : {
+                "lang": "painless",   
+                "inline":  "doc['text'].length"
+                  
+                }
+                    }
+                }
+            }
+        }
+
+
+
+GET /ap_dataset/hw1/_search
+{
+            "query": {
+                "match_all": {}
+            },
+            "aggs": {
+                "avg_docs_length": {
+                    "avg": {
+                        "script" : {
+                "lang": "painless",   
+                "inline":  "StringTokenizer tk = new StringTokenizer(params['_source']['text'], ' ');int sentenceCount = tk.countTokens();return sentenceCount;"
+                  
+                }
+                    }
+                }
+            }
+        }
+
+GET /ap_dataset/hw1/_search
+{
+            "query": {
+                "match_all": {}
+            },
+            "aggs": {
+                "avg_docs_length": {
+                    "avg": {
+                        "script" : {
+                "lang": "painless",   
+                "inline":  "StringTokenizer tk = new StringTokenizer(params['_source']['text'], ' ');int sentenceCount = tk.countTokens();return sentenceCount;"
+                  
+                }
+                    }
+                }
+            }
+        }
+
+
+DELETE /ap_dataset/_analyze
+
+GET /ap_dataset/hw1/_analyze?pretty
+
+DELETE /ap_dataset/_analyze
+{
+  "analyzer": "my_english",
+  "text": "history"
+}
+
+DELETE /ap_dataset/_analyze
+#####################################Sorting
+
+GET /ap_dataset/hw1/_search
+{
+    "query" : {
+        "term" : { "user" : "kimchy" }
+    },
+    "sort" : {
+        "_script" : {
+            "type" : "number",
+            "script" : {
+                "lang": "painless",
+                "inline": "doc['field_name'].value * params.factor",
+                "params" : {
+                    "factor" : 1.1
+                }
+            },
+            "order" : "asc"
+        }
+    }
+}
+
+
+
+GET /ap_dataset/hw1/AP890312-0011?pretty
+
+
+GET ap_dataset/hw1/_search
+{
+  "query" : {
+    "match" :  {"text" : "allegations measures against corrupt public officials governmental jurisdiction worldwide" }
+  }
+}
+
+GET /ap_dataset/hw1/AP890205-0005/_search
+{
+  "query": {
+    "match_all": {}
+  }
+}
+
+
+
+
+
+
+
+
+GET /ap_dataset/hw1/_search
+{
+            "aggs": {
+                "unique_terms": {
+                    "cardinality": {
+                      
+                        "script": {"lang": "painless","inline": "doc['text'].values"}
+                    }
+                }
+            }
+        }
+
+
+GET /ap_dataset/hw1/_search
+{
+    "aggs" : {
+        "author_count" : {
+            "cardinality" : {
+                "field" : "_"
+            }
+        }
+    }
+}
+
+#################################3
+GET /ap_dataset/hw1/_search
+    {
+        "query" : {
+            "match_all" : {}
+        },
+        "_source": "doclength",
+        "script_fields" : {
+            "tf" : {
+                "script" : {
+                "lang": "painless",
+                "inline": "doc['text'].values.length"
+
+                }
+            }
+
+                }
+    }
+
+GET /ap_dataset/hw1/_search
+{
+    "aggs" : {
+        "author_count" : {
+            "cardinality" : {
+                "field" :{"script" : {
+                "lang": "painless",
+                "inline": "doc['text'].values"
+
+                }}
+            }
+        }
+    }
+}
+
+GET /ap_dataset/hw1/_search
+ {
+   "query": {
+     "match": {"text" : "officials"}
+   }
+ }
+
+########
+GET /ap_dataset/hw1/AP891231-0047/
+
+
+GET /ap_dataset/hw1/_search
+    {
+        "query" : {
+            "match" : {"text": "government"}
+        },
+        "_source": "doclength", 
+        "script_fields" : {
+            "tf" : {
+                "script" : {
+                "lang": "groovy",
+                "inline": "_index['text']['government'].tf()"
+
+                }
+            },
+            "df" : {
+                "script" : {
+                "lang": "groovy",
+                "inline": "_index['text']['government'].df()"
+
+                }
+            },
+            "doc_length_source" : {
+                "script" : {
+                "lang": "painless",
+                "inline":  "doc['doclength'].value"
+
+                }
+        },
+        "doc_length_index" : {
+                "script" : {
+                "lang": "groovy",
+                "inline":  "doc['text'].values.size()"
+
+                }
+        },
+        "doc_length_index_painless" : {
+                "script" : {
+                "lang": "painless",
+                "inline":  "doc['text'].values.length"
+
+                }
+        },
+        "doc_text_value" : {
+                "script" : {
+                "lang": "painless",
+                "inline":  "doc['text'].value"
+
+                }
+        },
+        "score" : {
+                "script" : {
+                "lang": "groovy",
+                "inline": "double d = doc['text'].values.size(); double tf = _index['text']['government'].tf(); double df = _index['text']['government'].df(); double ttf = _index['text']['government'].ttf(); return Math.log10(0.5*((tf/d) + (ttf/178081.0))); "
+
+                }
+    }
+}}
+
+
+GET /ap_dataset/hw1/AP890307-0140/_termvectors
+{
+  "fields" : ["text"],
+  "offsets" : true,
+  "payloads" : true,
+  "positions" : true,
+  "term_statistics" : true,
+  "field_statistics" : true
+}
+
+GET ap_dataset/hw1/_count
+
+GET ap_dataset/hw1/_search
+{
+  "size": 0, 
+  "aggs": {
+    "vocabSize": {
+      "cardinality": {
+                        "script": "doc['text'].value"
+                    }
+    }
+  }
+}
+
+
+
+GET /ap_dataset/_analyze
+{
+  "analyzer": "my_english",
+  "text": "Document will discuss allegations, or measures being taken against, corrupt public officials of any governmental jurisdiction worldwide."
+}
+
+########
+GET /ap_dataset/hw1/_search
+{
+   "query" : {
+            "match" : {"text": "government"}
+        },
+    "_source": false,     
+    "sort" : {
+        "_script" : {
+            "type" : "number",
+            "script" : {
+                "lang": "groovy",
+                "inline": "_index['text']['government'].tf()"
+            },
+            "order" : "desc"
+        }
+    }
+}
+

@@ -1,12 +1,12 @@
-85.   allegations measures corrupt public officials governmental jurisdiction.
-59.   weather event directly caused fatality.
-56.   prediction prime lending rate report.
+85.   corrupt officials.
+59.   weather fatality.
+56.   prediction about the prime lending rate.
 71.   incursions land air water into border area country military forces second guerrilla group.
 64.   politically motivated hostage-taking.
-62.   military coup d'etat attempted successful country.
+62.   Document will report a military coup d'etat, either attempted or successful, in any country.
 93.   supporters National Rifle Association (NRA) assets.
 99.   development Iran-Contra Affair.
-58.   predict anticipate rail strike report.
+58.   predict or anticipate a rail strike or report an ongoing rail  strike.
 77.   poaching method against wildlife.
 54.   signing contract preliminary agreement tentative reservation launch commercial satellite.
 87.   current criminal actions officers failed US financial institution.
@@ -20,6 +20,8 @@
 97.   fiber optics technology actually in use.
 98.   individuals organizations fiber optics equipment.
 60.   controversy standards performance salary levels incentive contrasted pay solely seniority longevity job.
-80.   platform 1988 presidential  candidate.
+80.   identify platform 1988 presidential  candidate.
 63.   machine translation system.
 91.   acquisition US Army specified advanced weapons systems.
+
+

@@ -71,11 +71,11 @@ GET /ap_dataset/hw1/_search
 }
 
 GET /ap_dataset/hw1/_search
-{
-  "query": {
-    "match": {"text": "brought"}
-  }
-}
+ {
+   "query": {
+     "match": {"text": "brought"}
+   }
+ }
 
 GET /ap_dataset/hw1/_search?explain
 {

@@ -1,5 +1,6 @@
 package hw1.model;
 
+import hw1.FIleProcessor.ResultFileWriter;
 import hw1.elasticAPI.QueryHandler;
 import hw1.queryProcessor.QueryFormatter;
 import javafx.util.Pair;
@@ -15,6 +16,7 @@ import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.common.unit.TimeValue;
 import org.elasticsearch.index.query.MatchQueryBuilder;
+import org.elasticsearch.index.query.TermQueryBuilder;
 import org.elasticsearch.script.Script;
 import org.elasticsearch.script.ScriptType;
 import org.elasticsearch.search.SearchHit;
@@ -30,6 +32,7 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.elasticsearch.index.query.QueryBuilders.matchQuery;
+import static org.elasticsearch.index.query.QueryBuilders.termQuery;
 
 /**
  * Created by Sushant on 5/20/2017.
@@ -45,7 +48,7 @@ public class OkapiTF {
         refinedQueries.forEach((k, v) -> {
             System.out.println("Query No:" + k);
             Map<String, Double> search = search(v, avgDocLength, indexName, type);
-            writeTofile(reportPath, k, search, 1000);
+            ResultFileWriter.writeTofile(reportPath, k, search, 1000);
         });
 
     }
@@ -109,63 +112,7 @@ public class OkapiTF {
         return score;
     }
 
-    private static void writeTofile(String path, Integer queryNo, Map<String, Double> scoreMap, int noOfDocuments) {
 
-        BufferedWriter bw = null;
-        FileWriter fw = null;
-
-        try {
-
-            AtomicInteger atomicInteger = new AtomicInteger(1);
-
-            File file = new File(path);
-            // if file doesnt exists, then create it
-            if (!file.exists()) {
-                file.createNewFile();
-            }
-
-            // true = append file
-            fw = new FileWriter(file.getAbsoluteFile(), true);
-            bw = new BufferedWriter(fw);
-
-            BufferedWriter finalBw = bw;
-            scoreMap.entrySet()
-                    .stream()
-                    .sorted(Map.Entry.comparingByValue(Collections.reverseOrder()))
-                    .limit(noOfDocuments)
-                    .forEach((k) -> {
-                        String data = queryNo + " Q0 " + k.getKey() + " " + atomicInteger.getAndIncrement() + " " + k.getValue() + " Exp\n";
-                        try {
-                            finalBw.write(data);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    });
-
-
-            System.out.println("Done");
-
-        } catch (IOException e) {
-
-            e.printStackTrace();
-
-        } finally {
-
-            try {
-
-                if (bw != null)
-                    bw.close();
-
-                if (fw != null)
-                    fw.close();
-
-            } catch (IOException ex) {
-
-                ex.printStackTrace();
-
-            }
-        }
-    }
 
 
 //    private static <K, V extends Comparable<? super V>> Map<K, V> sortMap(Map<K, V> map) {
