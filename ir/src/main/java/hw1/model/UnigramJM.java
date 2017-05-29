@@ -59,7 +59,7 @@ public class UnigramJM {
                 SearchResponse scrollResp = client.prepareSearch("ap_dataset")
                         .setTypes("hw1").setQuery(qb)
                         .addScriptField("UNJM", new Script(ScriptType.INLINE, "groovy",
-                                "int d = doc['doclength'].value; double tf = _index['text'][\"" + term + "\"].tf(); double df = _index['text'][\"" + term + "\"].df(); double ttf = _index['text'][\"" + term + "\"].ttf();return Math.log10(0.9*(tf/d) + 0.1*(ttf/178081.0));",
+                                "int d = doc['doclength'].value; double tf = _index['text'][\"" + term + "\"].tf(); double df = _index['text'][\"" + term + "\"].df(); double ttf = _index['text'][\"" + term + "\"].ttf();return Math.log10(0.5*(tf/d) + 0.5*(ttf/178081.0));",
                                 Collections.emptyMap()))
                         .setScroll(new TimeValue(60000))
                         .setSize(10000)

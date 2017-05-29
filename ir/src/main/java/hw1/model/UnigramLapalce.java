@@ -95,7 +95,7 @@ public class UnigramLapalce {
 
     public static void main(String[] args){
 
-        //runULP("C:\\Users\\Sushant\\Documents\\GitHub\\CS6200_Sushant_Pritmani\\ir\\src\\main\\resources\\query_desc.51-100.short.txt", "C:\\Users\\Sushant\\Desktop\\fs.txt", "ap_dataset", "hw1");
+        runULP("C:\\Users\\Sushant\\Documents\\GitHub\\CS6200_Sushant_Pritmani\\ir\\src\\main\\resources\\query_desc.51-100.short.txt", "C:\\Users\\Sushant\\Desktop\\fs.txt", "ap_dataset", "hw1");
         double d = 3;
         System.out.println(d/2);
     }

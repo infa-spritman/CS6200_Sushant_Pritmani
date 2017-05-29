@@ -63,7 +63,7 @@ public class OkapiBM25 {
                 SearchResponse scrollResp = client.prepareSearch("ap_dataset")
                         .setTypes("hw1").setQuery(qb)
                         .addScriptField("okapi25", new Script(ScriptType.INLINE, "groovy",
-                                "int d = doc['doclength'].value; double tf = _index['text'][\"" + term + "\"].tf(); double df = _index['text'][\"" + term + "\"].df();double okapi = (tf+ tf*1.2)/(tf+ (1.2*(0.25+ 0.75*(d/441.6)))); return (Math.log10(84678.5/(df+0.5)))*okapi;",
+                                "double d = doc['doclength'].value; double tf = _index['text'][\"" + term + "\"].tf(); double df = _index['text'][\"" + term + "\"].df();double okapi = (tf+ tf*1.2)/(tf+ (1.2*(0.25+ 0.75*(d/441.6)))); return (Math.log10(84678.5/(df+0.5)))*okapi;",
                                 Collections.emptyMap()))
                         .setScroll(new TimeValue(60000))
                         .setSize(10000)

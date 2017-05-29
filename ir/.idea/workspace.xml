@@ -31,65 +31,38 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="QueryHandler.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/hw1/elasticAPI/QueryHandler.java">
+      <file leaf-file-name="EC4.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/hw1/EC/EC4.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1320">
-              <caret line="243" column="46" lean-forward="false" selection-start-line="243" selection-start-column="46" selection-end-line="243" selection-end-column="46" />
-              <folding>
-                <element signature="imports" expanded="false" />
-                <element signature="docComment;class#QueryHandler#0" expanded="false" />
-                <element signature="method#getDocStats#0;class#QueryHandler#0" expanded="false" />
-                <element signature="method#getAvgDocLength#0;class#QueryHandler#0" expanded="false" />
-                <element signature="method#getTFDF#0;class#QueryHandler#0" expanded="false" />
-                <element signature="e#6557#6617#0" expanded="false" />
-                <element signature="method#getQueryStemmed#0;class#QueryHandler#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="UnigramLapalce.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/hw1/model/UnigramLapalce.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="534">
-              <caret line="32" column="26" lean-forward="true" selection-start-line="32" selection-start-column="23" selection-end-line="32" selection-end-column="29" />
+            <state relative-caret-position="253">
+              <caret line="80" column="46" lean-forward="false" selection-start-line="80" selection-start-column="46" selection-end-line="80" selection-end-column="46" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="method#runULP#0;class#UnigramLapalce#0" expanded="false" />
-                <element signature="e#1389#1463#0" expanded="false" />
-                <element signature="e#1627#1851#0" expanded="false" />
-                <element signature="method#search#0;class#UnigramLapalce#0" expanded="false" />
-                <element signature="e#3189#3217#0" expanded="false" />
-                <element signature="method#main#0;class#UnigramLapalce#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="UnigramJM.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/hw1/model/UnigramJM.java">
+      <file leaf-file-name="Math.java" pinned="false" current-in-tab="false">
+        <entry file="jar://C:/Program Files/Java/jdk1.8.0_131/src.zip!/java/lang/Math.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="142">
-              <caret line="61" column="219" lean-forward="true" selection-start-line="61" selection-start-column="219" selection-end-line="61" selection-end-column="219" />
-              <folding>
-                <element signature="docComment;class#UnigramJM#0" expanded="false" />
-                <element signature="method#runUNJM#0;class#UnigramJM#0" expanded="false" />
-                <element signature="e#1260#1334#0" expanded="false" />
-                <element signature="e#1498#1722#0" expanded="false" />
-                <element signature="e#3125#3153#0" expanded="false" />
-              </folding>
+            <state relative-caret-position="182">
+              <caret line="1312" column="25" lean-forward="false" selection-start-line="1312" selection-start-column="25" selection-end-line="1312" selection-end-column="25" />
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ModelRunner.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/hw1/start/ModelRunner.java">
+      <file leaf-file-name="String.java" pinned="false" current-in-tab="false">
+        <entry file="jar://C:/Program Files/Java/jdk1.8.0_131/src.zip!/java/lang/String.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="418">
-              <caret line="19" column="172" lean-forward="false" selection-start-line="19" selection-start-column="172" selection-end-line="19" selection-end-column="172" />
+            <state relative-caret-position="503">
+              <caret line="3167" column="0" lean-forward="false" selection-start-line="3167" selection-start-column="0" selection-end-line="3167" selection-end-column="0" />
               <folding>
-                <element signature="imports" expanded="true" />
+                <element signature="e#55800#55801#0" expanded="true" />
+                <element signature="e#55844#55845#0" expanded="true" />
+                <element signature="e#94598#94599#0" expanded="true" />
+                <element signature="e#94636#94637#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -98,11 +71,10 @@
       <file leaf-file-name="OkapiTF.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/hw1/model/OkapiTF.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="572">
-              <caret line="175" column="8" lean-forward="false" selection-start-line="175" selection-start-column="0" selection-end-line="176" selection-end-column="0" />
+            <state relative-caret-position="352">
+              <caret line="50" column="24" lean-forward="false" selection-start-line="50" selection-start-column="0" selection-end-line="51" selection-end-column="0" />
               <folding>
                 <element signature="docComment;class#OkapiTF#0" expanded="false" />
-                <element signature="method#search#0;class#OkapiTF#0" expanded="false" />
                 <element signature="e#3587#3615#0" expanded="false" />
                 <element signature="method#calculateScore#0;class#OkapiTF#0" expanded="false" />
                 <element signature="e#5077#5169#0" expanded="false" />
@@ -114,34 +86,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="OkapiBM25.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/hw1/model/OkapiBM25.java">
+      <file leaf-file-name="QueryFormatter.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/hw1/queryProcessor/QueryFormatter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="579">
-              <caret line="101" column="20" lean-forward="false" selection-start-line="101" selection-start-column="8" selection-end-line="101" selection-end-column="20" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#3204#3232#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="QueryBuilders.class" pinned="false" current-in-tab="false">
-        <entry file="jar://$MAVEN_REPOSITORY$/org/elasticsearch/elasticsearch/5.4.0/elasticsearch-5.4.0.jar!/org/elasticsearch/index/query/QueryBuilders.class">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="198">
-              <caret line="28" column="36" lean-forward="false" selection-start-line="28" selection-start-column="36" selection-end-line="28" selection-end-column="36" />
+            <state relative-caret-position="-499">
+              <caret line="44" column="38" lean-forward="false" selection-start-line="44" selection-start-column="38" selection-end-line="44" selection-end-column="38" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="query_desc.51-100.short.txt" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/query_desc.51-100.short.txt">
+      <file leaf-file-name="ModelRunner.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/hw1/start/ModelRunner.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="528">
-              <caret line="24" column="61" lean-forward="false" selection-start-line="24" selection-start-column="61" selection-end-line="24" selection-end-column="61" />
+            <state relative-caret-position="242">
+              <caret line="15" column="178" lean-forward="false" selection-start-line="15" selection-start-column="138" selection-end-line="15" selection-end-column="178" />
               <folding />
             </state>
           </provider>
@@ -160,6 +119,7 @@
   <component name="FindInProjectRecents">
     <findStrings>
       <find>builder</find>
+      <find>iran</find>
     </findStrings>
   </component>
   <component name="GradleLocalSettings">
@@ -182,7 +142,6 @@
         <option value="$PROJECT_DIR$/src/main/java/hw1/elasticAPI/DocumentStats.java" />
         <option value="$PROJECT_DIR$/src/main/java/hw1/start/Runner.java" />
         <option value="$PROJECT_DIR$/src/main/java/hw1/start/IndexRunner.java" />
-        <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/main/java/hw1/json/DocumentModel.java" />
         <option value="$PROJECT_DIR$/src/main/java/hw1/json/JsonGenerator.java" />
         <option value="$PROJECT_DIR$/src/main/java/homework_one/start/IndexRunner.java" />
@@ -196,12 +155,16 @@
         <option value="$PROJECT_DIR$/src/main/java/hw1/FIleProcessor/ResultFileWriter.java" />
         <option value="$PROJECT_DIR$/src/main/java/hw1/model/TFIDF.java" />
         <option value="$PROJECT_DIR$/src/main/resources/kibanaQueries.txt" />
-        <option value="$PROJECT_DIR$/src/main/java/hw1/model/OkapiBM25.java" />
-        <option value="$PROJECT_DIR$/src/main/java/hw1/elasticAPI/QueryHandler.java" />
-        <option value="$PROJECT_DIR$/src/main/java/hw1/model/UnigramLapalce.java" />
         <option value="$PROJECT_DIR$/src/main/java/hw1/start/ModelRunner.java" />
+        <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/hw1/EC/EC2.java" />
+        <option value="$PROJECT_DIR$/src/main/java/hw1/FIleProcessor/ExcelFileWriter.java" />
+        <option value="$PROJECT_DIR$/src/main/java/hw1/elasticAPI/QueryHandler.java" />
+        <option value="$PROJECT_DIR$/src/main/java/hw1/model/OkapiBM25.java" />
         <option value="$PROJECT_DIR$/src/main/resources/query_desc.51-100.short.txt" />
         <option value="$PROJECT_DIR$/src/main/java/hw1/model/UnigramJM.java" />
+        <option value="$PROJECT_DIR$/src/main/java/hw1/model/UnigramLapalce.java" />
+        <option value="$PROJECT_DIR$/src/main/java/hw1/EC/EC4.java" />
       </list>
     </option>
   </component>
@@ -220,7 +183,7 @@
   </component>
   <component name="ProjectFrameBounds">
     <option name="x" value="-8" />
-    <option name="width" value="1932" />
+    <option name="width" value="1927" />
     <option name="height" value="1038" />
   </component>
   <component name="ProjectView">
@@ -240,6 +203,7 @@
     <panes>
       <pane id="Scratches" />
       <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -484,13 +448,72 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="FIleProcessor" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ir" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ir" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="hw1" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="elasticAPI" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ir" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ir" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="hw1" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="EC" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -499,6 +522,7 @@
     <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="SearchEverywhereHistoryKey" value="&#9;null&#9;null" />
   </component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
@@ -520,7 +544,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.ModelRunner">
+  <component name="RunManager" selected="Application.EC4">
     <configuration default="false" name="QueryFormatter" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
         <pattern>
@@ -529,6 +553,26 @@
         </pattern>
       </extension>
       <option name="MAIN_CLASS_NAME" value="hw1.queryProcessor.QueryFormatter" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="ir" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="ModelRunner" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="hw1.start.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="MAIN_CLASS_NAME" value="hw1.start.ModelRunner" />
       <option name="VM_PARAMETERS" />
       <option name="PROGRAM_PARAMETERS" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
@@ -561,26 +605,6 @@
       <envs />
       <method />
     </configuration>
-    <configuration default="false" name="QueryHandler" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
-        <pattern>
-          <option name="PATTERN" value="hw1.elasticAPI.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="MAIN_CLASS_NAME" value="hw1.elasticAPI.QueryHandler" />
-      <option name="VM_PARAMETERS" />
-      <option name="PROGRAM_PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="ENABLE_SWING_INSPECTOR" value="false" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <module name="ir" />
-      <envs />
-      <method />
-    </configuration>
     <configuration default="false" name="UnigramJM" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
         <pattern>
@@ -601,14 +625,14 @@
       <envs />
       <method />
     </configuration>
-    <configuration default="false" name="ModelRunner" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+    <configuration default="false" name="EC4" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
         <pattern>
-          <option name="PATTERN" value="hw1.start.*" />
+          <option name="PATTERN" value="hw1.EC.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="MAIN_CLASS_NAME" value="hw1.start.ModelRunner" />
+      <option name="MAIN_CLASS_NAME" value="hw1.EC.EC4" />
       <option name="VM_PARAMETERS" />
       <option name="PROGRAM_PARAMETERS" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
@@ -1010,23 +1034,26 @@
     </configuration>
     <list size="5">
       <item index="0" class="java.lang.String" itemvalue="Application.QueryFormatter" />
-      <item index="1" class="java.lang.String" itemvalue="Application.UnigramLapalce" />
-      <item index="2" class="java.lang.String" itemvalue="Application.QueryHandler" />
+      <item index="1" class="java.lang.String" itemvalue="Application.ModelRunner" />
+      <item index="2" class="java.lang.String" itemvalue="Application.UnigramLapalce" />
       <item index="3" class="java.lang.String" itemvalue="Application.UnigramJM" />
-      <item index="4" class="java.lang.String" itemvalue="Application.ModelRunner" />
+      <item index="4" class="java.lang.String" itemvalue="Application.EC4" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Application.ModelRunner" />
-        <item index="1" class="java.lang.String" itemvalue="Application.UnigramJM" />
-        <item index="2" class="java.lang.String" itemvalue="Application.UnigramLapalce" />
-        <item index="3" class="java.lang.String" itemvalue="Application.QueryFormatter" />
-        <item index="4" class="java.lang.String" itemvalue="Application.QueryHandler" />
+        <item index="0" class="java.lang.String" itemvalue="Application.EC4" />
+        <item index="1" class="java.lang.String" itemvalue="Application.QueryFormatter" />
+        <item index="2" class="java.lang.String" itemvalue="Application.UnigramJM" />
+        <item index="3" class="java.lang.String" itemvalue="Application.UnigramLapalce" />
+        <item index="4" class="java.lang.String" itemvalue="Application.ModelRunner" />
       </list>
     </recent_temporary>
   </component>
   <component name="ShelveChangesManager" show_recycled="false">
     <option name="remove_strategy" value="false" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -1044,12 +1071,14 @@
       <workItem from="1495420654083" duration="13000" />
       <workItem from="1495481210438" duration="30251000" />
       <workItem from="1495591964045" duration="52340000" />
-      <workItem from="1495757837722" duration="1558000" />
+      <workItem from="1495757837722" duration="5313000" />
+      <workItem from="1495780243124" duration="752000" />
+      <workItem from="1495813744987" duration="48873000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="196556000" />
+    <option name="totallyTimeSpent" value="249936000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1061,7 +1090,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="0" width="1932" height="1038" extended-state="0" />
+    <frame x="-8" y="0" width="1927" height="1038" extended-state="1" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -1074,12 +1103,12 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32519424" sideWeight="0.50208986" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.33740288" sideWeight="0.49791014" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32408434" sideWeight="0.49791014" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20637408" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.20691462" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -1141,7 +1170,7 @@
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="32" />
+      <option name="time" value="35" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -1150,55 +1179,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://$MAVEN_REPOSITORY$/org/apache/httpcomponents/httpcore/4.4.5/httpcore-4.4.5.jar!/org/apache/http/util/Args.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="60" column="0" lean-forward="false" selection-start-line="60" selection-start-column="0" selection-end-line="60" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_131/src.zip!/java/util/HashMap.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="155">
-          <caret line="1287" column="0" lean-forward="false" selection-start-line="1287" selection-start-column="0" selection-end-line="1287" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_131/src.zip!/java/net/URLClassLoader.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="380" column="0" lean-forward="false" selection-start-line="380" selection-start-column="0" selection-end-line="380" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_131/src.zip!/java/lang/ClassLoader.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="435" column="0" lean-forward="false" selection-start-line="435" selection-start-column="0" selection-end-line="435" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_131/jre/lib/rt.jar!/sun/launcher/LauncherHelper.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="375" column="0" lean-forward="false" selection-start-line="375" selection-start-column="0" selection-end-line="375" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_131/src.zip!/java/lang/Object.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="286">
-          <caret line="36" column="0" lean-forward="false" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_131/src.zip!/java/util/Objects.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="226" column="0" lean-forward="false" selection-start-line="226" selection-start-column="0" selection-end-line="226" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$MAVEN_REPOSITORY$/org/elasticsearch/client/rest/5.4.0/rest-5.4.0.jar!/org/elasticsearch/client/RestClientBuilder.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="214">
@@ -1387,13 +1367,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/hw1/queryProcessor/QueryFormatter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="29">
-          <caret line="44" column="40" lean-forward="false" selection-start-line="44" selection-start-column="40" selection-end-line="44" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/SortingQueries.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="286">
@@ -1401,48 +1374,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/hw1/FIleProcessor/ResultFileWriter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="15" column="10" lean-forward="false" selection-start-line="15" selection-start-column="10" selection-end-line="15" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/hw1/elasticAPI/BulkIndex.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="359">
           <caret line="26" column="58" lean-forward="true" selection-start-line="26" selection-start-column="58" selection-end-line="26" selection-end-column="58" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/kibanaQueries.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="286">
-          <caret line="109" column="1" lean-forward="true" selection-start-line="101" selection-start-column="0" selection-end-line="109" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/hw1/elasticAPI/QueryHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1320">
-          <caret line="243" column="46" lean-forward="false" selection-start-line="243" selection-start-column="46" selection-end-line="243" selection-end-column="46" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="docComment;class#QueryHandler#0" expanded="false" />
-            <element signature="method#getDocStats#0;class#QueryHandler#0" expanded="false" />
-            <element signature="method#getAvgDocLength#0;class#QueryHandler#0" expanded="false" />
-            <element signature="method#getTFDF#0;class#QueryHandler#0" expanded="false" />
-            <element signature="e#6557#6617#0" expanded="false" />
-            <element signature="method#getQueryStemmed#0;class#QueryHandler#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/elasticsearch/elasticsearch/5.4.0/elasticsearch-5.4.0.jar!/org/elasticsearch/index/query/QueryBuilders.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="28" column="36" lean-forward="false" selection-start-line="28" selection-start-column="36" selection-end-line="28" selection-end-column="36" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1461,23 +1396,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/hw1/model/OkapiTF.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="572">
-          <caret line="175" column="8" lean-forward="false" selection-start-line="175" selection-start-column="0" selection-end-line="176" selection-end-column="0" />
-          <folding>
-            <element signature="docComment;class#OkapiTF#0" expanded="false" />
-            <element signature="method#search#0;class#OkapiTF#0" expanded="false" />
-            <element signature="e#3587#3615#0" expanded="false" />
-            <element signature="method#calculateScore#0;class#OkapiTF#0" expanded="false" />
-            <element signature="e#5077#5169#0" expanded="false" />
-            <element signature="e#5852#5883#0" expanded="false" />
-            <element signature="e#7904#7949#0" expanded="false" />
-            <marker date="1495649420532" expanded="false" signature="5935:5952" ph="&lt;~&gt;" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/hw1/model/TFIDF.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="579">
@@ -1488,62 +1406,189 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/hw1/model/OkapiBM25.java">
+    <entry file="jar://$MAVEN_REPOSITORY$/org/elasticsearch/elasticsearch/5.4.0/elasticsearch-5.4.0.jar!/org/elasticsearch/index/query/QueryBuilders.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="579">
-          <caret line="101" column="20" lean-forward="false" selection-start-line="101" selection-start-column="8" selection-end-line="101" selection-end-column="20" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#3204#3232#0" expanded="false" />
-          </folding>
+        <state relative-caret-position="167">
+          <caret line="28" column="36" lean-forward="false" selection-start-line="28" selection-start-column="36" selection-end-line="28" selection-end-column="36" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/hw1/model/UnigramLapalce.java">
+    <entry file="file://$PROJECT_DIR$/src/main/resources/kibanaQueries.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="534">
-          <caret line="32" column="26" lean-forward="true" selection-start-line="32" selection-start-column="23" selection-end-line="32" selection-end-column="29" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#runULP#0;class#UnigramLapalce#0" expanded="false" />
-            <element signature="e#1389#1463#0" expanded="false" />
-            <element signature="e#1627#1851#0" expanded="false" />
-            <element signature="method#search#0;class#UnigramLapalce#0" expanded="false" />
-            <element signature="e#3189#3217#0" expanded="false" />
-            <element signature="method#main#0;class#UnigramLapalce#0" expanded="false" />
-          </folding>
+        <state relative-caret-position="2398">
+          <caret line="109" column="1" lean-forward="false" selection-start-line="101" selection-start-column="0" selection-end-line="109" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/hw1/EC.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="110">
+          <caret line="5" column="15" lean-forward="false" selection-start-line="5" selection-start-column="15" selection-end-line="5" selection-end-column="15" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="469">
+          <caret line="56" column="35" lean-forward="false" selection-start-line="56" selection-start-column="35" selection-end-line="56" selection-end-column="35" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/hw1/model/UnigramJM.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="142">
-          <caret line="61" column="219" lean-forward="true" selection-start-line="61" selection-start-column="219" selection-end-line="61" selection-end-column="219" />
+        <state relative-caret-position="242">
+          <caret line="46" column="128" lean-forward="false" selection-start-line="46" selection-start-column="128" selection-end-line="46" selection-end-column="128" />
           <folding>
             <element signature="docComment;class#UnigramJM#0" expanded="false" />
             <element signature="method#runUNJM#0;class#UnigramJM#0" expanded="false" />
             <element signature="e#1260#1334#0" expanded="false" />
             <element signature="e#1498#1722#0" expanded="false" />
+            <element signature="method#search#0;class#UnigramJM#0" expanded="false" />
             <element signature="e#3125#3153#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/hw1/start/ModelRunner.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="418">
-          <caret line="19" column="172" lean-forward="false" selection-start-line="19" selection-start-column="172" selection-end-line="19" selection-end-column="172" />
-          <folding>
-            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/query_desc.51-100.short.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="528">
-          <caret line="24" column="61" lean-forward="false" selection-start-line="24" selection-start-column="61" selection-end-line="24" selection-end-column="61" />
+        <state relative-caret-position="154">
+          <caret line="7" column="58" lean-forward="false" selection-start-line="7" selection-start-column="58" selection-end-line="7" selection-end-column="58" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/hw1/model/UnigramLapalce.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1023">
+          <caret line="97" column="8" lean-forward="false" selection-start-line="97" selection-start-column="8" selection-end-line="97" selection-end-column="8" />
+          <folding>
+            <element signature="method#runULP#0;class#UnigramLapalce#0" expanded="false" />
+            <element signature="e#1389#1463#0" expanded="false" />
+            <element signature="e#1627#1851#0" expanded="false" />
+            <element signature="e#3189#3217#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/hw1/EC/EC2.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1397">
+          <caret line="34" column="12" lean-forward="false" selection-start-line="34" selection-start-column="12" selection-end-line="34" selection-end-column="12" />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#4033#4034#0" expanded="false" />
+            <element signature="e#4057#4058#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/hw1/model/OkapiBM25.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="770">
+          <caret line="75" column="65" lean-forward="false" selection-start-line="75" selection-start-column="65" selection-end-line="75" selection-end-column="65" />
+          <folding>
+            <element signature="e#3207#3235#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/hw1/elasticAPI/QueryHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-86">
+          <caret line="189" column="36" lean-forward="false" selection-start-line="189" selection-start-column="36" selection-end-line="189" selection-end-column="36" />
+          <folding>
+            <element signature="docComment;class#QueryHandler#0" expanded="false" />
+            <element signature="method#getDocStats#0;class#QueryHandler#0" expanded="false" />
+            <element signature="method#getIDs#0;class#QueryHandler#0" expanded="false" />
+            <element signature="method#getAvgDocLength#0;class#QueryHandler#0" expanded="false" />
+            <element signature="method#getTFDF#0;class#QueryHandler#0" expanded="false" />
+            <element signature="e#6557#6617#0" expanded="false" />
+            <element signature="method#main#0;class#QueryHandler#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/hw1/FIleProcessor/ExcelFileWriter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="112">
+          <caret line="31" column="24" lean-forward="false" selection-start-line="31" selection-start-column="24" selection-end-line="31" selection-end-column="24" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/hw1/FIleProcessor/ResultFileWriter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="220">
+          <caret line="24" column="19" lean-forward="false" selection-start-line="24" selection-start-column="12" selection-end-line="28" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/hw1/queryProcessor/QueryFormatter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-499">
+          <caret line="44" column="38" lean-forward="false" selection-start-line="44" selection-start-column="38" selection-end-line="44" selection-end-column="38" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/hw1/start/ModelRunner.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="242">
+          <caret line="15" column="178" lean-forward="false" selection-start-line="15" selection-start-column="138" selection-end-line="15" selection-end-column="178" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/hw1/model/OkapiTF.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="352">
+          <caret line="50" column="24" lean-forward="false" selection-start-line="50" selection-start-column="0" selection-end-line="51" selection-end-column="0" />
+          <folding>
+            <element signature="docComment;class#OkapiTF#0" expanded="false" />
+            <element signature="e#3587#3615#0" expanded="false" />
+            <element signature="method#calculateScore#0;class#OkapiTF#0" expanded="false" />
+            <element signature="e#5077#5169#0" expanded="false" />
+            <element signature="e#5852#5883#0" expanded="false" />
+            <element signature="e#7904#7949#0" expanded="false" />
+            <marker date="1495649420532" expanded="false" signature="5935:5952" ph="&lt;~&gt;" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_131/src.zip!/java/lang/Math.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="182">
+          <caret line="1312" column="25" lean-forward="false" selection-start-line="1312" selection-start-column="25" selection-end-line="1312" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_131/src.zip!/java/lang/String.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="503">
+          <caret line="3167" column="0" lean-forward="false" selection-start-line="3167" selection-start-column="0" selection-end-line="3167" selection-end-column="0" />
+          <folding>
+            <element signature="e#55800#55801#0" expanded="true" />
+            <element signature="e#55844#55845#0" expanded="true" />
+            <element signature="e#94598#94599#0" expanded="true" />
+            <element signature="e#94636#94637#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/hw1/EC/EC4.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="253">
+          <caret line="80" column="46" lean-forward="false" selection-start-line="80" selection-start-column="46" selection-end-line="80" selection-end-column="46" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

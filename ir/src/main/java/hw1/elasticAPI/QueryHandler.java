@@ -206,7 +206,7 @@ public class QueryHandler {
 
             String endPoint = "/" + indexName + "/_analyze";
 
-            stemResponse = restClient.performRequest("POST", endPoint
+            stemResponse = restClient.performRequest("GET", endPoint
                     ,
                     Collections.<String, String>emptyMap(), entity);
 
