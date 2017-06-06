@@ -57,7 +57,7 @@ public class JsonGenerator {
         }
     }
 
-    private static DocumentModel createDocumentObject(Element doc) {
+    public static DocumentModel createDocumentObject(Element doc) {
 
         DocumentModel db = new DocumentModel();
 
