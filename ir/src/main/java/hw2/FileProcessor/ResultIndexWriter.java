@@ -14,37 +14,52 @@ import java.util.concurrent.atomic.AtomicInteger;
  * Created by Sushant on 6/5/2017.
  */
 public class ResultIndexWriter {
-    public static void writeTofile(String path, HashMap<String, HashMap<String, TermStat>> mapToWrite) {
+    public static void writeTofile(String filename, HashMap<String, HashMap<String, TermStat>> mapToWrite) {
 
+        final String indexPath = "C:\\Users\\Sushant\\Desktop\\Output\\" + filename + ".txt";
+        final String catalogPath = "C:\\Users\\Sushant\\Desktop\\Catalog\\" + filename + ".txt";
 
-        BufferedWriter bw = null;
-        java.io.FileWriter fw = null;
+        BufferedWriter bw = null, catalog_bw = null;
+        java.io.FileWriter fw = null, catlog_fw = null;
 
         try {
 
             AtomicInteger atomicInteger = new AtomicInteger(1);
 
-            File file = new File(path);
+            File file = new File(indexPath);
+            File catalog_file = new File(catalogPath);
             // if file doesnt exists, then create it
             if (!file.exists()) {
                 file.createNewFile();
             }
 
+            if (!catalog_file.exists()) {
+                catalog_file.createNewFile();
+            }
+
             // true = append file
             fw = new java.io.FileWriter(file.getAbsoluteFile(), true);
             bw = new BufferedWriter(fw);
-
             BufferedWriter finalBw = bw;
+
+            //catalog
+            catlog_fw = new java.io.FileWriter(catalog_file.getAbsoluteFile(), true);
+            catalog_bw = new BufferedWriter(catlog_fw);
+            BufferedWriter finalBw_catlog = catalog_bw;
 
             mapToWrite.forEach((k, v) -> {
 
                 StringBuilder sb = new StringBuilder();
 
-                sb.append(k + ":");
+                //sb.append(k + ":");
+
+                AtomicInteger cf_count = new AtomicInteger(0);
 
                 v.forEach((docid, termStats) -> {
+                    double tf_count = termStats.getTf();
+                    sb.append(docid + "," + tf_count + "," + termStats.getPositions() + ";");
+                    cf_count.addAndGet((int) tf_count);
 
-                    sb.append(docid + "," + termStats.getTf() + "," + termStats.getPositions() + ";");
                 });
 
                 sb.deleteCharAt(sb.length() - 1);
@@ -52,7 +67,8 @@ public class ResultIndexWriter {
                 sb.append("\n");
 
                 try {
-                    finalBw.write(sb.toString());
+                    finalBw.write(k + "," + v.size() + "," + cf_count + ":" + sb.toString());
+                    finalBw_catlog.write(k + ":" + atomicInteger.getAndIncrement() + "\n");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -72,8 +88,15 @@ public class ResultIndexWriter {
                 if (bw != null)
                     bw.close();
 
+                if (catalog_bw != null)
+                    catalog_bw.close();
+
                 if (fw != null)
                     fw.close();
+
+                if (catlog_fw != null)
+                    catlog_fw.close();
+
 
             } catch (IOException ex) {
 

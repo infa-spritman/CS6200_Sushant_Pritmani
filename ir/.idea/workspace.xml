@@ -30,12 +30,12 @@
     <favorites_list name="ir" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
       <file leaf-file-name="IndexRunner.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/hw2/start/IndexRunner.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1333">
-              <caret line="25" column="96" lean-forward="false" selection-start-line="25" selection-start-column="96" selection-end-line="25" selection-end-column="96" />
+            <state relative-caret-position="509">
+              <caret line="91" column="59" lean-forward="false" selection-start-line="91" selection-start-column="59" selection-end-line="91" selection-end-column="59" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -58,8 +58,8 @@
       <file leaf-file-name="ResultIndexWriter.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/hw2/FileProcessor/ResultIndexWriter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="308">
-              <caret line="29" column="0" lean-forward="false" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
+            <state relative-caret-position="361">
+              <caret line="70" column="45" lean-forward="false" selection-start-line="70" selection-start-column="45" selection-end-line="70" selection-end-column="45" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -70,9 +70,10 @@
       <file leaf-file-name="OkapiBM25.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/hw1/model/OkapiBM25.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="692">
+            <state relative-caret-position="1672">
               <caret line="101" column="178" lean-forward="false" selection-start-line="101" selection-start-column="22" selection-end-line="101" selection-end-column="178" />
               <folding>
+                <element signature="imports" expanded="false" />
                 <element signature="docComment;class#OkapiBM25#0" expanded="false" />
                 <element signature="e#1259#1333#0" expanded="false" />
                 <element signature="e#3207#3235#0" expanded="false" />
@@ -147,8 +148,8 @@
         <option value="$PROJECT_DIR$/src/main/java/hw2/tokenizer/TokenObject.java" />
         <option value="$PROJECT_DIR$/src/main/java/hw2/tokenizer/PTBTokenizer.java" />
         <option value="$PROJECT_DIR$/src/main/java/hw1/FIleProcessor/ResultFileWriter.java" />
-        <option value="$PROJECT_DIR$/src/main/java/hw2/FileProcessor/ResultIndexWriter.java" />
         <option value="$PROJECT_DIR$/src/main/java/hw2/start/IndexRunner.java" />
+        <option value="$PROJECT_DIR$/src/main/java/hw2/FileProcessor/ResultIndexWriter.java" />
       </list>
     </option>
   </component>
@@ -185,8 +186,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
       <pane id="Scratches" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -1149,12 +1150,13 @@
       <workItem from="1496354669336" duration="1559000" />
       <workItem from="1496432683603" duration="17000" />
       <workItem from="1496519964878" duration="720000" />
-      <workItem from="1496529811858" duration="34600000" />
+      <workItem from="1496529811858" duration="34719000" />
+      <workItem from="1496723658572" duration="3571000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="300407000" />
+    <option name="totallyTimeSpent" value="304097000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1166,7 +1168,8 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="0" width="1927" height="1038" extended-state="0" />
+    <frame x="-8" y="0" width="1927" height="1038" extended-state="1" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -1178,7 +1181,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32519424" sideWeight="0.50208986" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.4328524" sideWeight="0.49791014" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.4328524" sideWeight="0.49791014" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1344,10 +1347,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="4334">
           <caret line="223" column="58" lean-forward="false" selection-start-line="223" selection-start-column="56" selection-end-line="223" selection-end-column="58" />
-          <folding>
-            <element signature="e#0#53227#0" expanded="false" />
-            <element signature="imports" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1447,19 +1446,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="264">
           <caret line="58" column="20" lean-forward="false" selection-start-line="58" selection-start-column="0" selection-end-line="59" selection-end-column="0" />
-          <folding>
-            <element signature="docComment;class#OkapiTF#0" expanded="false" />
-            <element signature="method#runOkapi#0;class#OkapiTF#0" expanded="false" />
-            <element signature="e#1718#1792#0" expanded="false" />
-            <element signature="e#1956#2180#0" expanded="false" />
-            <element signature="e#3587#3615#0" expanded="false" />
-            <element signature="method#calculateScore#0;class#OkapiTF#0" expanded="false" />
-            <element signature="e#5077#5169#0" expanded="false" />
-            <element signature="method#main#0;class#OkapiTF#0" expanded="false" />
-            <element signature="e#5852#5883#0" expanded="false" />
-            <element signature="e#7904#7949#0" expanded="false" />
-            <marker date="1495649420532" expanded="false" signature="5935:5952" ph="&lt;~&gt;" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1481,12 +1467,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="795">
           <caret line="97" column="8" lean-forward="false" selection-start-line="97" selection-start-column="8" selection-end-line="97" selection-end-column="8" />
-          <folding>
-            <element signature="method#runULP#0;class#UnigramLapalce#0" expanded="false" />
-            <element signature="e#1389#1463#0" expanded="false" />
-            <element signature="e#1627#1851#0" expanded="false" />
-            <element signature="e#3189#3217#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1502,7 +1482,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="535">
           <caret line="70" column="1" lean-forward="false" selection-start-line="65" selection-start-column="0" selection-end-line="70" selection-end-column="1" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1514,19 +1493,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/hw2/start.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="110">
-          <caret line="5" column="0" lean-forward="false" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/hw2/start.java" />
     <entry file="file://$PROJECT_DIR$/src/main/java/hw1/start/IndexRunner.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="349">
           <caret line="24" column="15" lean-forward="true" selection-start-line="15" selection-start-column="4" selection-end-line="31" selection-end-column="5" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1542,7 +1513,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="193">
           <caret line="954" column="0" lean-forward="false" selection-start-line="954" selection-start-column="0" selection-end-line="954" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1550,7 +1520,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="112" lean-forward="false" selection-start-line="0" selection-start-column="6" selection-end-line="0" selection-end-column="120" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1558,10 +1527,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="136">
           <caret line="59" column="10" lean-forward="false" selection-start-line="59" selection-start-column="10" selection-end-line="59" selection-end-column="10" />
-          <folding>
-            <element signature="docComment;class#JsonGenerator#0" expanded="false" />
-            <element signature="method#metaJsonString#0;class#JsonGenerator#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1569,7 +1534,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="594">
           <caret line="37" column="27" lean-forward="true" selection-start-line="37" selection-start-column="27" selection-end-line="37" selection-end-column="27" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1577,27 +1541,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-88">
           <caret line="23" column="27" lean-forward="false" selection-start-line="23" selection-start-column="27" selection-end-line="23" selection-end-column="27" />
-          <folding>
-            <element signature="e#539#540#0" expanded="true" />
-            <element signature="e#575#576#0" expanded="true" />
-            <element signature="e#603#604#0" expanded="true" />
-            <element signature="e#632#633#0" expanded="true" />
-            <element signature="e#657#658#0" expanded="true" />
-            <element signature="e#693#694#0" expanded="true" />
-            <element signature="e#721#722#0" expanded="true" />
-            <element signature="e#750#751#0" expanded="true" />
-            <element signature="e#775#776#0" expanded="true" />
-            <element signature="e#811#812#0" expanded="true" />
-            <element signature="e#839#840#0" expanded="true" />
-            <element signature="e#871#872#0" expanded="true" />
-            <element signature="e#899#900#0" expanded="true" />
-            <element signature="e#941#942#0" expanded="true" />
-            <element signature="e#975#976#0" expanded="true" />
-            <element signature="e#1024#1025#0" expanded="true" />
-            <element signature="e#1056#1057#0" expanded="true" />
-            <element signature="e#1119#1120#0" expanded="true" />
-            <element signature="e#1161#1162#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1605,10 +1548,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1851">
           <caret line="112" column="36" lean-forward="true" selection-start-line="112" selection-start-column="36" selection-end-line="112" selection-end-column="36" />
-          <folding>
-            <element signature="docComment;class#PTBTokenizer#0" expanded="false" />
-            <element signature="e#736#765#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1616,8 +1555,25 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="770">
           <caret line="51" column="57" lean-forward="false" selection-start-line="51" selection-start-column="57" selection-end-line="51" selection-end-column="57" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/hw1/FIleProcessor/ResultFileWriter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="641">
+          <caret line="42" column="29" lean-forward="false" selection-start-line="41" selection-start-column="24" selection-end-line="45" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/hw1/model/OkapiBM25.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1672">
+          <caret line="101" column="178" lean-forward="false" selection-start-line="101" selection-start-column="22" selection-end-line="101" selection-end-column="178" />
           <folding>
-            <element signature="e#1867#1895#0" expanded="false" />
+            <element signature="imports" expanded="false" />
+            <element signature="docComment;class#OkapiBM25#0" expanded="false" />
+            <element signature="e#1259#1333#0" expanded="false" />
+            <element signature="e#3207#3235#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1632,30 +1588,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/hw1/FIleProcessor/ResultFileWriter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="641">
-          <caret line="42" column="29" lean-forward="false" selection-start-line="41" selection-start-column="24" selection-end-line="45" selection-end-column="25" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/hw1/model/OkapiBM25.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="692">
-          <caret line="101" column="178" lean-forward="false" selection-start-line="101" selection-start-column="22" selection-end-line="101" selection-end-column="178" />
-          <folding>
-            <element signature="docComment;class#OkapiBM25#0" expanded="false" />
-            <element signature="e#1259#1333#0" expanded="false" />
-            <element signature="e#3207#3235#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/hw2/FileProcessor/ResultIndexWriter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="308">
-          <caret line="29" column="0" lean-forward="false" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
+        <state relative-caret-position="361">
+          <caret line="70" column="45" lean-forward="false" selection-start-line="70" selection-start-column="45" selection-end-line="70" selection-end-column="45" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -1664,8 +1600,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/hw2/start/IndexRunner.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1333">
-          <caret line="25" column="96" lean-forward="false" selection-start-line="25" selection-start-column="96" selection-end-line="25" selection-end-column="96" />
+        <state relative-caret-position="509">
+          <caret line="91" column="59" lean-forward="false" selection-start-line="91" selection-start-column="59" selection-end-line="91" selection-end-column="59" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

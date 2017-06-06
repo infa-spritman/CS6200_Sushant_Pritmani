@@ -89,7 +89,7 @@ public class IndexRunner {
 
                 }
 
-                ResultIndexWriter.writeTofile( "C:\\Users\\Sushant\\Desktop\\Output\\"+f.getName()+".txt",mapToWriteFile);
+                ResultIndexWriter.writeTofile( f.getName() ,mapToWriteFile);
 
             }
 
