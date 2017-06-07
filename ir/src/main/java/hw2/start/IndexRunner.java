@@ -106,8 +106,8 @@ public class IndexRunner {
 
         }
 
-        //MergeIndexWriter.merge(vocabularly);
-        System.out.println("length of al" + am.toString());
+        MergeIndexWriter.merge(vocabularly);
+        //System.out.println("length of al" + am.toString());
     }
 
 }

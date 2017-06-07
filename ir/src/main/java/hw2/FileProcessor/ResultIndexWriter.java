@@ -70,7 +70,7 @@ public class ResultIndexWriter {
 
                 try {
                     String temp = k + "," + v.size() + "," + cf_count + ":" + sb.toString();
-                    int length = temp.getBytes().length;
+                    Integer length = temp.getBytes().length;
                     finalBw.write(temp);
                     finalBw_catlog.write(k + ":" + atomicInteger.getAndAdd(length) + ","+length+ "\n");
                 } catch (IOException e) {
@@ -113,14 +113,24 @@ public class ResultIndexWriter {
     public static void main(String[] args) throws IOException {
 
         //String temp = "prepare,1,1:AP890101-0016,1.0,[103]\n";
+        //"cdc,2,6:AP890102-0140,1.0,[192];AP890102-0137,5.0,[205, 271, 287, 385, 1030]\n"
         RandomAccessFile file = new RandomAccessFile("C:\\Users\\Sushant\\Desktop\\Output\\ap890102.txt", "r");
         file.seek(1684);
         byte[] bytes = new byte[77];
         file.read(bytes);
         //System.out.println(file.readLine());
-        System.out.println(new String(bytes,"UTF-8"));
+        String s = new String(bytes, "UTF-8");
+        System.out.println(s.substring(s.indexOf(":")+1,s.length()-1));
+        //System.out.println(s.substring(0, s.indexOf(":")));
+        for(String a: s.substring(0, s.indexOf(":")).split(","))
+            System.out.println(a+"A");
         file.close();
         //System.out.println(temp.getBytes().length);
+
+//        StringBuilder sb = new StringBuilder("prepare,1,1:AP890101-0016,1.0,[103]\n");
+//        String substring = sb.substring(sb.indexOf(":")+1, sb.length() - 1);
+//        System.out.println(substring);
+//        System.out.println(sb);
 
     }
 }

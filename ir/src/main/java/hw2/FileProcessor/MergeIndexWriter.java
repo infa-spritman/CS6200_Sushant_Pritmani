@@ -1,13 +1,16 @@
 package hw2.FileProcessor;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Set;
+import hw2.OffsetStat;
+
+import java.io.*;
+import java.nio.ByteBuffer;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Stream;
 
 /**
  * Created by Sushant on 6/6/2017.
@@ -18,20 +21,23 @@ public class MergeIndexWriter {
     public static void merge(Set<String> vocabularly) {
 
         String filename = "final";
-        final String indexPath = "C:\\Users\\Sushant\\Desktop\\Output\\" + filename + ".txt";
-        final String catalogPath = "C:\\Users\\Sushant\\Desktop\\Catalog\\" + filename + ".txt";
+        final String finalIndexPath = "C:\\Users\\Sushant\\Desktop\\Final_Output\\" + filename + ".txt";
+        final String finalCatalogPath = "C:\\Users\\Sushant\\Desktop\\Final_Catalog\\" + filename + ".txt";
+        final String indexDir = "C:\\Users\\Sushant\\Desktop\\Output";
+        final String catlogDir = "C:\\Users\\Sushant\\Desktop\\Catalog";
+
 
         BufferedWriter bw = null, catalog_bw = null;
         java.io.FileWriter fw = null, catlog_fw = null;
-        Map<String,Map<String,Integer>> catalogMap = new LinkedHashMap<>();
+        Map<String, Map<String, OffsetStat>> catalogMap = new LinkedHashMap<>();
 
 
         try {
 
             AtomicInteger atomicInteger = new AtomicInteger(1);
 
-            File file = new File(indexPath);
-            File catalog_file = new File(catalogPath);
+            File file = new File(finalIndexPath);
+            File catalog_file = new File(finalCatalogPath);
 
             if (!file.exists()) {
                 file.createNewFile();
@@ -50,6 +56,35 @@ public class MergeIndexWriter {
             catlog_fw = new java.io.FileWriter(catalog_file.getAbsoluteFile(), true);
             catalog_bw = new BufferedWriter(catlog_fw);
             BufferedWriter finalBw_catlog = catalog_bw;
+
+
+            try (Stream<Path> paths = Files.walk(Paths.get(catlogDir))) {
+                paths.forEach((p) -> {
+                    File file1 = p.toFile();
+                    if (!file1.isDirectory()) {
+                        String fname = file1.getName();
+                        fname = fname.substring(0, fname.lastIndexOf("."));
+                        Map<String, OffsetStat> tempOffsetMap = new HashMap<>();
+
+                        try (Stream<String> lines = Files.lines(p, Charset.defaultCharset())) {
+                            lines.forEachOrdered(line -> {
+                                String[] splitLine = line.split(":");
+                                String[] offsetSpilit = splitLine[1].split(",");
+
+                                tempOffsetMap.put(splitLine[0], new OffsetStat(Integer.parseInt(offsetSpilit[0]),
+                                        Integer.parseInt(offsetSpilit[1])));
+
+                            });
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        catalogMap.put(fname, tempOffsetMap);
+                        //System.out.println(fname + ":" + tempOffsetMap.size());
+                    }
+                });
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
 //            mapToWrite.forEach((k, v) -> {
 //
@@ -79,7 +114,40 @@ public class MergeIndexWriter {
 //
 //            });
 
-            System.out.println("Done Final Index");
+
+            //System.out.println("Size" + catalogMap.size());
+
+            vocabularly.stream().forEach(word -> {
+                StringBuilder termStatToWrite = new StringBuilder();
+                AtomicInteger df = new AtomicInteger(0);
+                AtomicInteger cf = new AtomicInteger(0);
+
+                catalogMap.forEach((fl_name, offsetMap) -> {
+                    if (offsetMap.containsKey(word)) {
+                        OffsetStat offsetStat = offsetMap.get(word);
+                        StringBuilder term = getTerm(fl_name, offsetStat.getOffset(), offsetStat.getLength());
+                        termStatToWrite.append(term.substring(term.indexOf(":") + 1, term.length() - 1)).append(";");
+                        String[] split = term.substring(0, term.indexOf(":")).split(",");
+                        df.addAndGet(Integer.parseInt(split[1]));
+                        cf.addAndGet(Integer.parseInt(split[2]));
+                    }
+
+                });
+                termStatToWrite.deleteCharAt(termStatToWrite.length() - 1);
+
+                termStatToWrite.append("\n");
+                try {
+                    //StringBuilder tempStringToWrite = new StringBuilder().append(word)
+                    String tempString = word + "," + df + "," + cf + ":" + termStatToWrite.toString();
+                    Integer length = tempString.getBytes().length;
+                    finalBw.write(tempString);
+                    finalBw_catlog.write(word + ":" + atomicInteger.getAndAdd(length) + ","+length+ "\n");
+                    System.out.println(word + "merged");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            });
 
         } catch (IOException e) {
 
@@ -89,11 +157,12 @@ public class MergeIndexWriter {
 
             try {
 
-                if (bw != null)
-                    bw.close();
-
                 if (catalog_bw != null)
                     catalog_bw.close();
+
+                if (bw != null) {
+                    bw.close();
+                }
 
                 if (fw != null)
                     fw.close();
@@ -108,6 +177,40 @@ public class MergeIndexWriter {
 
             }
         }
+
+    }
+
+    private static StringBuilder getTerm(String fl_name, Integer offset, Integer length) {
+        RandomAccessFile file = null;
+
+        try {
+            file = new RandomAccessFile("C:\\Users\\Sushant\\Desktop\\Output\\" + fl_name + ".txt", "r");
+
+            file.seek(offset);
+
+            byte[] bytes = new byte[length];
+
+            file.read(bytes);
+
+            //System.out.println(new String(bytes, "UTF-8"));
+
+            file.close();
+
+            return new StringBuilder(Charset.forName("UTF-8").decode(ByteBuffer.wrap(bytes)));
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+
+    public static void main(String[] args) {
+
+
+        merge(new HashSet<>());
 
     }
 }
