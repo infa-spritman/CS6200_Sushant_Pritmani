@@ -31,14 +31,59 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="IndexRunner.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="IndexRunner.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/hw2/start/IndexRunner.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="509">
-              <caret line="91" column="59" lean-forward="false" selection-start-line="91" selection-start-column="59" selection-end-line="91" selection-end-column="59" />
+            <state relative-caret-position="317">
+              <caret line="102" column="44" lean-forward="false" selection-start-line="102" selection-start-column="44" selection-end-line="102" selection-end-column="44" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MergeIndexWriter.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/hw2/FileProcessor/MergeIndexWriter.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="140">
+              <caret line="25" column="75" lean-forward="false" selection-start-line="25" selection-start-column="75" selection-end-line="25" selection-end-column="75" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PTBTokenizer.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/hw2/tokenizer/PTBTokenizer.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="440">
+              <caret line="115" column="84" lean-forward="false" selection-start-line="115" selection-start-column="84" selection-end-line="115" selection-end-column="84" />
+              <folding>
+                <element signature="docComment;class#PTBTokenizer#0" expanded="false" />
+                <element signature="e#764#793#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Stream.java" pinned="false" current-in-tab="false">
+        <entry file="jar://C:/Program Files/Java/jdk1.8.0_131/src.zip!/java/util/stream/Stream.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="362">
+              <caret line="478" column="16" lean-forward="false" selection-start-line="478" selection-start-column="16" selection-end-line="478" selection-end-column="16" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Files.java" pinned="false" current-in-tab="false">
+        <entry file="jar://C:/Program Files/Java/jdk1.8.0_131/src.zip!/java/nio/file/Files.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="744">
+              <caret line="2678" column="34" lean-forward="false" selection-start-line="2678" selection-start-column="30" selection-end-line="2678" selection-end-column="34" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -58,8 +103,8 @@
       <file leaf-file-name="ResultIndexWriter.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/hw2/FileProcessor/ResultIndexWriter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="361">
-              <caret line="70" column="45" lean-forward="false" selection-start-line="70" selection-start-column="45" selection-end-line="70" selection-end-column="45" />
+            <state relative-caret-position="185">
+              <caret line="18" column="8" lean-forward="false" selection-start-line="18" selection-start-column="8" selection-end-line="105" selection-end-column="9" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -96,6 +141,7 @@
     <findStrings>
       <find>builder</find>
       <find>iran</find>
+      <find>skip</find>
     </findStrings>
   </component>
   <component name="GradleLocalSettings">
@@ -146,10 +192,11 @@
         <option value="$PROJECT_DIR$/src/main/java/hw1/json/JsonGenerator.java" />
         <option value="$PROJECT_DIR$/src/main/java/hw2/TermStat.java" />
         <option value="$PROJECT_DIR$/src/main/java/hw2/tokenizer/TokenObject.java" />
-        <option value="$PROJECT_DIR$/src/main/java/hw2/tokenizer/PTBTokenizer.java" />
         <option value="$PROJECT_DIR$/src/main/java/hw1/FIleProcessor/ResultFileWriter.java" />
-        <option value="$PROJECT_DIR$/src/main/java/hw2/start/IndexRunner.java" />
         <option value="$PROJECT_DIR$/src/main/java/hw2/FileProcessor/ResultIndexWriter.java" />
+        <option value="$PROJECT_DIR$/src/main/java/hw2/start/IndexRunner.java" />
+        <option value="$PROJECT_DIR$/src/main/java/hw2/FileProcessor/MergeIndexWriter.java" />
+        <option value="$PROJECT_DIR$/src/main/java/hw2/tokenizer/PTBTokenizer.java" />
       </list>
     </option>
   </component>
@@ -1151,12 +1198,12 @@
       <workItem from="1496432683603" duration="17000" />
       <workItem from="1496519964878" duration="720000" />
       <workItem from="1496529811858" duration="34719000" />
-      <workItem from="1496723658572" duration="3571000" />
+      <workItem from="1496723658572" duration="9713000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="304097000" />
+    <option name="totallyTimeSpent" value="310239000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1181,7 +1228,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32519424" sideWeight="0.50208986" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.4328524" sideWeight="0.49791014" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1653718" sideWeight="0.49791014" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1257,27 +1304,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://$MAVEN_REPOSITORY$/org/elasticsearch/elasticsearch/5.4.0/elasticsearch-5.4.0.jar!/org/elasticsearch/search/lookup/IndexField.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="132">
-          <caret line="14" column="13" lean-forward="false" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/elasticsearch/elasticsearch/5.4.0/elasticsearch-5.4.0.jar!/org/elasticsearch/script/NativeScriptFactory.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="132">
-          <caret line="10" column="17" lean-forward="false" selection-start-line="10" selection-start-column="17" selection-end-line="10" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/elasticsearch/elasticsearch/5.4.0/elasticsearch-5.4.0.jar!/org/elasticsearch/client/transport/TransportClient.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="212" column="0" lean-forward="true" selection-start-line="212" selection-start-column="0" selection-end-line="212" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$MAVEN_REPOSITORY$/org/elasticsearch/elasticsearch/5.4.0/elasticsearch-5.4.0.jar!/org/elasticsearch/search/lookup/FieldLookup.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="44">
@@ -1347,6 +1373,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="4334">
           <caret line="223" column="58" lean-forward="false" selection-start-line="223" selection-start-column="56" selection-end-line="223" selection-end-column="58" />
+          <folding>
+            <element signature="e#0#53227#0" expanded="false" />
+            <element signature="imports" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1544,13 +1574,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/hw2/tokenizer/PTBTokenizer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1851">
-          <caret line="112" column="36" lean-forward="true" selection-start-line="112" selection-start-column="36" selection-end-line="112" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/hw1/model/getTF.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="770">
@@ -1588,22 +1611,59 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/hw2/FileProcessor/ResultIndexWriter.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/hw2/start/IndexRunner.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="361">
-          <caret line="70" column="45" lean-forward="false" selection-start-line="70" selection-start-column="45" selection-end-line="70" selection-end-column="45" />
+        <state relative-caret-position="317">
+          <caret line="102" column="44" lean-forward="false" selection-start-line="102" selection-start-column="44" selection-end-line="102" selection-end-column="44" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/hw2/start/IndexRunner.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/hw2/FileProcessor/ResultIndexWriter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="509">
-          <caret line="91" column="59" lean-forward="false" selection-start-line="91" selection-start-column="59" selection-end-line="91" selection-end-column="59" />
+        <state relative-caret-position="185">
+          <caret line="18" column="8" lean-forward="false" selection-start-line="18" selection-start-column="8" selection-end-line="105" selection-end-column="9" />
           <folding>
             <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/hw2/FileProcessor/MergeIndexWriter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="140">
+          <caret line="25" column="75" lean-forward="false" selection-start-line="25" selection-start-column="75" selection-end-line="25" selection-end-column="75" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_131/src.zip!/java/util/stream/Stream.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="362">
+          <caret line="478" column="16" lean-forward="false" selection-start-line="478" selection-start-column="16" selection-end-line="478" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_131/src.zip!/java/nio/file/Files.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="744">
+          <caret line="2678" column="34" lean-forward="false" selection-start-line="2678" selection-start-column="30" selection-end-line="2678" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/hw2/tokenizer/PTBTokenizer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="440">
+          <caret line="115" column="84" lean-forward="false" selection-start-line="115" selection-start-column="84" selection-end-line="115" selection-end-column="84" />
+          <folding>
+            <element signature="docComment;class#PTBTokenizer#0" expanded="false" />
+            <element signature="e#764#793#0" expanded="false" />
           </folding>
         </state>
       </provider>

@@ -2,6 +2,7 @@ package hw2.start;
 
 import hw1.json.DocumentModel;
 import hw1.parser.JsoupParser;
+import hw2.FileProcessor.MergeIndexWriter;
 import hw2.FileProcessor.ResultIndexWriter;
 import hw2.TermStat;
 import hw2.tokenizer.PTBTokenizer;
@@ -11,7 +12,9 @@ import org.jsoup.select.Elements;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
+import java.util.Set;
 
 import static hw1.json.JsonGenerator.createDocumentObject;
 
@@ -25,6 +28,7 @@ public class IndexRunner {
 
         String dir = "C://Users//Sushant//Desktop//IR//data//AP89_DATA//AP_DATA//ap89_collection";
         File[] files = new File(dir).listFiles();
+        Set<String> vocabularly = new LinkedHashSet<>();
         for (File f : files) {
             if (f.isFile() && !f.getName().equalsIgnoreCase("readme")) {
                 HashMap<String, HashMap<String, TermStat>> mapToWriteFile = new HashMap<>();
@@ -40,6 +44,7 @@ public class IndexRunner {
                         String termId = token.getTermId();
                         String docId = token.getDocId();
                         String position = token.getPosition();
+                        vocabularly.add(termId);
 
                         if (mapToWriteFile.containsKey(termId)) {
 
@@ -95,6 +100,7 @@ public class IndexRunner {
 
         }
 
+        MergeIndexWriter.merge(vocabularly);
     }
 
 }
