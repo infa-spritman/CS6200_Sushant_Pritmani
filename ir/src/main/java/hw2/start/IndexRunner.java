@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static hw1.json.JsonGenerator.createDocumentObject;
 
@@ -28,6 +29,7 @@ public class IndexRunner {
 
         String dir = "C://Users//Sushant//Desktop//IR//data//AP89_DATA//AP_DATA//ap89_collection";
         File[] files = new File(dir).listFiles();
+        AtomicInteger am  = new AtomicInteger(0);
         Set<String> vocabularly = new LinkedHashSet<>();
         for (File f : files) {
             if (f.isFile() && !f.getName().equalsIgnoreCase("readme")) {
@@ -45,6 +47,10 @@ public class IndexRunner {
                         String docId = token.getDocId();
                         String position = token.getPosition();
                         vocabularly.add(termId);
+
+                        if(termId.equalsIgnoreCase("algorithm") || termId.equalsIgnoreCase("algorithms"))
+                            am.getAndIncrement();
+
 
                         if (mapToWriteFile.containsKey(termId)) {
 
@@ -100,7 +106,8 @@ public class IndexRunner {
 
         }
 
-        MergeIndexWriter.merge(vocabularly);
+        //MergeIndexWriter.merge(vocabularly);
+        System.out.println("length of al" + am.toString());
     }
 
 }
