@@ -34,7 +34,7 @@ public class MergeIndexWriter {
 
         try {
 
-            AtomicInteger atomicInteger = new AtomicInteger(1);
+            AtomicInteger atomicInteger = new AtomicInteger(0);
 
             File file = new File(finalIndexPath);
             File catalog_file = new File(finalCatalogPath);
@@ -142,7 +142,7 @@ public class MergeIndexWriter {
                     Integer length = tempString.getBytes().length;
                     finalBw.write(tempString);
                     finalBw_catlog.write(word + ":" + atomicInteger.getAndAdd(length) + ","+length+ "\n");
-                    System.out.println(word + "merged");
+                    //System.out.println(word + "merged");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

@@ -7,13 +7,13 @@ import java.util.LinkedList;
  */
 public class TermStat {
 
-    private double df;
-    private double cf;
-    private double tf;
+    private Integer df;
+    private Integer cf;
+    private Integer tf;
     private String docId;
     private LinkedList<Integer> positions;
 
-    public TermStat(double df, double cf, double tf, String docId, LinkedList<Integer> positions) {
+    public TermStat(Integer df, Integer cf, Integer tf, String docId, LinkedList<Integer> positions) {
         this.df = df;
         this.cf = cf;
         this.tf = tf;
@@ -21,27 +21,27 @@ public class TermStat {
         this.positions = positions;
     }
 
-    public double getDf() {
+    public Integer getDf() {
         return df;
     }
 
-    public void setDf(double df) {
+    public void setDf(Integer df) {
         this.df = df;
     }
 
-    public double getCf() {
+    public Integer getCf() {
         return cf;
     }
 
-    public void setCf(double cf) {
+    public void setCf(Integer cf) {
         this.cf = cf;
     }
 
-    public double getTf() {
+    public Integer getTf() {
         return tf;
     }
 
-    public void setTf(double tf) {
+    public void setTf(Integer tf) {
         this.tf = tf;
     }
 

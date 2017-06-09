@@ -4,6 +4,7 @@ import hw1.json.DocumentModel;
 import hw1.parser.JsoupParser;
 import hw2.FileProcessor.MergeIndexWriter;
 import hw2.FileProcessor.ResultIndexWriter;
+import hw2.StanfordStemmer.CustomStemmer;
 import hw2.TermStat;
 import hw2.tokenizer.PTBTokenizer;
 import hw2.tokenizer.TokenObject;
@@ -11,11 +12,13 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
-import java.util.Set;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Stream;
 
 import static hw1.json.JsonGenerator.createDocumentObject;
 
@@ -31,6 +34,10 @@ public class IndexRunner {
         File[] files = new File(dir).listFiles();
         AtomicInteger am  = new AtomicInteger(0);
         Set<String> vocabularly = new LinkedHashSet<>();
+        Set<String> stopList  = getStopList("C:\\Users\\Sushant\\Documents\\GitHub\\CS6200_Sushant_Pritmani\\ir\\src\\main\\resources\\stoplist.txt");
+        boolean isStop = false;
+        boolean isStem = true;
+        CustomStemmer cs = new CustomStemmer();
         for (File f : files) {
             if (f.isFile() && !f.getName().equalsIgnoreCase("readme")) {
                 HashMap<String, HashMap<String, TermStat>> mapToWriteFile = new HashMap<>();
@@ -41,9 +48,12 @@ public class IndexRunner {
 
                     LinkedList<TokenObject> tokenize = PTBTokenizer.tokenize(d.getText(), d.getDocno());
 
-                    tokenize.stream().forEach(token -> {
+                    tokenize.stream().filter(t-> !stopList.contains(t.getTermId())).forEach(token -> {
 
                         String termId = token.getTermId();
+                        if(isStem)
+                               termId = cs.stem(termId);
+
                         String docId = token.getDocId();
                         String position = token.getPosition();
                         vocabularly.add(termId);
@@ -65,8 +75,8 @@ public class IndexRunner {
                                 positions.add(Integer.parseInt(position));
 
                                 stringTermStatHashMap.put(docId, new TermStat(termStat.getDf(),
-                                        termStat.getCf() + 1.0,
-                                        termStat.getTf() + 1.0,
+                                        termStat.getCf() + 1,
+                                        termStat.getTf() + 1,
                                         docId,
                                         positions));
 
@@ -77,7 +87,7 @@ public class IndexRunner {
 
                                 positions.add(Integer.parseInt(position));
 
-                                stringTermStatHashMap.put(docId, new TermStat(1.0, 1.0, 1.0, docId, positions));
+                                stringTermStatHashMap.put(docId, new TermStat(1, 1, 1, docId, positions));
 
                                 mapToWriteFile.put(termId, stringTermStatHashMap);
 
@@ -91,7 +101,7 @@ public class IndexRunner {
 
                             HashMap<String, TermStat> stringTermStatHashMap = new HashMap<>();
 
-                            stringTermStatHashMap.put(docId, new TermStat(1.0, 1.0, 1.0, docId, positions));
+                            stringTermStatHashMap.put(docId, new TermStat(1, 1, 1, docId, positions));
 
                             mapToWriteFile.put(termId, stringTermStatHashMap);
                         }
@@ -108,6 +118,19 @@ public class IndexRunner {
 
         MergeIndexWriter.merge(vocabularly);
         //System.out.println("length of al" + am.toString());
+    }
+
+    private static Set<String> getStopList(String s) {
+        Set<String > stopList  = new LinkedHashSet<>();
+        try (Stream<String> lines = Files.lines(Paths.get(s), Charset.defaultCharset())) {
+            lines.forEachOrdered(line -> {
+               // System.out.println(line.trim());
+                stopList.add(line.trim());
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return stopList;
     }
 
 }

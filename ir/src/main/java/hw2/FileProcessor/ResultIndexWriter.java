@@ -1,6 +1,8 @@
 package hw2.FileProcessor;
 
+import hw2.StanfordStemmer.CustomStemmer;
 import hw2.TermStat;
+import org.tartarus.snowball.ext.EnglishStemmer;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -58,9 +60,10 @@ public class ResultIndexWriter {
                 AtomicInteger cf_count = new AtomicInteger(0);
 
                 v.forEach((docid, termStats) -> {
-                    double tf_count = termStats.getTf();
-                    sb.append(docid + "," + tf_count + "," + termStats.getPositions() + ";");
-                    cf_count.addAndGet((int) tf_count);
+                    Integer tf_count = termStats.getTf();
+
+                    sb.append(docid + "," + tf_count + "," + convertToString(termStats.getPositions().toArray()) + ";");
+                    cf_count.addAndGet(tf_count);
 
                 });
 
@@ -110,27 +113,53 @@ public class ResultIndexWriter {
         }
     }
 
+    private static String convertToString(Object[] a) {
+        if (a == null)
+            return "null";
+        int iMax = a.length - 1;
+        if (iMax == -1)
+            return "[]";
+
+        StringBuilder b = new StringBuilder();
+        b.append('[');
+        for (int i = 0; ; i++) {
+            b.append(a[i]);
+            if (i == iMax)
+                return b.append(']').toString();
+            b.append(",");
+        }
+    }
+
     public static void main(String[] args) throws IOException {
 
         //String temp = "prepare,1,1:AP890101-0016,1.0,[103]\n";
         //"cdc,2,6:AP890102-0140,1.0,[192];AP890102-0137,5.0,[205, 271, 287, 385, 1030]\n"
-        RandomAccessFile file = new RandomAccessFile("C:\\Users\\Sushant\\Desktop\\Output\\ap890102.txt", "r");
-        file.seek(1684);
-        byte[] bytes = new byte[77];
-        file.read(bytes);
-        //System.out.println(file.readLine());
-        String s = new String(bytes, "UTF-8");
-        System.out.println(s.substring(s.indexOf(":")+1,s.length()-1));
-        //System.out.println(s.substring(0, s.indexOf(":")));
-        for(String a: s.substring(0, s.indexOf(":")).split(","))
-            System.out.println(a+"A");
-        file.close();
+//        RandomAccessFile file = new RandomAccessFile("C:\\Users\\Sushant\\Desktop\\Output\\ap890102.txt", "r");
+//        file.seek(1684);
+//        byte[] bytes = new byte[77];
+//        file.read(bytes);
+//        //System.out.println(file.readLine());
+//        String s = new String(bytes, "UTF-8");
+//        System.out.println(s.substring(s.indexOf(":")+1,s.length()-1));
+//        //System.out.println(s.substring(0, s.indexOf(":")));
+//        for(String a: s.substring(0, s.indexOf(":")).split(","))
+//            System.out.println(a+"A");
+//        file.close();
         //System.out.println(temp.getBytes().length);
 
 //        StringBuilder sb = new StringBuilder("prepare,1,1:AP890101-0016,1.0,[103]\n");
 //        String substring = sb.substring(sb.indexOf(":")+1, sb.length() - 1);
 //        System.out.println(substring);
 //        System.out.println(sb);
+
+
+        ;
+
+        CustomStemmer cs = new CustomStemmer();
+        System.out.println(cs.stem("boxes"));
+
+
+
 
     }
 }
