@@ -207,10 +207,10 @@ public class MergeIndexWriter {
     }
 
 
-    public static void main(String[] args) {
-
-
-        merge(new HashSet<>());
-
-    }
+//    public static void main(String[] args) {
+//
+//
+//        merge(new HashSet<>());
+//
+//    }
 }

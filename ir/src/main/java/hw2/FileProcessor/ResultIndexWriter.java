@@ -121,11 +121,11 @@ public class ResultIndexWriter {
             return "[]";
 
         StringBuilder b = new StringBuilder();
-        b.append('[');
+        b.append("");
         for (int i = 0; ; i++) {
             b.append(a[i]);
             if (i == iMax)
-                return b.append(']').toString();
+                return b.append("").toString();
             b.append(",");
         }
     }
