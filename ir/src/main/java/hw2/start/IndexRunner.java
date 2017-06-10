@@ -32,12 +32,18 @@ public class IndexRunner {
 
         String dir = "C://Users//Sushant//Desktop//IR//data//AP89_DATA//AP_DATA//ap89_collection";
         File[] files = new File(dir).listFiles();
-        AtomicInteger am  = new AtomicInteger(0);
+
         Set<String> vocabularly = new LinkedHashSet<>();
-        Set<String> stopList  = getStopList("C:\\Users\\Sushant\\Documents\\GitHub\\CS6200_Sushant_Pritmani\\ir\\src\\main\\resources\\stoplist.txt");
+        Set<String> stopList = getStopList("C:\\Users\\Sushant\\Documents\\GitHub\\CS6200_Sushant_Pritmani\\ir\\src\\main\\resources\\stoplist.txt");
+
         boolean isStop = false;
         boolean isStem = true;
         CustomStemmer cs = new CustomStemmer();
+
+        AtomicInteger docIDGenerator = new AtomicInteger(1);
+        Map<Integer,String> idToDoc = new HashMap<>();
+
+
         for (File f : files) {
             if (f.isFile() && !f.getName().equalsIgnoreCase("readme")) {
                 HashMap<String, HashMap<String, TermStat>> mapToWriteFile = new HashMap<>();
@@ -46,20 +52,20 @@ public class IndexRunner {
 
                     DocumentModel d = createDocumentObject(e);
 
-                    LinkedList<TokenObject> tokenize = PTBTokenizer.tokenize(d.getText(), d.getDocno());
+                    LinkedList<TokenObject> tokenize = PTBTokenizer.tokenize(d.getText(), docIDGenerator.toString());
 
-                    tokenize.stream().filter(t-> !stopList.contains(t.getTermId())).forEach(token -> {
+                    idToDoc.put(docIDGenerator.getAndIncrement(),d.getDocno());
+
+                    tokenize.stream().filter(t -> !stopList.contains(t.getTermId())).forEach(token -> {
 
                         String termId = token.getTermId();
-                        if(isStem)
-                               termId = cs.stem(termId);
+                        if (isStem)
+                            termId = cs.stem(termId);
+
 
                         String docId = token.getDocId();
                         String position = token.getPosition();
                         vocabularly.add(termId);
-
-                        if(termId.equalsIgnoreCase("algorithm") || termId.equalsIgnoreCase("algorithms"))
-                            am.getAndIncrement();
 
 
                         if (mapToWriteFile.containsKey(termId)) {
@@ -110,21 +116,22 @@ public class IndexRunner {
 
                 }
 
-                ResultIndexWriter.writeTofile( f.getName() ,mapToWriteFile);
+                ResultIndexWriter.writeTofile(f.getName(), mapToWriteFile);
 
             }
 
         }
-
+        System.out.println(idToDoc.size());
+        System.out.println(idToDoc.get(1));
         MergeIndexWriter.merge(vocabularly);
         //System.out.println("length of al" + am.toString());
     }
 
     private static Set<String> getStopList(String s) {
-        Set<String > stopList  = new LinkedHashSet<>();
+        Set<String> stopList = new LinkedHashSet<>();
         try (Stream<String> lines = Files.lines(Paths.get(s), Charset.defaultCharset())) {
             lines.forEachOrdered(line -> {
-               // System.out.println(line.trim());
+                // System.out.println(line.trim());
                 stopList.add(line.trim());
             });
         } catch (IOException e) {

@@ -1,8 +1,12 @@
 package hw2.Searching;
 
 import hw2.OffsetStat;
+import hw2.StanfordStemmer.CustomStemmer;
 import hw2.TermStat;
+import org.elasticsearch.common.recycler.Recycler;
 
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
@@ -10,10 +14,8 @@ import java.nio.IntBuffer;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
 
 /**
@@ -22,12 +24,12 @@ import java.util.stream.Stream;
 public class Search {
 
 
-    public static Map<String,TermStat> getStat(String word, String path){
+    public static Map<String, TermStat> getStat(String word, String path) {
 
         String indexPath = path + "\\Final_Output\\final.txt";
         String catalogPath = path + "\\Final_Catalog\\final.txt";
         Map<String, OffsetStat> tempOffsetMap = new HashMap<>();
-        Map<String,TermStat> termMap = new HashMap<>();
+        Map<String, TermStat> termMap = new HashMap<>();
 
         try (Stream<String> lines = Files.lines(Paths.get(catalogPath), Charset.defaultCharset())) {
             lines.forEachOrdered(line -> {
@@ -51,17 +53,17 @@ public class Search {
             String[] split = term.substring(0, term.indexOf(":")).split(",");
             Integer df = Integer.parseInt(split[1]);
             Integer cf = Integer.parseInt(split[2]);
-            for(String dt : docStat){
+            for (String dt : docStat) {
                 LinkedList<Integer> termPos = new LinkedList<>();
                 dt = dt.replaceAll("\\[(.*?)\\]", "$1");
                 String[] dt_split = dt.split(",");
                 String docId = dt_split[0];
 
-                for(int i=2;i<dt_split.length;i++){
+                for (int i = 2; i < dt_split.length; i++) {
 
                     termPos.add(Integer.parseInt(dt_split[i]));
                 }
-                termMap.put(docId, new TermStat(df,cf,Integer.parseInt(dt_split[1]),docId,termPos));
+                termMap.put(docId, new TermStat(df, cf, Integer.parseInt(dt_split[1]), docId, termPos));
 
             }
 
@@ -99,18 +101,177 @@ public class Search {
     }
 
 
+    public static void outputResultNoStemNoStop() {
+        final String inputpath = "C:\\Users\\Sushant\\Documents\\GitHub\\CS6200_Sushant_Pritmani\\ir\\src\\main\\resources\\in.0.50.txt";
+        final String indexFolder = "C:\\Users\\Sushant\\Desktop\\IR\\Results_assignment2\\WithoutRemovingAnythingAndNoSpaces";
+        final String outputpath = "C:\\Users\\Sushant\\Documents\\GitHub\\CS6200_Sushant_Pritmani\\ir\\src\\main\\resources\\noStemNoStop_in.0.50.txt";
 
-    public static void main(String[] args){
+        BufferedWriter bw = null;
+        java.io.FileWriter fw = null;
 
-        String path = "C:\\Users\\Sushant\\Desktop\\IR\\Results_assignment2\\WithoutRemovingAnythingAndNoSpaces";
-        Map<String, TermStat> algorithm = getStat("waterway", path);
-        algorithm.forEach((k,v)->{
+        try {
 
-            System.out.println(k + ":" + v.getDocId()+"," + v.getDf() +","+ v.getCf() + "," + v.getTf() +","+v.getPositions());
+            File file = new File(outputpath);
+            // if file doesnt exists, then create it
+            if (!file.exists()) {
+                file.createNewFile();
+            }
 
-        });
-        System.out.println("DF: " + algorithm.size());
-        //System.out.println(getTermStats(path+"\\Final_Output\\final.txt",495609357,91).toString());
+            // true = append file
+            fw = new java.io.FileWriter(file.getAbsoluteFile(), true);
+            bw = new BufferedWriter(fw);
+
+            BufferedWriter finalBw = bw;
+
+
+            try (Stream<String> lines = Files.lines(Paths.get(inputpath), Charset.defaultCharset())) {
+                lines.forEachOrdered(line -> {
+                    String word = line.trim();
+                    Map<String, TermStat> wordStat = getStat(word, indexFolder);
+                    Map.Entry<String, TermStat> next;
+                    if (!wordStat.isEmpty()) {
+
+                        next = wordStat.entrySet().iterator().next();
+
+                        try {
+
+                            finalBw.write(word + " " + next.getValue().getDf() + " " + next.getValue().getCf() + "\n");
+
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                    }else{
+                        try {
+
+                            finalBw.write(word + " 0 0" + "\n");
+
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                });
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        } catch (IOException e) {
+
+            e.printStackTrace();
+
+        } finally {
+
+            try {
+
+                if (bw != null)
+                    bw.close();
+
+                if (fw != null)
+                    fw.close();
+
+            } catch (IOException ex) {
+
+                ex.printStackTrace();
+
+            }
+        }
+    }
+
+    public static void outputResultStemStop() {
+        final String inputpath = "C:\\Users\\Sushant\\Documents\\GitHub\\CS6200_Sushant_Pritmani\\ir\\src\\main\\resources\\in.0.50.txt";
+        final String indexFolder = "C:\\Users\\Sushant\\Desktop\\IR\\Results_assignment2\\StopAndStemDocId";
+        final String outputpath = "C:\\Users\\Sushant\\Documents\\GitHub\\CS6200_Sushant_Pritmani\\ir\\src\\main\\resources\\stemAndStop_in.0.50.txt";
+
+        BufferedWriter bw = null;
+        java.io.FileWriter fw = null;
+
+        try {
+
+            File file = new File(outputpath);
+            // if file doesnt exists, then create it
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+
+            // true = append file
+            fw = new java.io.FileWriter(file.getAbsoluteFile(), true);
+            bw = new BufferedWriter(fw);
+
+            BufferedWriter finalBw = bw;
+            CustomStemmer cs = new CustomStemmer();
+
+            try (Stream<String> lines = Files.lines(Paths.get(inputpath), Charset.defaultCharset())) {
+                lines.forEachOrdered(line -> {
+                    String word = line.trim();
+                    Map<String, TermStat> wordStat = getStat(cs.stem(word), indexFolder);
+                    Map.Entry<String, TermStat> next;
+                    if (!wordStat.isEmpty()) {
+
+                        next = wordStat.entrySet().iterator().next();
+
+                        try {
+
+                            finalBw.write(word + " " + next.getValue().getDf() + " " + next.getValue().getCf() + "\n");
+
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                    }else{
+                        try {
+
+                            finalBw.write(word + " 0 0" + "\n");
+
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                });
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        } catch (IOException e) {
+
+            e.printStackTrace();
+
+        } finally {
+
+            try {
+
+                if (bw != null)
+                    bw.close();
+
+                if (fw != null)
+                    fw.close();
+
+            } catch (IOException ex) {
+
+                ex.printStackTrace();
+
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+
+//        String path = "C:\\Users\\Sushant\\Desktop\\IR\\Results_assignment2\\WithoutRemovingAnythingAndNoSpaces";
+//
+//        CustomStemmer cs  = new CustomStemmer();
+//
+//        Map<String, TermStat> algorithm = getStat("algorithm", path);
+//        algorithm.forEach((k,v)->{
+//
+//            System.out.println(k + ":" + v.getDocId()+"," + v.getDf() +","+ v.getCf() + "," + v.getTf() +","+v.getPositions());
+//
+//        });
+//        System.out.println("DF: " + algorithm.size());
+////        //System.out.println(getTermStats(path+"\\Final_Output\\final.txt",495609357,91).toString());
+//
+//        outputResultNoStemNoStop();
+ //       outputResultStemStop();
 
     }
 }
