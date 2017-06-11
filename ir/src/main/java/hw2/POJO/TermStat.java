@@ -1,4 +1,4 @@
-package hw2;
+package hw2.POJO;
 
 import java.util.LinkedList;
 

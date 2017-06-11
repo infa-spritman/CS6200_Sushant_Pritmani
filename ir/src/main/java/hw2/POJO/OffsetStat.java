@@ -1,4 +1,4 @@
-package hw2;
+package hw2.POJO;
 
 /**
  * Created by Sushant on 6/7/2017.

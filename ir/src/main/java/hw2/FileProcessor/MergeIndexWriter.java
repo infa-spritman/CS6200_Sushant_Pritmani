@@ -1,6 +1,6 @@
 package hw2.FileProcessor;
 
-import hw2.OffsetStat;
+import hw2.POJO.OffsetStat;
 
 import java.io.*;
 import java.nio.ByteBuffer;

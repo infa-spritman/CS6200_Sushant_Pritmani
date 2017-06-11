@@ -1,21 +1,18 @@
 package hw2.Searching;
 
-import hw2.OffsetStat;
+import hw2.POJO.OffsetStat;
 import hw2.StanfordStemmer.CustomStemmer;
-import hw2.TermStat;
-import org.elasticsearch.common.recycler.Recycler;
+import hw2.POJO.TermStat;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
-import java.nio.IntBuffer;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
 
 /**

@@ -1,16 +1,12 @@
 package hw2.FileProcessor;
 
 import hw2.StanfordStemmer.CustomStemmer;
-import hw2.TermStat;
-import org.tartarus.snowball.ext.EnglishStemmer;
+import hw2.POJO.TermStat;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
-import java.io.RandomAccessFile;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**

@@ -2,10 +2,12 @@ package hw2.start;
 
 import hw1.json.DocumentModel;
 import hw1.parser.JsoupParser;
+import hw2.FileProcessor.DocIDFileWriter;
 import hw2.FileProcessor.MergeIndexWriter;
 import hw2.FileProcessor.ResultIndexWriter;
+import hw2.POJO.DOCId;
 import hw2.StanfordStemmer.CustomStemmer;
-import hw2.TermStat;
+import hw2.POJO.TermStat;
 import hw2.tokenizer.PTBTokenizer;
 import hw2.tokenizer.TokenObject;
 import org.jsoup.nodes.Element;
@@ -41,7 +43,7 @@ public class IndexRunner {
         CustomStemmer cs = new CustomStemmer();
 
         AtomicInteger docIDGenerator = new AtomicInteger(1);
-        Map<Integer,String> idToDoc = new HashMap<>();
+        Map<Integer,DOCId> idToDoc = new HashMap<>();
 
 
         for (File f : files) {
@@ -54,7 +56,7 @@ public class IndexRunner {
 
                     LinkedList<TokenObject> tokenize = PTBTokenizer.tokenize(d.getText(), docIDGenerator.toString());
 
-                    idToDoc.put(docIDGenerator.getAndIncrement(),d.getDocno());
+                    idToDoc.put(docIDGenerator.getAndIncrement(),new DOCId(d.getDocno(),tokenize.size()));
 
                     tokenize.stream().filter(t -> !stopList.contains(t.getTermId())).forEach(token -> {
 
@@ -121,13 +123,12 @@ public class IndexRunner {
             }
 
         }
-        System.out.println(idToDoc.size());
-        System.out.println(idToDoc.get(1));
+        DocIDFileWriter.dumpMap(idToDoc,"C:\\Users\\Sushant\\Desktop\\Map\\DOCID.txt");
         MergeIndexWriter.merge(vocabularly);
         //System.out.println("length of al" + am.toString());
     }
 
-    private static Set<String> getStopList(String s) {
+    public static Set<String> getStopList(String s) {
         Set<String> stopList = new LinkedHashSet<>();
         try (Stream<String> lines = Files.lines(Paths.get(s), Charset.defaultCharset())) {
             lines.forEachOrdered(line -> {
