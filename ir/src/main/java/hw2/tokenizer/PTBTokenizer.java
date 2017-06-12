@@ -18,7 +18,7 @@ public class PTBTokenizer {
                 .replaceAll("/('ll|'LL|'re|'RE|'ve|'VE|n't|N'T) /g", " $1 ")
                 .replaceAll("[\\]\\[\\(\\)\\{\\}<>]", " ")
                 .replaceAll("(?![.])\\p{Punct}", " ")
-                .replaceAll("([^\\w.\\s]|(?!\\d)\\.(?!\\d))+", " ")
+                .replaceAll("(\\.\\B)+", " ")
                 //.replaceAll("\n"," ")
                 .toLowerCase();
 

@@ -206,7 +206,7 @@ public class ProximitySearchMinimumSpan {
 //        System.out.println(rangeofWindow(termStats));
 
 
-        String indexpath = "C:\\Users\\Sushant\\Desktop\\IR\\Results_assignment2\\StopAndStemDocId";
+        String indexpath = "C:\\Users\\Sushant\\Desktop\\IR\\Results_assignment2\\StopAndStemChangedRegex";
         runPMSMS("C:\\Users\\Sushant\\Documents\\GitHub\\CS6200_Sushant_Pritmani\\ir\\src\\main\\resources\\query_desc.51-100.short.txt", "C:\\Users\\Sushant\\Desktop\\fs.txt", indexpath);
 
 
