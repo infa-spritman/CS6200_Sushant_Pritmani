@@ -82,9 +82,9 @@ public class ProximitySearchMinimumSpan {
             double score =  ((1500.0- minimumSpan)*(termStatList.size()))/(docLength+157266.0);
 
             if (scoreMap.containsKey(docID))
-                    scoreMap.put(docID, scoreMap.get(docID) + score);
+                    scoreMap.put(docIDString, scoreMap.get(docID) + score);
             else
-                    scoreMap.put(docID, score);
+                    scoreMap.put(docIDString, score);
 
 
         });
@@ -97,76 +97,117 @@ public class ProximitySearchMinimumSpan {
 
         PriorityQueue<Integer> maxheap = new PriorityQueue<>(termStatList.size(), Collections.reverseOrder());
         PriorityQueue<Integer> minheap = new PriorityQueue<>(termStatList.size());
+
+
         Integer range = Integer.MAX_VALUE;
 
 
         int [] pointersArray = new int[termStatList.size()];
         Arrays.fill(pointersArray,0);
 
-        termStatList.forEach(ts->{
+//        termStatList.forEach(ts->{
+//
+//            Integer firstPosition = ts.getPositions().get(0);
+//
+//            maxheap.offer(firstPosition);
+//            minheap.offer(firstPosition);
+//
+//        });
 
-            Integer firstPosition = ts.getPositions().get(0);
+
+        //range = maxheap.peek() - minheap.peek();
+
+
+        for(int i =0;i<termStatList.size();i++){
+            Integer firstPosition = termStatList.get(i).getPositions().get(pointersArray[i]);
 
             maxheap.offer(firstPosition);
             minheap.offer(firstPosition);
 
-        });
+        }
+        AtomicInteger am  = new AtomicInteger(1);
 
-        AtomicInteger count = new AtomicInteger(0);
+        while(!checkForLastIndex(termStatList,pointersArray)){
 
+            
 
-        while(true){
             Integer diff = maxheap.peek() - minheap.peek();
             if(diff<range)
                 range = diff;
 
 
-            Integer minHeapHead = minheap.poll();
-            maxheap.remove(minHeapHead);
+            Integer minHeapHead = kthSmallest(minheap,am.get());
+            //maxheap.remove(minHeapHead);
 
-
-            termStatList.forEach(ts->{
-                LinkedList<Integer> positions = ts.getPositions();
-                Integer firstPosition = positions.get(0);
-                if(firstPosition==minHeapHead){
-                    if(positions.size()==1){
-                        count.incrementAndGet();
+            for(int i =0;i<termStatList.size();i++){
+                Integer firstPosition = termStatList.get(i).getPositions().get(pointersArray[i]);
+                if(minHeapHead.equals(firstPosition)){
+                    if((termStatList.get(i).getTf()-1)==pointersArray[i]){
+                            am.incrementAndGet();
 
                     }else{
-                        boolean remove = positions.remove(minHeapHead);
-                        Integer first = positions.getFirst();
-                        maxheap.offer(first);
-                        minheap.offer(first);
-                        ts.setPositions(positions);
+                        minheap.remove(minHeapHead);
+                        maxheap.remove(minHeapHead);
+                        pointersArray[i]++;
+                        Integer newInteger = termStatList.get(i).getPositions().get(pointersArray[i]);
+                        maxheap.offer(newInteger);
+                        minheap.offer(newInteger);
 
                     }
 
-
                 }
 
+            }
 
-            });
-
-            if(count.get()>0)
-                return range;
         }
 
+        return range;
 
+    }
+
+    private static boolean checkForLastIndex(LinkedList<TermStat> termStatList, int[] pointersArray) {
+        boolean toBereturned = true;
+
+        for(int i =0;i<termStatList.size();i++){
+            boolean b = (termStatList.get(i).getTf() - 1) == pointersArray[i];
+            toBereturned = toBereturned && b;
+
+        }
+
+        return toBereturned;
+    }
+
+
+    public static Integer kthSmallest(PriorityQueue<Integer> queue, int k) throws IllegalArgumentException {
+        if (k < 1 || k > queue.size()) {
+            throw new IllegalArgumentException("k:" + k + " to small or to large for queueSize:" + queue.size());
+        }
+        Queue<Integer> buffer = new PriorityQueue<Integer>();
+        buffer.addAll(queue);
+        int kth = 0;
+        final int size = buffer.size();
+        for (int i = 0; i < size; i++) {
+            if(i < k) {
+                kth = buffer.peek();
+            }
+            buffer.poll();
+        }
+        return kth;
     }
 
     public static void main(String[] args) {
 
 
-        LinkedList<TermStat> termStats = new LinkedList<>();
-        termStats.add(new TermStat(0,0,0,"A", new LinkedList<>(Arrays.asList(4, 7, 30))));
-        termStats.add(new TermStat(0,0,0,"A", new LinkedList<>(Arrays.asList(1, 2))));
-        termStats.add(new TermStat(0,0,0,"A", new LinkedList<>(Arrays.asList(20,40))));
+//        LinkedList<TermStat> termStats = new LinkedList<>();
+//        termStats.add(new TermStat(0,0,4,"A", new LinkedList<>(Arrays.asList(0, 5, 10,15))));
+//        termStats.add(new TermStat(0,0,4,"A", new LinkedList<>(Arrays.asList(1, 3,6,9))));
+//        termStats.add(new TermStat(0,0,4,"A", new LinkedList<>(Arrays.asList(4,8,16,21))));
+//
+//        System.out.println(rangeofWindow(termStats));
 
-        System.out.println(rangeofWindow(termStats));
 
-
-//        String indexpath = "C:\\Users\\Sushant\\Desktop\\IR\\Results_assignment2\\StopAndStemDocId";
-//        runPMSMS("C:\\Users\\Sushant\\Documents\\GitHub\\CS6200_Sushant_Pritmani\\ir\\src\\main\\resources\\query_desc.51-100.short.txt", "C:\\Users\\Sushant\\Desktop\\fs.txt", indexpath);
+        String indexpath = "C:\\Users\\Sushant\\Desktop\\IR\\Results_assignment2\\StopAndStemDocId";
+        runPMSMS("C:\\Users\\Sushant\\Documents\\GitHub\\CS6200_Sushant_Pritmani\\ir\\src\\main\\resources\\query_desc.51-100.short.txt", "C:\\Users\\Sushant\\Desktop\\fs.txt", indexpath);
 
 
     }
