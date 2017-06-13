@@ -177,7 +177,7 @@ public class Search {
 
     public static void outputResultStemStop() {
         final String inputpath = "C:\\Users\\Sushant\\Documents\\GitHub\\CS6200_Sushant_Pritmani\\ir\\src\\main\\resources\\in.0.50.txt";
-        final String indexFolder = "C:\\Users\\Sushant\\Desktop\\IR\\Results_assignment2\\StopAndStemChangedRegex";
+        final String indexFolder = "C:\\Users\\Sushant\\Desktop\\IR\\Results_assignment2\\StopAndStemChangedRegexSorted";
         final String outputpath = "C:\\Users\\Sushant\\Documents\\GitHub\\CS6200_Sushant_Pritmani\\ir\\src\\main\\resources\\stemAndStop_in.0.50.txt";
 
         BufferedWriter bw = null;

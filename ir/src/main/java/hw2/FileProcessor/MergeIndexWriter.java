@@ -1,6 +1,7 @@
 package hw2.FileProcessor;
 
 import hw2.POJO.OffsetStat;
+import hw2.POJO.TermStat;
 
 import java.io.*;
 import java.nio.ByteBuffer;
@@ -119,6 +120,7 @@ public class MergeIndexWriter {
 
             vocabularly.stream().forEach(word -> {
                 StringBuilder termStatToWrite = new StringBuilder();
+                PriorityQueue<TermStat> maxTFHeaf = new PriorityQueue<>();
                 AtomicInteger df = new AtomicInteger(0);
                 AtomicInteger cf = new AtomicInteger(0);
 
@@ -126,13 +128,37 @@ public class MergeIndexWriter {
                     if (offsetMap.containsKey(word)) {
                         OffsetStat offsetStat = offsetMap.get(word);
                         StringBuilder term = getTerm(fl_name, offsetStat.getOffset(), offsetStat.getLength());
-                        termStatToWrite.append(term.substring(term.indexOf(":") + 1, term.length() - 1)).append(";");
+                       // termStatToWrite.append(term.substring(term.indexOf(":") + 1, term.length() - 1)).append(";");
+                        String posting = term.substring(term.indexOf(":") + 1, term.length() - 1);
+                        String[] postingArray = posting.split(";");
+                        Arrays.stream(postingArray).forEach(s->{
+
+                            String[] termStat = s.split(",");
+                            LinkedList<Integer> tempPositions = new LinkedList<>();
+                             for(int i=2;i<termStat.length;i++){
+
+                                tempPositions.add(Integer.parseInt(termStat[i]));
+                             }
+
+                            maxTFHeaf.offer(new TermStat(0,0,Integer.parseInt(termStat[1]),termStat[0],tempPositions));
+
+
+                        });
+
+
                         String[] split = term.substring(0, term.indexOf(":")).split(",");
                         df.addAndGet(Integer.parseInt(split[1]));
                         cf.addAndGet(Integer.parseInt(split[2]));
                     }
 
                 });
+
+                while(!maxTFHeaf.isEmpty()){
+
+                    TermStat poll = maxTFHeaf.poll();
+                    termStatToWrite.append(poll.getDocId() + "," + poll.getTf() + "," + convertToString(poll.getPositions().toArray()) + ";");
+
+                }
                 termStatToWrite.deleteCharAt(termStatToWrite.length() - 1);
 
                 termStatToWrite.append("\n");
@@ -206,6 +232,22 @@ public class MergeIndexWriter {
         return null;
     }
 
+    private static String convertToString(Object[] a) {
+        if (a == null)
+            return "null";
+        int iMax = a.length - 1;
+        if (iMax == -1)
+            return "[]";
+
+        StringBuilder b = new StringBuilder();
+        b.append("");
+        for (int i = 0; ; i++) {
+            b.append(a[i]);
+            if (i == iMax)
+                return b.append("").toString();
+            b.append(",");
+        }
+    }
 
 //    public static void main(String[] args) {
 //

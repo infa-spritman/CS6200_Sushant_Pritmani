@@ -5,7 +5,7 @@ import java.util.LinkedList;
 /**
  * Created by Sushant on 6/5/2017.
  */
-public class TermStat {
+public class TermStat  implements Comparable<TermStat>{
 
     private Integer df;
     private Integer cf;
@@ -59,5 +59,10 @@ public class TermStat {
 
     public void setPositions(LinkedList<Integer> positions) {
         this.positions = positions;
+    }
+
+    @Override
+    public int compareTo(TermStat o) {
+        return o.getTf().compareTo(this.getTf());
     }
 }

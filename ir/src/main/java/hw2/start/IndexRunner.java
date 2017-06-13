@@ -15,11 +15,13 @@ import org.jsoup.select.Elements;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static hw1.json.JsonGenerator.createDocumentObject;
@@ -43,7 +45,7 @@ public class IndexRunner {
         CustomStemmer cs = new CustomStemmer();
 
         AtomicInteger docIDGenerator = new AtomicInteger(1);
-        Map<Integer,DOCId> idToDoc = new HashMap<>();
+        Map<Integer, DOCId> idToDoc = new HashMap<>();
 
 
         for (File f : files) {
@@ -56,7 +58,7 @@ public class IndexRunner {
 
                     LinkedList<TokenObject> tokenize = PTBTokenizer.tokenize(d.getText(), docIDGenerator.toString());
 
-                    idToDoc.put(docIDGenerator.getAndIncrement(),new DOCId(d.getDocno(),tokenize.size()));
+                    idToDoc.put(docIDGenerator.getAndIncrement(), new DOCId(d.getDocno(), tokenize.size()));
 
                     tokenize.stream().filter(t -> !stopList.contains(t.getTermId())).forEach(token -> {
 
@@ -88,7 +90,21 @@ public class IndexRunner {
                                         docId,
                                         positions));
 
-                                mapToWriteFile.put(termId, stringTermStatHashMap);
+                                LinkedHashMap<String, TermStat> collect = stringTermStatHashMap.entrySet().stream()
+                                        .sorted(Map.Entry.comparingByValue(new Comparator<TermStat>() {
+                                            @Override
+                                            public int compare(TermStat o1, TermStat o2) {
+                                                return o2.getTf().compareTo(o1.getTf());
+                                            }
+                                        }))
+                                        .collect(Collectors.toMap(
+                                                Map.Entry::getKey,
+                                                Map.Entry::getValue,
+                                                (e1, e2) -> e1,
+                                                LinkedHashMap::new
+                                        ));
+                                mapToWriteFile.put(termId, collect);
+
 
                             } else {
                                 LinkedList<Integer> positions = new LinkedList<>();
@@ -118,12 +134,32 @@ public class IndexRunner {
 
                 }
 
+//                LinkedHashMap<String, HashMap<String, TermStat>> collect = mapToWriteFile.entrySet()
+//                        .stream()
+//                        .sorted(Map.Entry.comparingByValue(new Comparator<HashMap<String, TermStat>>() {
+//                            @Override
+//                            public int compare(HashMap<String, TermStat> o1, HashMap<String, TermStat> o2) {
+//                                Map.Entry<String, TermStat> nextO1 = o1.entrySet().iterator().next();
+//                                Map.Entry<String, TermStat> nextO2 = o2.entrySet().iterator().next();
+//
+//                                return nextO2.getValue().getTf().compareTo(nextO1.getValue().getTf());
+//
+//                            }
+//                        }))
+//                        .collect(Collectors.toMap(
+//                                Map.Entry::getKey,
+//                                Map.Entry::getValue,
+//                                (e1, e2) -> e1,
+//                                LinkedHashMap::new
+//                        ));
+
+
                 ResultIndexWriter.writeTofile(f.getName(), mapToWriteFile);
 
             }
 
         }
-        DocIDFileWriter.dumpMap(idToDoc,"C:\\Users\\Sushant\\Desktop\\Map\\DOCID.txt");
+        DocIDFileWriter.dumpMap(idToDoc, "C:\\Users\\Sushant\\Desktop\\Map\\DOCID.txt");
         MergeIndexWriter.merge(vocabularly);
         //System.out.println("length of al" + am.toString());
     }
@@ -140,5 +176,6 @@ public class IndexRunner {
         }
         return stopList;
     }
+
 
 }
