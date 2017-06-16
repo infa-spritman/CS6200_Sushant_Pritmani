@@ -60,76 +60,78 @@ public class IndexRunner {
 
                     idToDoc.put(docIDGenerator.getAndIncrement(), new DOCId(d.getDocno(), tokenize.size()));
 
-                    tokenize.stream().filter(t -> !stopList.contains(t.getTermId())).forEach(token -> {
+                    tokenize.stream()
+                            .filter(t -> !stopList.contains(t.getTermId()))
+                            .forEach(token -> {
 
-                        String termId = token.getTermId();
-                        if (isStem)
-                            termId = cs.stem(termId);
-
-
-                        String docId = token.getDocId();
-                        String position = token.getPosition();
-                        vocabularly.add(termId);
+                                String termId = token.getTermId();
+                                if (isStem)
+                                    termId = cs.stem(termId);
 
 
-                        if (mapToWriteFile.containsKey(termId)) {
-
-                            HashMap<String, TermStat> stringTermStatHashMap = mapToWriteFile.get(termId);
-
-                            if (stringTermStatHashMap.containsKey(docId)) {
-
-                                TermStat termStat = stringTermStatHashMap.get(docId);
-
-                                LinkedList<Integer> positions = termStat.getPositions();
-
-                                positions.add(Integer.parseInt(position));
-
-                                stringTermStatHashMap.put(docId, new TermStat(termStat.getDf(),
-                                        termStat.getCf() + 1,
-                                        termStat.getTf() + 1,
-                                        docId,
-                                        positions));
-
-                                LinkedHashMap<String, TermStat> collect = stringTermStatHashMap.entrySet().stream()
-                                        .sorted(Map.Entry.comparingByValue(new Comparator<TermStat>() {
-                                            @Override
-                                            public int compare(TermStat o1, TermStat o2) {
-                                                return o2.getTf().compareTo(o1.getTf());
-                                            }
-                                        }))
-                                        .collect(Collectors.toMap(
-                                                Map.Entry::getKey,
-                                                Map.Entry::getValue,
-                                                (e1, e2) -> e1,
-                                                LinkedHashMap::new
-                                        ));
-                                mapToWriteFile.put(termId, collect);
+                                String docId = token.getDocId();
+                                String position = token.getPosition();
+                                vocabularly.add(termId);
 
 
-                            } else {
-                                LinkedList<Integer> positions = new LinkedList<>();
+                                if (mapToWriteFile.containsKey(termId)) {
 
-                                positions.add(Integer.parseInt(position));
+                                    HashMap<String, TermStat> stringTermStatHashMap = mapToWriteFile.get(termId);
 
-                                stringTermStatHashMap.put(docId, new TermStat(1, 1, 1, docId, positions));
+                                    if (stringTermStatHashMap.containsKey(docId)) {
 
-                                mapToWriteFile.put(termId, stringTermStatHashMap);
+                                        TermStat termStat = stringTermStatHashMap.get(docId);
 
-                            }
+                                        LinkedList<Integer> positions = termStat.getPositions();
 
-                        } else {
+                                        positions.add(Integer.parseInt(position));
 
-                            LinkedList<Integer> positions = new LinkedList<>();
+                                        stringTermStatHashMap.put(docId, new TermStat(termStat.getDf(),
+                                                termStat.getCf() + 1,
+                                                termStat.getTf() + 1,
+                                                docId,
+                                                positions));
 
-                            positions.add(Integer.parseInt(position));
+                                        LinkedHashMap<String, TermStat> collect = stringTermStatHashMap.entrySet().stream()
+                                                .sorted(Map.Entry.comparingByValue(new Comparator<TermStat>() {
+                                                    @Override
+                                                    public int compare(TermStat o1, TermStat o2) {
+                                                        return o2.getTf().compareTo(o1.getTf());
+                                                    }
+                                                }))
+                                                .collect(Collectors.toMap(
+                                                        Map.Entry::getKey,
+                                                        Map.Entry::getValue,
+                                                        (e1, e2) -> e1,
+                                                        LinkedHashMap::new
+                                                ));
+                                        mapToWriteFile.put(termId, collect);
 
-                            HashMap<String, TermStat> stringTermStatHashMap = new HashMap<>();
 
-                            stringTermStatHashMap.put(docId, new TermStat(1, 1, 1, docId, positions));
+                                    } else {
+                                        LinkedList<Integer> positions = new LinkedList<>();
 
-                            mapToWriteFile.put(termId, stringTermStatHashMap);
-                        }
-                    });
+                                        positions.add(Integer.parseInt(position));
+
+                                        stringTermStatHashMap.put(docId, new TermStat(1, 1, 1, docId, positions));
+
+                                        mapToWriteFile.put(termId, stringTermStatHashMap);
+
+                                    }
+
+                                } else {
+
+                                    LinkedList<Integer> positions = new LinkedList<>();
+
+                                    positions.add(Integer.parseInt(position));
+
+                                    HashMap<String, TermStat> stringTermStatHashMap = new HashMap<>();
+
+                                    stringTermStatHashMap.put(docId, new TermStat(1, 1, 1, docId, positions));
+
+                                    mapToWriteFile.put(termId, stringTermStatHashMap);
+                                }
+                            });
 
 
                 }

@@ -14,8 +14,8 @@ public class OutputAccuracy {
     private static int totalLowErrorLines = 0;
     private static int totalNormalizedValues = 0;
     public static void main(String[] args) throws IOException {
-        String expected = "C:/Users/Sushant/Desktop/IR/Results_assignment2/StandardResults/out.0.stop.stem.txt";
-        String actual = "C:/Users/Sushant/Documents/GitHub/CS6200_Sushant_Pritmani/ir/src/main/resources/stemAndStop_in.0.50.txt";
+        String expected = "C:/Users/Sushant/Desktop/IR/Results_assignment2/StandardResults/out.0.no.stop.no.stem.txt";
+        String actual = "C:/Users/Sushant/Documents/GitHub/CS6200_Sushant_Pritmani/ir/src/main/resources/noStemNoStop_in.0.50.txt";
         compareFiles(expected, actual);
     }
 

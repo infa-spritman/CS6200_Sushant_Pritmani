@@ -199,14 +199,14 @@ public class ProximitySearchMinimumSpan {
 
 
 //        LinkedList<TermStat> termStats = new LinkedList<>();
-//        termStats.add(new TermStat(0,0,4,"A", new LinkedList<>(Arrays.asList(0, 5, 10,15))));
-//        termStats.add(new TermStat(0,0,4,"A", new LinkedList<>(Arrays.asList(1, 3,6,9))));
-//        termStats.add(new TermStat(0,0,4,"A", new LinkedList<>(Arrays.asList(4,8,16,21))));
+//        termStats.add(new TermStat(0,0,2,"A", new LinkedList<>(Arrays.asList(53,130))));
+//        termStats.add(new TermStat(0,0,3,"A", new LinkedList<>(Arrays.asList(96, 159,185))));
+//        termStats.add(new TermStat(0,0,2,"A", new LinkedList<>(Arrays.asList(68,80))));
 //
 //        System.out.println(rangeofWindow(termStats));
 
 
-        String indexpath = "C:\\Users\\Sushant\\Desktop\\IR\\Results_assignment2\\StopAndStemChangedRegex";
+        String indexpath = "C:\\Users\\Sushant\\Desktop\\IR\\Results_assignment2\\NoStopAndNoStemSorted";
         runPMSMS("C:\\Users\\Sushant\\Documents\\GitHub\\CS6200_Sushant_Pritmani\\ir\\src\\main\\resources\\query_desc.51-100.short.txt", "C:\\Users\\Sushant\\Desktop\\fs.txt", indexpath);
 
 

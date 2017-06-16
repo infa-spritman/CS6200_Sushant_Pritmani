@@ -57,7 +57,7 @@ public class UnigramLM {
 
     private static Map<String, Double> search(LinkedList<String> queryTerms, double avgDocLength, String indexFolder, Map<Integer, DOCId> idToDoc) {
 
-        Map<String, Double> scoreMap = getDefaultMap(idToDoc,queryTerms.size(),157266.0);
+        Map<String, Double> scoreMap = getDefaultMap(idToDoc,queryTerms.size(),198965.0);
 
         for (String term : queryTerms) {
 
@@ -68,7 +68,7 @@ public class UnigramLM {
                 DOCId docIdObject = idToDoc.get(Integer.parseInt(k));
                 String docID = docIdObject.getDocNo();
                 Double docLength = Double.valueOf(docIdObject.getDocLength());
-                double score = Math.log10((v.getTf()+1.0)/(docLength+157266.0)) - Math.log10(1.0/157266.0);
+                double score = Math.log10((v.getTf()+1.0)/(docLength+198965.0)) - Math.log10(1.0/198965.0);
                 if (scoreMap.containsKey(docID))
                     scoreMap.put(docID, scoreMap.get(docID) + score);
 
@@ -92,7 +92,7 @@ public class UnigramLM {
     }
 
     public static void main(String[] args) {
-        String indexpath = "C:\\Users\\Sushant\\Desktop\\IR\\Results_assignment2\\StopAndStemChangedRegex";
+        String indexpath = "C:\\Users\\Sushant\\Desktop\\IR\\Results_assignment2\\NoStopAndNoStemSorted";
         runUNIM("C:\\Users\\Sushant\\Documents\\GitHub\\CS6200_Sushant_Pritmani\\ir\\src\\main\\resources\\query_desc.51-100.short.txt", "C:\\Users\\Sushant\\Desktop\\fs.txt", indexpath);
 
 

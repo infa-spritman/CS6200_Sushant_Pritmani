@@ -100,7 +100,7 @@ public class Search {
 
     public static void outputResultNoStemNoStop() {
         final String inputpath = "C:\\Users\\Sushant\\Documents\\GitHub\\CS6200_Sushant_Pritmani\\ir\\src\\main\\resources\\in.0.50.txt";
-        final String indexFolder = "C:\\Users\\Sushant\\Desktop\\IR\\Results_assignment2\\WithoutRemovingAnythingAndNoSpaces";
+        final String indexFolder = "C:\\Users\\Sushant\\Desktop\\IR\\Results_assignment2\\NoStopAndNoStemSorted";
         final String outputpath = "C:\\Users\\Sushant\\Documents\\GitHub\\CS6200_Sushant_Pritmani\\ir\\src\\main\\resources\\noStemNoStop_in.0.50.txt";
 
         BufferedWriter bw = null;
@@ -254,21 +254,21 @@ public class Search {
 
     public static void main(String[] args) {
 
-//        String path = "C:\\Users\\Sushant\\Desktop\\IR\\Results_assignment2\\WithoutRemovingAnythingAndNoSpaces";
-//
-//        CustomStemmer cs  = new CustomStemmer();
-//
-//        Map<String, TermStat> algorithm = getStat("algorithm", path);
-//        algorithm.forEach((k,v)->{
-//
-//            System.out.println(k + ":" + v.getDocId()+"," + v.getDf() +","+ v.getCf() + "," + v.getTf() +","+v.getPositions());
-//
-//        });
-//        System.out.println("DF: " + algorithm.size());
+        String path = "C:\\Users\\Sushant\\Desktop\\IR\\Results_assignment2\\StopAndStemChangedRegexSorted";
+
+        CustomStemmer cs  = new CustomStemmer();
+
+        Map<String, TermStat> algorithm = getStat(cs.stem("circumference"), path);
+        algorithm.forEach((k,v)->{
+
+            System.out.println(k + ":" + v.getDocId()+"," + v.getDf() +","+ v.getCf() + "," + v.getTf() +","+v.getPositions());
+
+        });
+        System.out.println("DF: " + algorithm.size());
 ////        //System.out.println(getTermStats(path+"\\Final_Output\\final.txt",495609357,91).toString());
 //
-//        outputResultNoStemNoStop();
-        outputResultStemStop();
+        //outputResultNoStemNoStop();
+        //outputResultStemStop();
 
     }
 }
