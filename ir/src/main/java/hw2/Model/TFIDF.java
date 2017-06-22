@@ -21,6 +21,7 @@ import java.util.stream.Stream;
  * Created by Sushant on 6/9/2017.
  */
 public class TFIDF {
+
     public static void runTFIDF(String queryPath, String reportPath, String indexFolder) {
 
         Map<Integer, LinkedList<String>> refinedQueries = QueryFormatter.getRefinedQueries(queryPath);

@@ -45,7 +45,7 @@ public class IndexRunner {
         CustomStemmer cs = new CustomStemmer();
 
         AtomicInteger docIDGenerator = new AtomicInteger(1);
-        Map<Integer, DOCId> idToDoc = new HashMap<>();
+        Map<Integer, DOCId> idToDoc = new LinkedHashMap<>();
 
 
         for (File f : files) {
@@ -57,6 +57,8 @@ public class IndexRunner {
                     DocumentModel d = createDocumentObject(e);
 
                     LinkedList<TokenObject> tokenize = PTBTokenizer.tokenize(d.getText(), docIDGenerator.toString());
+
+                    //LinkedList<TokenObject> tokenize = PTBTokenizer.tokenizeHead(d.getHead(), docIDGenerator.toString());
 
                     idToDoc.put(docIDGenerator.getAndIncrement(), new DOCId(d.getDocno(), tokenize.size()));
 
@@ -162,7 +164,7 @@ public class IndexRunner {
 
         }
         DocIDFileWriter.dumpMap(idToDoc, "C:\\Users\\Sushant\\Desktop\\Map\\DOCID.txt");
-        MergeIndexWriter.merge(vocabularly);
+        MergeIndexWriter.merge(null);
         //System.out.println("length of al" + am.toString());
     }
 

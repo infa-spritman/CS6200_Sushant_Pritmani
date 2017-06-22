@@ -32,7 +32,7 @@ public class QueryFormatter {
 
                 tokenize.stream().filter(t -> !stopList.contains(t.getTermId())).forEach(token -> {
 
-                    queryTerms.add(token.getTermId());
+                    queryTerms.add(cs.stem(token.getTermId()));
                 });
 
                 int queryNo = getQueryNo(currentLine);

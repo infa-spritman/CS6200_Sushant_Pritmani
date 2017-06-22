@@ -4,6 +4,7 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -56,6 +57,28 @@ public class PTBTokenizer {
             if(!t.isEmpty())
                 tokenObjects.add(new TokenObject(t, docId, Integer.toString(atomicInteger.getAndIncrement())));
         });
+
+        return tokenObjects;
+    }
+
+
+    public static LinkedList<TokenObject> tokenizeHead(List<String> headList, String docId) {
+
+        AtomicInteger atomicInteger = new AtomicInteger(1);
+        LinkedList<TokenObject> tokenObjects = new LinkedList<>();
+
+
+        headList.forEach(ht->{
+            ArrayList<String> tokens = tokenizeText(ht);
+
+            tokens.forEach(t -> {
+                if(!t.isEmpty())
+                    tokenObjects.add(new TokenObject(t, docId, Integer.toString(atomicInteger.getAndIncrement())));
+            });
+
+        });
+
+
 
         return tokenObjects;
     }

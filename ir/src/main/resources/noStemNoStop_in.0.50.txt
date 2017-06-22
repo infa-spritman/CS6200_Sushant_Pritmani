@@ -8,7 +8,7 @@ isse 1 1
 kimberlain 3 5
 clotaire 1 1
 183.43 6 6
-j.j.s 0 0
+j.j.s 1 1
 discriminations 2 2
 dauster 5 12
 neglgence 1 1

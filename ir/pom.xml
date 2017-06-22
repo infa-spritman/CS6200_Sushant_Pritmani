@@ -7,6 +7,12 @@
     <groupId>edu.neu.cs</groupId>
     <artifactId>ir</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <repositories>
+        <repository>
+            <id>repo.bodar.com</id>
+            <url>http://repo.bodar.com</url>
+        </repository>
+    </repositories>
     <build>
         <plugins>
             <plugin>
@@ -61,6 +67,12 @@
             <artifactId>stanford-corenlp</artifactId>
             <version>3.7.0</version>
         </dependency>
+        <dependency>
+            <groupId>com.googlecode.totallylazy</groupId>
+            <artifactId>totallylazy</artifactId>
+            <version>666</version>
+        </dependency>
+
 
     </dependencies>
 

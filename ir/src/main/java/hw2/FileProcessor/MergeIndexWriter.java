@@ -31,6 +31,7 @@ public class MergeIndexWriter {
         BufferedWriter bw = null, catalog_bw = null;
         java.io.FileWriter fw = null, catlog_fw = null;
         Map<String, Map<String, OffsetStat>> catalogMap = new LinkedHashMap<>();
+        Set<String> vocabMerge = new LinkedHashSet<>();
 
 
         try {
@@ -72,6 +73,7 @@ public class MergeIndexWriter {
                                 String[] splitLine = line.split(":");
                                 String[] offsetSpilit = splitLine[1].split(",");
 
+                                vocabMerge.add(splitLine[0]);
                                 tempOffsetMap.put(splitLine[0], new OffsetStat(Integer.parseInt(offsetSpilit[0]),
                                         Integer.parseInt(offsetSpilit[1])));
 
@@ -118,7 +120,7 @@ public class MergeIndexWriter {
 
             //System.out.println("Size" + catalogMap.size());
 
-            vocabularly.stream().forEach(word -> {
+            vocabMerge.stream().forEach(word -> {
                 StringBuilder termStatToWrite = new StringBuilder();
                 PriorityQueue<TermStat> maxTFHeaf = new PriorityQueue<>();
                 AtomicInteger df = new AtomicInteger(0);
@@ -128,19 +130,19 @@ public class MergeIndexWriter {
                     if (offsetMap.containsKey(word)) {
                         OffsetStat offsetStat = offsetMap.get(word);
                         StringBuilder term = getTerm(fl_name, offsetStat.getOffset(), offsetStat.getLength());
-                       // termStatToWrite.append(term.substring(term.indexOf(":") + 1, term.length() - 1)).append(";");
+                        // termStatToWrite.append(term.substring(term.indexOf(":") + 1, term.length() - 1)).append(";");
                         String posting = term.substring(term.indexOf(":") + 1, term.length() - 1);
                         String[] postingArray = posting.split(";");
-                        Arrays.stream(postingArray).forEach(s->{
+                        Arrays.stream(postingArray).forEach(s -> {
 
                             String[] termStat = s.split(",");
                             LinkedList<Integer> tempPositions = new LinkedList<>();
-                             for(int i=2;i<termStat.length;i++){
+                            for (int i = 2; i < termStat.length; i++) {
 
                                 tempPositions.add(Integer.parseInt(termStat[i]));
-                             }
+                            }
 
-                            maxTFHeaf.offer(new TermStat(0,0,Integer.parseInt(termStat[1]),termStat[0],tempPositions));
+                            maxTFHeaf.offer(new TermStat(0, 0, Integer.parseInt(termStat[1]), termStat[0], tempPositions));
 
 
                         });
@@ -153,7 +155,7 @@ public class MergeIndexWriter {
 
                 });
 
-                while(!maxTFHeaf.isEmpty()){
+                while (!maxTFHeaf.isEmpty()) {
 
                     TermStat poll = maxTFHeaf.poll();
                     termStatToWrite.append(poll.getDocId() + "," + poll.getTf() + "," + convertToString(poll.getPositions().toArray()) + ";");
@@ -167,7 +169,7 @@ public class MergeIndexWriter {
                     String tempString = word + "," + df + "," + cf + ":" + termStatToWrite.toString();
                     Integer length = tempString.getBytes().length;
                     finalBw.write(tempString);
-                    finalBw_catlog.write(word + ":" + atomicInteger.getAndAdd(length) + ","+length+ "\n");
+                    finalBw_catlog.write(word + ":" + atomicInteger.getAndAdd(length) + "," + length + "\n");
                     //System.out.println(word + "merged");
                 } catch (IOException e) {
                     e.printStackTrace();
