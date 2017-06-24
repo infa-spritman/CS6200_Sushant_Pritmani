@@ -72,6 +72,11 @@
             <artifactId>totallylazy</artifactId>
             <version>666</version>
         </dependency>
+        <dependency>
+            <groupId>com.github.crawler-commons</groupId>
+            <artifactId>crawler-commons</artifactId>
+            <version>0.6</version>
+        </dependency>
 
 
     </dependencies>

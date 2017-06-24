@@ -42,22 +42,22 @@ public class Urlnorm {
     private static String normalizeUrl(URL url1) {
 
         StringBuilder sb = new StringBuilder();
-        System.out.println("protocol = " + url1.getProtocol());
-        System.out.println("authority = " + url1.getAuthority());
-        System.out.println("host = " + url1.getHost());
-        System.out.println("port = " + url1.getPort());
-        System.out.println("path = " + url1.getPath());
-        System.out.println("query = " + url1.getQuery());
-        System.out.println("filename = " + url1.getFile());
-        System.out.println("ref = " + url1.getRef());
+//        System.out.println("protocol = " + url1.getProtocol());
+//        System.out.println("authority = " + url1.getAuthority());
+//        System.out.println("host = " + url1.getHost());
+//        System.out.println("port = " + url1.getPort());
+//        System.out.println("path = " + url1.getPath());
+//        System.out.println("query = " + url1.getQuery());
+//        System.out.println("filename = " + url1.getFile());
+//        System.out.println("ref = " + url1.getRef());
 
         String protocol = url1.getProtocol().toLowerCase();
-        String host = url1.getHost();
+        String host = url1.getHost().toLowerCase().replaceFirst("www.","");
         if(!PROTOCOL_SET.contains(protocol))
             return "INVALID_URL";
 
         sb.append("http://");
-        sb.append(host.toLowerCase().replaceFirst("www.",""));
+        sb.append(host);
 
         if(url1.getPath() != null && !url1.getPath().isEmpty())
             sb.append(normPath(url1.getPath()));
@@ -65,6 +65,8 @@ public class Urlnorm {
         if(url1.getQuery()!= null && !url1.getQuery().isEmpty())
             sb.append("?"+ url1.getQuery());
 
+        if(host.contains("google") && url1.getRef()!= null && !url1.getRef().isEmpty())
+            sb.append("#"+url1.getRef());
 
         if(sb.charAt(sb.length()-1) == '/')
             sb.setLength(sb.length() - 1);
@@ -126,6 +128,6 @@ public class Urlnorm {
 
     public static void main(String[] args) throws Exception {
 
-        System.out.println(norm( "http://ies.unsw.edu.au/sites/all/files/MD BookReview_EnergyPolicy2013.pdf"));
+        System.out.println(norm( "http://example.com/#abc"));
     }
 }
