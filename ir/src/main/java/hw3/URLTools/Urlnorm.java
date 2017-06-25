@@ -115,7 +115,7 @@ public class Urlnorm {
 
     }
 
-    private static String decode(String value) {
+    public static String decode(String value) {
         String decoded
                 = null;
         try {
@@ -128,6 +128,18 @@ public class Urlnorm {
 
     public static void main(String[] args) throws Exception {
 
-        System.out.println(norm( "http://example.com/#abc"));
+        System.out.println(norm( "https://hlh/./a//../b/../c/./d.html"));
+    }
+
+    public static String encode(String poll_url) {
+
+        String encoded
+                = null;
+        try {
+            encoded = URLEncoder.encode(poll_url, StandardCharsets.UTF_8.toString());
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return encoded;
     }
 }
