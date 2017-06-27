@@ -22,6 +22,7 @@ import org.jsoup.select.Elements;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.*;
@@ -43,9 +44,9 @@ public class CrawlWebs {
     static BufferedWriter bw = null;
     static java.io.FileWriter fw = null;
 
-    static Queue<String> linkQueue ;
+    static Queue<String> linkQueue;
     static LinkedList<String> secondaryQueue = new LinkedList<>();
-    static Map<String,Long> politenessMap = new HashMap<>();
+    static Map<String, Long> politenessMap = new HashMap<>();
 
 
     public static void crawl(ArrayList<String> seedURls, String dir) {
@@ -82,16 +83,24 @@ public class CrawlWebs {
                     visited.add(normalisedURL);
 
                     try {
-                        politenessMap.put(new URL(surl).getHost().toLowerCase().replaceFirst("www.",""),System.currentTimeMillis());
+                        politenessMap.put(new URL(surl).getHost().toLowerCase().replaceFirst("www.", ""), System.currentTimeMillis());
                     } catch (MalformedURLException e) {
                         e.printStackTrace();
                     }
 
                     try {
 
-                        Connection.Response response = Jsoup.connect(surl).userAgent(
-                                "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)").execute();
 
+                        String fetchedUrl = getFinalRedirectedUrl(Urlnorm.decode(surl));
+                        //System.out.println("FetchedURL is:" + Urlnorm.decode(fetchedUrl));
+
+                        Connection.Response response = Jsoup.connect(Urlnorm.decode(fetchedUrl))
+                                //.userAgent("Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:25.0) Gecko/20100101 Firefox/25.0")
+                                .userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/535.2 (KHTML, like Gecko) Chrome/15.0.874.120 Safari/535.2 Firefox/25.0")
+                                .referrer("http://www.google.com")
+                                .timeout(12000)
+                                .followRedirects(true)
+                                .execute();
 
                         if (response.statusCode() == 200) {
 
@@ -112,7 +121,7 @@ public class CrawlWebs {
                         }
 
 
-                    } catch (IOException e) {
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
 
@@ -127,36 +136,39 @@ public class CrawlWebs {
         AtomicInteger depth = new AtomicInteger(1);
 
 
-        while(linkQueue.size()>0 && noOfDocuments.intValue()<20000){
+        while (linkQueue.size() > 0 && noOfDocuments.intValue() < 20000) {
 
             String poll_url = linkQueue.poll();
-            System.out.println("Trying to crawl: " + poll_url + "   depth:" + depth );
+            System.out.println("\nTrying to crawl: " + poll_url + "   depth:" + depth);
             String normalisedURL = Urlnorm.norm(poll_url);
-            System.out.println("After nomr" + poll_url);
+            System.out.println("After nomr: " + normalisedURL);
 
             if (!normalisedURL.equals("INVALID_URL") && !visited.contains(normalisedURL)) {
 
 
                 if (checkRobot(poll_url)) {
 
-                    System.out.println("After checking robot" + poll_url);
+                    System.out.println("After checking robot: " + poll_url);
 
                     try {
 
-                        checkForPoliteness(politenessMap,poll_url);
+                        checkForPoliteness(politenessMap, poll_url);
 
                         System.out.println("Crawling url(after politecheck) : " + poll_url);
 
-                        Connection.Response response = Jsoup.connect(Urlnorm.decode(poll_url))
+                        String fetchedUrl = getFinalRedirectedUrl(Urlnorm.decode(poll_url));
+                        System.out.println("FetchedURL is:" + Urlnorm.decode(fetchedUrl));
+
+                        Connection.Response response = Jsoup.connect(Urlnorm.decode(fetchedUrl))
                                 //.userAgent("Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:25.0) Gecko/20100101 Firefox/25.0")
-                                .userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/535.2 (KHTML, like Gecko) Chrome/15.0.874.120 Safari/535.2")
+                                .userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/535.2 (KHTML, like Gecko) Chrome/15.0.874.120 Safari/535.2 Firefox/25.0")
                                 .referrer("http://www.google.com")
                                 .timeout(12000)
                                 .followRedirects(true)
                                 .execute();
 
                         try {
-                            politenessMap.put(new URL(poll_url).getHost().toLowerCase().replaceFirst("www.",""),System.currentTimeMillis());
+                            politenessMap.put(new URL(poll_url).getHost().toLowerCase().replaceFirst("www.", ""), System.currentTimeMillis());
                         } catch (MalformedURLException e) {
                             e.printStackTrace();
                         }
@@ -172,13 +184,15 @@ public class CrawlWebs {
                             LinkedList<String> rel_links = absoulteURL(links);
 
                             secondaryQueue.addAll(rel_links);
-                            //String jsonFile = JsonGenerator.getJsonObject(document, "hw3", "ssk", response.headers(), rel_links, 0, surl, normalisedURL, document.title());
 
-                            //bw.write(jsonFile);
+                            String jsonFile = JsonGenerator.getJsonObject(document, "hw3", "ssk", response.headers(), rel_links, 0, poll_url, normalisedURL, document.title());
+
+                            bw.write(jsonFile);
 
                         }
 
-                        visited.add(normalisedURL);
+
+                        visited.add(Urlnorm.norm(fetchedUrl));
                         noOfDocuments.addAndGet(1);
                         System.out.println("Crawled number of documents: " + noOfDocuments.get() + "\n");
 
@@ -191,10 +205,12 @@ public class CrawlWebs {
 
                 }
 
+                visited.add(normalisedURL);
+
 
             }
 
-            if(linkQueue.isEmpty()){
+            if (linkQueue.isEmpty()) {
                 System.out.println("Inside empty");
                 LinkedList<String> temp = new LinkedList<>();
                 temp.addAll(secondaryQueue);
@@ -215,14 +231,14 @@ public class CrawlWebs {
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
-        if(politenessMap.containsKey(host)){
+        if (politenessMap.containsKey(host)) {
 
             long diff = System.currentTimeMillis() - politenessMap.get(host);
 
-            if( diff <1000){
+            if (diff < 1000) {
 
                 try {
-                    Thread.sleep( 1000 - diff);
+                    Thread.sleep(1000 - diff);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -239,7 +255,6 @@ public class CrawlWebs {
 
         return urls;
     }
-
 
     private static Elements linkExtractor(Document document) {
 
@@ -266,7 +281,6 @@ public class CrawlWebs {
 //        Elements jsfiles = document.select("a[href~=(?i)\\.js$]");
 //        Elements gifFiles = document.select("a[href~=(?i)\\.gif$]");
 //        Elements hashFiles = document.select("a[href~=(?i)^#]");
-
 
         return document.select(cssLinkSelector);
 
@@ -320,6 +334,46 @@ public class CrawlWebs {
 
         return urlAllowed;
 
+    }
+
+    public static String getFinalRedirectedUrl(String url) {
+
+        HttpURLConnection connection;
+        String finalUrl = url;
+        try {
+            do {
+                connection = (HttpURLConnection) new URL(finalUrl)
+                        .openConnection();
+                connection.setInstanceFollowRedirects(false);
+                connection.setUseCaches(false);
+                connection.setRequestMethod("GET");
+                connection.connect();
+                int responseCode = connection.getResponseCode();
+                if (responseCode >= 300 && responseCode < 400) {
+
+
+
+                    String redirectedUrl = connection.getHeaderField("Location");
+                    URL url1 = connection.getURL();
+                    if (redirectedUrl.startsWith("/"))
+                        redirectedUrl = url1.getProtocol() + "://" + url1.getHost() + redirectedUrl;
+
+
+                    if (redirectedUrl.startsWith("www"))
+                        redirectedUrl = "http://" + redirectedUrl;
+
+                    if (null == redirectedUrl)
+                        break;
+                    finalUrl = redirectedUrl;
+                    //System.out.println("redirected url: " + finalUrl);
+                } else
+                    break;
+            } while (connection.getResponseCode() != HttpURLConnection.HTTP_OK);
+            connection.disconnect();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return finalUrl;
     }
 
 
