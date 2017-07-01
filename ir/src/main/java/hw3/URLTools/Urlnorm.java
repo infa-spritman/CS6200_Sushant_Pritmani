@@ -33,6 +33,7 @@ public class Urlnorm {
             return normalizeUrl(url1);
 
         } catch (Exception e) {
+            System.out.println("invalid URl: " + url);
             e.printStackTrace();
         }
 
@@ -65,14 +66,14 @@ public class Urlnorm {
         if(url1.getQuery()!= null && !url1.getQuery().isEmpty())
             sb.append("?"+ url1.getQuery());
 
-        if(host.contains("google") && url1.getRef()!= null && !url1.getRef().isEmpty())
-            sb.append("#"+url1.getRef());
+//        if(host.contains("google") && url1.getRef()!= null && !url1.getRef().isEmpty())
+//            sb.append("#"+url1.getRef());
 
         if(sb.charAt(sb.length()-1) == '/')
             sb.setLength(sb.length() - 1);
 
 
-        return sb.toString();
+        return sb.toString().toLowerCase();
     }
 
     private static String normPath(String path) {

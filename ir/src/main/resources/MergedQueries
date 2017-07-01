@@ -1,0 +1,12 @@
+
+ Single Index:
+    GET /website/blog/123?_source=title,text
+
+    https://www.elastic.co/guide/en/elasticsearch/guide/current/doc-exists.html
+
+    https://www.elastic.co/guide/en/elasticsearch/guide/current/partial-updates.html
+
+    https://www.elastic.co/guide/en/elasticsearch/guide/current/_retrieving_multiple_documents.html
+
+ Distributed Index:
+

@@ -62,7 +62,7 @@ public class JsonGenerator {
         DocumentModel db = new DocumentModel();
 
         db.setDocno(normalisedURL);
-        db.setHTTPheader(headers);
+        db.setHTTPheader(headers.toString());
         db.setTitle(title);
         db.setHtml_Source(doc.html());
         db.setOut_links(rel_links);

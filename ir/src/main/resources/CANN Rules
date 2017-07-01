@@ -1,1 +1,130 @@
 CANN Rules:
+	Decoding percent-encoded octets of unreserved characters. For consistency, percent-encoded octets in the ranges of ALPHA (%41–%5A and %61–%7A), DIGIT (%30–%39), hyphen (%2D), period (%2E), underscore (%5F), or tilde (%7E) should not be created by URI producers and, when found in a URI, should be decoded to their corresponding unreserved characters by URI normalizers.[2] Example:
+	http://www.example.com/%7Eusername/ → http://www.example.com/~username/
+
+
+	Adding trailing / Directories[clarify] are indicated with a trailing slash and should be included in URLs. Example:
+	http://www.example.com/alice → http://www.example.com/alice/
+	However, there is no way to know if a URL path component represents a directory or not. RFC 3986 notes that if the former URL redirects to the latter URL, then that is an indication that they are equivalent.
+
+	Removing dot-segments. The segments “..” and “.” can be removed from a URL according to the algorithm described in RFC 3986 (or a similar algorithm). Example:
+	http://www.example.com/../a/b/../c/./d.html → http://www.example.com/a/c/d.html
+	However, if a removed ".." component, e.g. "b/..", is a symlink to a directory with a different parent, eliding "b/.." will result in a different path and URL.[3] In rare cases depending on the web server, this may even be true for the root directory (e.g. "//www.example.com/.." may not be equivalent to "//www.example.com/".
+
+	Replacing IP with domain name. Check if the IP address maps to a domain name. Example:
+	http://208.77.188.166/ → http://www.example.com/
+	The reverse replacement is rarely safe due to virtual web servers.
+
+
+	Removing duplicate slashes Paths which include two adjacent slashes could be converted to one. Example:
+	http://www.example.com/foo//bar.html → http://www.example.com/foo/bar.html
+	
+	Removing or adding “www” as the first domain label. Some websites operate identically in two Internet domains: one whose least significant label is “www” and another whose name is the result of omitting the least significant label from the name of the first, the latter being known as a naked domain. For example, http://example.com/ and http://www.example.com/ may access the same website. Many websites redirect the user from the www to the non-www address or vice versa. A normalizer may determine if one of these URLs redirects to the other and normalize all URLs appropriately. Example:
+	http://www.example.com/ → http://example.com/
+
+
+	Removing the "?" when the query is empty. When the query is empty, there may be no need for the "?". Example: -------------------------- DONE
+	http://www.example.com/display? → http://www.example.com/display
+
+
+	    private static final String cssLinkSelector = "a:not([href$=\"pdf\" i]):not([href$=\"xml\" i]):not([href$=\"css\" i]):not([href$=\"js\" i]):not([href$=\"png\" i]):not([href$=\"jpeg\" i]):not([href$=\"jpg\" i]):not([href$=\"gif\" i]):not([href*=\"#\" i])";
+
+
+	            String filteredLinksCssQuery = "a[href]:not([href~=(?i)\\.jpe?g$]):not([href~=(?i)\\.png$]):not([href~=(?i)\\.pdf$]):not([href~=(?i)\\.xml$]):not([href~=(?i)\\.css$]):not([href~=(?i)\\.js$]):not([href~=(?i)\\.gif$]):not([href~=(?i)\\#$])";
+
+
+
+https://stackoverflow.com/questions/3727662/how-can-you-search-google-programmatically-java-api
+
+
+// Crawling url(after politecheck) : http://qje.oxfordjournals.org/content/127/2/1017
+java.net.SocketTimeoutException: Read timed out
+
+
+Done:
+	//Trying to crawl: https://doi.org/10.1007%2Fs10290-014-0191-8   depth:1
+	After nomrhttps://doi.org/10.1007%2Fs10290-014-0191-8
+	After checking robothttps://doi.org/10.1007%2Fs10290-014-0191-8
+	Crawling url(after politecheck) : https://doi.org/10.1007%2Fs10290-014-0191-8
+	org.jsoup.HttpStatusException: HTTP error fetching URL. Status=404, URL=https://link.springer.com/article/10.1007%252Fs10290-014-0191-8
+		at org.jsoup.helper.HttpConnection$Response.execute(HttpConnection.java:679)
+		at org.jsoup.helper.HttpConnection$Response.execute(HttpConnection.java:676)
+		at org.jsoup.helper.HttpConnection$Response.execute(HttpConnection.java:676)
+		at org.jsoup.helper.HttpConnection$Response.execute(HttpConnection.java:676)
+		at org.jsoup.helper.HttpConnection$Response.execute(HttpConnection.java:628)
+		at org.jsoup.helper.HttpConnection.execute(HttpConnection.java:260)
+		at hw3.Crawler.CrawlWebs.crawl(CrawlWebs.java:156)
+		at hw3.Start.CrawlRunner.main(CrawlRunner.java:25)
+	Inside exceptioon
+
+
+Trying to crawl: https://doi.org/10.1007%2Fs00148-007-0182-3   depth:1
+After nomrhttps://doi.org/10.1007%2Fs00148-007-0182-3
+After checking robothttps://doi.org/10.1007%2Fs00148-007-0182-3
+Crawling url(after politecheck) : https://doi.org/10.1007%2Fs00148-007-0182-3
+Inside exceptioon
+org.jsoup.HttpStatusException: HTTP error fetching URL. Status=404, URL=https://link.springer.com/article/10.1007%252Fs00148-007-0182-3
+Trying to crawl: http://www.sciencedirect.com/science/article/pii/S0165188910001600   depth:1
+	at org.jsoup.helper.HttpConnection$Response.execute(HttpConnection.java:679)
+After nomrhttp://www.sciencedirect.com/science/article/pii/S0165188910001600
+	at org.jsoup.helper.HttpConnection$Response.execute(HttpConnection.java:676)
+Trying to crawl: https://en.wikipedia.org/wiki/Digital_object_identifier   depth:1
+	at org.jsoup.helper.HttpConnection$Response.execute(HttpConnection.java:676)
+After nomrhttps://en.wikipedia.org/wiki/Digital_object_identifier
+	at org.jsoup.helper.HttpConnection$Response.execute(HttpConnection.java:676)
+Trying to crawl: https://doi.org/10.1016%2Fj.jedc.2010.06.030   depth:1
+	at org.jsoup.helper.HttpConnection$Response.execute(HttpConnection.java:628)
+	at org.jsoup.helper.HttpConnection.execute(HttpConnection.java:260)
+	at hw3.Crawler.CrawlWebs.crawl(CrawlWebs.java:156)
+	at hw3.Start.CrawlRunner.main(CrawlRunner.java:25)
+After nomrhttps://doi.org/10.1016%2Fj.jedc.2010.06.030
+After checking robothttps://doi.org/10.1016%2Fj.jedc.2010.06.030
+Crawling url(after politecheck) : https://doi.org/10.1016%2Fj.jedc.2010.06.030
+Crawled number of documents: 511
+
+
+
+Location header with absolute URL: (Done)
+	Trying to crawl: http://www.sfgate.com/cgi-bin/article.cgi?f=/c/a/2010/08/04/MN5H1ENBPK.DTL&type=politics   depth:1
+After nomr: http://sfgate.com/cgi-bin/article.cgi?f=/c/a/2010/08/04/MN5H1ENBPK.DTL&type=politics
+After checking robot: http://www.sfgate.com/cgi-bin/article.cgi?f=/c/a/2010/08/04/MN5H1ENBPK.DTL&type=politics
+Crawling url(after politecheck) : http://www.sfgate.com/cgi-bin/article.cgi?f=/c/a/2010/08/04/MN5H1ENBPK.DTL&type=politics
+java.net.MalformedURLException: no protocol: /politics/article/Governor-candidates-oppose-sanctuary-cities-3179017.php
+
+// Problem with new URL but crawler happening
+
+Trying to crawl: https://doi.org/10.1093%2Fjeg%2Flbi002   depth:1
+After nomr: http://doi.org/10.1093/jeg/lbi002
+After checking robot: https://doi.org/10.1093%2Fjeg%2Flbi002
+Crawling url(after politecheck) : https://doi.org/10.1093%2Fjeg%2Flbi002
+java.net.SocketException: Connection reset
+	at java.net.SocketInputStream.read(SocketInputStream.java:210)
+	at java.net.SocketInputStream.read(SocketInputStream.java:141)
+	at sun.security.ssl.InputRecord.readFully(InputRecord.java:465)
+	at sun.security.ssl.InputRecord.read(InputRecord.java:503)
+	at sun.security.ssl.SSLSocketImpl.readRecord(SSLSocketImpl.java:973)
+	at sun.security.ssl.SSLSocketImpl.readDataRecord(SSLSocketImpl.java:930)
+	at sun.security.ssl.AppInputStream.read(AppInputStream.java:105)
+	at java.io.BufferedInputStream.fill(BufferedInputStream.java:246)
+	at java.io.BufferedInputStream.read1(BufferedInputStream.java:286)
+	at java.io.BufferedInputStream.read(BufferedInputStream.java:345)
+	at sun.net.www.http.HttpClient.parseHTTPHeader(HttpClient.java:735)
+	at sun.net.www.http.HttpClient.parseHTTP(HttpClient.java:678)
+	at sun.net.www.http.HttpClient.parseHTTP(HttpClient.java:706)
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream0(HttpURLConnection.java:1569)
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1474)
+	at java.net.HttpURLConnection.getResponseCode(HttpURLConnection.java:480)
+	at sun.net.www.protocol.https.HttpsURLConnectionImpl.getResponseCode(HttpsURLConnectionImpl.java:338)
+	at hw3.Crawler.CrawlWebs.getFinalRedirectedUrl(CrawlWebs.java:351)
+	at hw3.Crawler.CrawlWebs.crawl(CrawlWebs.java:161)
+	at hw3.Start.CrawlRunner.main(CrawlRunner.java:27)
+Crawled number of documents: 474
+
+
+https://doi.org/10.1016%2Fj.worlddev.2016.08.012
+
+
+
+https://en.wikipedia.org/wiki/United_States_Minor_Outlying_Islands (check for keywords)
+https://en.wikipedia.org/wiki/Central_Africans_in_the_United_States
+https://en.wikipedia.org/wiki/Magnuson_Act

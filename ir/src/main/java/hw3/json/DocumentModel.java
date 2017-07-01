@@ -1,5 +1,7 @@
 package hw3.json;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 import java.util.Map;
 
@@ -9,7 +11,7 @@ import java.util.Map;
 public class DocumentModel {
 
     private String docno;
-    private Map<String,String> HTTPheader;
+    private String HTTPheader;
     private String title;
     private String html_Source;
     private List<String> out_links;
@@ -26,11 +28,13 @@ public class DocumentModel {
         this.docno = docno;
     }
 
-    public Map<String, String> getHTTPheader() {
+    @JsonProperty("HTTPheader")
+    public String getHTTPheader() {
         return HTTPheader;
     }
 
-    public void setHTTPheader(Map<String, String> HTTPheader) {
+    @JsonProperty("HTTPheader")
+    public void setHTTPheader(String HTTPheader) {
         this.HTTPheader = HTTPheader;
     }
 

@@ -3,6 +3,7 @@ package hw3.Crawler;
 import crawlercommons.robots.BaseRobotRules;
 import crawlercommons.robots.SimpleRobotRules;
 import crawlercommons.robots.SimpleRobotRulesParser;
+import hw3.POJO.QueueElement;
 import hw3.json.JsonGenerator;
 import hw3.URLTools.Urlnorm;
 import org.apache.commons.io.IOUtils;
@@ -17,6 +18,7 @@ import org.apache.http.util.EntityUtils;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.BufferedWriter;
@@ -27,6 +29,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import static hw2.start.IndexRunner.getStopList;
 
 /**
  * Created by Sushant on 6/22/2017.
@@ -44,13 +48,20 @@ public class CrawlWebs {
     static BufferedWriter bw = null;
     static java.io.FileWriter fw = null;
 
-    static Queue<String> linkQueue;
-    static LinkedList<String> secondaryQueue = new LinkedList<>();
+//    static Queue<String> linkQueue;
+//    static LinkedList<String> secondaryQueue = new LinkedList<>();
+
+    static Map<String, QueueElement> tempQueueMap = new HashMap<>();
+    static PriorityQueue<QueueElement> linksQueue = new PriorityQueue<>();
     static Map<String, Long> politenessMap = new HashMap<>();
+    static Set<String> relavantList = getStopList("C:\\Users\\Sushant\\Documents\\GitHub\\CS6200_Sushant_Pritmani\\ir\\src\\main\\resources\\wordsList.txt");
 
 
     public static void crawl(ArrayList<String> seedURls, String dir) {
 
+        Set<String> stopList = getStopList("C:\\Users\\Sushant\\Documents\\GitHub\\CS6200_Sushant_Pritmani\\ir\\src\\main\\resources\\stoplist.txt");
+
+        AtomicInteger noOFKey = new AtomicInteger(2);
         File file = new File(dir + "data.txt");
         // if file doesnt exists, then create it
         if (!file.exists()) {
@@ -80,7 +91,6 @@ public class CrawlWebs {
 
                 if (checkRobot(surl)) {
 
-                    visited.add(normalisedURL);
 
                     try {
                         politenessMap.put(new URL(surl).getHost().toLowerCase().replaceFirst("www.", ""), System.currentTimeMillis());
@@ -93,34 +103,63 @@ public class CrawlWebs {
 
                         String fetchedUrl = getFinalRedirectedUrl(Urlnorm.decode(surl));
                         //System.out.println("FetchedURL is:" + Urlnorm.decode(fetchedUrl));
+                        if (!visited.contains(Urlnorm.norm(fetchedUrl))) {
+                            visited.add(Urlnorm.norm(fetchedUrl));
 
-                        Connection.Response response = Jsoup.connect(Urlnorm.decode(fetchedUrl))
-                                //.userAgent("Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:25.0) Gecko/20100101 Firefox/25.0")
-                                .userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/535.2 (KHTML, like Gecko) Chrome/15.0.874.120 Safari/535.2 Firefox/25.0")
-                                .referrer("http://www.google.com")
-                                .timeout(12000)
-                                .followRedirects(true)
-                                .execute();
+                            Connection.Response response = Jsoup.connect(Urlnorm.decode(fetchedUrl))
+                                    //.userAgent("Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:25.0) Gecko/20100101 Firefox/25.0")
+                                    .userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/535.2 (KHTML, like Gecko) Chrome/15.0.874.120 Safari/535.2 Firefox/25.0")
+                                    .referrer("http://www.google.com")
+                                    .timeout(12000)
+                                    .followRedirects(true)
+                                    .execute();
 
-                        if (response.statusCode() == 200) {
+                            if (response.statusCode() == 200) {
 
-                            Document document = response.parse();
+                                Document document = response.parse();
 
-                            Elements links = linkExtractor(document);
+                                Elements links = linkExtractor(document);
 
-                            //Elements links2 = document.select(".g>.r>a");
-                            //absolute Links
-                            LinkedList<String> rel_links = absoulteURL(links);
+                                //Elements links2 = document.select(".g>.r>a");
+                                //absolute Links
+                                LinkedList<String> rel_links = new LinkedList<>();
 
-                            linkQueue = rel_links;
+                                links.stream().forEach(l -> {
 
-                            String jsonFile = JsonGenerator.getJsonObject(document, "hw3", "ssk", response.headers(), rel_links, 0, surl, normalisedURL, document.title());
+                                    String linkAbsoluteURL = l.attr("abs:href");
 
-                            bw.write(jsonFile);
+                                    if (!linkAbsoluteURL.isEmpty()) {
+
+                                        rel_links.add(linkAbsoluteURL);
+
+                                        String linkNormalizedURL = Urlnorm.norm(linkAbsoluteURL);
+
+                                        if (!linkNormalizedURL.equals("INVALID_URL") && !visited.contains(linkNormalizedURL)) {
+                                            if (tempQueueMap.containsKey(linkNormalizedURL)) {
+                                                QueueElement queueElement = tempQueueMap.get(linkNormalizedURL);
+                                                queueElement.increaseInlinks(1);
+                                                tempQueueMap.put(linkNormalizedURL, queueElement);
+
+                                            } else {
+                                                QueueElement queueElement = new QueueElement(linkAbsoluteURL,
+                                                        linkNormalizedURL,
+                                                        1,
+                                                        System.currentTimeMillis(),
+                                                        calculateScore(), getKeywordsCount(l));
+                                                tempQueueMap.put(linkNormalizedURL, queueElement);
+
+                                            }
+                                        }
+                                    }
+                                });
+
+                                String jsonFile = JsonGenerator.getJsonObject(document, "hw3", "ssk", response.headers(), rel_links, 0, surl, normalisedURL, document.title());
+
+                                bw.write(jsonFile);
+
+                            }
 
                         }
-
-
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -128,6 +167,7 @@ public class CrawlWebs {
 
                 }
 
+                visited.add(normalisedURL);
 
             }
 
@@ -135,10 +175,21 @@ public class CrawlWebs {
 
         AtomicInteger depth = new AtomicInteger(1);
 
+        // Dumping tempmap to priority queue
 
-        while (linkQueue.size() > 0 && noOfDocuments.intValue() < 20000) {
+        tempQueueMap.forEach((link, queueElem) -> {
 
-            String poll_url = linkQueue.poll();
+            if (queueElem.getNoOfkeywords() >= noOFKey.get())
+                linksQueue.offer(queueElem);
+
+
+        });
+
+        tempQueueMap.clear();
+
+        while (linksQueue.size() > 0 && noOfDocuments.intValue() < 40000) {
+
+            String poll_url = linksQueue.poll().getURL();
             System.out.println("\nTrying to crawl: " + poll_url + "   depth:" + depth);
             String normalisedURL = Urlnorm.norm(poll_url);
             System.out.println("After nomr: " + normalisedURL);
@@ -159,43 +210,74 @@ public class CrawlWebs {
                         String fetchedUrl = getFinalRedirectedUrl(Urlnorm.decode(poll_url));
                         System.out.println("FetchedURL is:" + Urlnorm.decode(fetchedUrl));
 
-                        Connection.Response response = Jsoup.connect(Urlnorm.decode(fetchedUrl))
-                                //.userAgent("Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:25.0) Gecko/20100101 Firefox/25.0")
-                                .userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/535.2 (KHTML, like Gecko) Chrome/15.0.874.120 Safari/535.2 Firefox/25.0")
-                                .referrer("http://www.google.com")
-                                .timeout(12000)
-                                .followRedirects(true)
-                                .execute();
+                        if (!visited.contains(Urlnorm.norm(fetchedUrl))) {
 
-                        try {
-                            politenessMap.put(new URL(poll_url).getHost().toLowerCase().replaceFirst("www.", ""), System.currentTimeMillis());
-                        } catch (MalformedURLException e) {
-                            e.printStackTrace();
+//                            visited.add(normalisedURL);
+                            visited.add(Urlnorm.norm(fetchedUrl));
+
+                            Connection.Response response = Jsoup.connect(Urlnorm.decode(fetchedUrl))
+                                    //.userAgent("Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:25.0) Gecko/20100101 Firefox/25.0")
+                                    .userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/535.2 (KHTML, like Gecko) Chrome/15.0.874.120 Safari/535.2 Firefox/25.0")
+                                    .referrer("http://www.google.com")
+                                    .timeout(7000)
+                                    .followRedirects(true)
+                                    .execute();
+
+                            try {
+                                politenessMap.put(new URL(poll_url).getHost().toLowerCase().replaceFirst("www.", ""), System.currentTimeMillis());
+                            } catch (MalformedURLException e) {
+                                e.printStackTrace();
+                            }
+
+                            if (response.statusCode() == 200) {
+
+                                Document document = response.parse();
+
+                                Elements links = linkExtractor(document);
+
+                                //Elements links2 = document.select(".g>.r>a");
+                                //absolute Links
+                                LinkedList<String> rel_links = new LinkedList<>();
+
+                                links.stream().forEach(l -> {
+
+                                    String linkAbsoluteURL = l.attr("abs:href");
+
+                                    if (!linkAbsoluteURL.isEmpty()) {
+
+                                        rel_links.add(linkAbsoluteURL);
+
+                                        String linkNormalizedURL = Urlnorm.norm(linkAbsoluteURL);
+
+                                        if (!linkNormalizedURL.equals("INVALID_URL") && !visited.contains(linkNormalizedURL) && !linkNormalizedURL.equals(normalisedURL)) {
+                                            if (tempQueueMap.containsKey(linkNormalizedURL)) {
+                                                QueueElement queueElement = tempQueueMap.get(linkNormalizedURL);
+                                                queueElement.increaseInlinks(1);
+                                                tempQueueMap.put(linkNormalizedURL, queueElement);
+
+                                            } else {
+                                                QueueElement queueElement = new QueueElement(linkAbsoluteURL,
+                                                        linkNormalizedURL,
+                                                        1,
+                                                        System.currentTimeMillis(),
+                                                        calculateScore(), getKeywordsCount(l));
+                                                tempQueueMap.put(linkNormalizedURL, queueElement);
+
+                                            }
+                                        }
+                                    }
+                                });
+
+                                String jsonFile = JsonGenerator.getJsonObject(document, "hw3", "ssk", response.headers(), rel_links, depth.get(), poll_url, Urlnorm.norm(fetchedUrl), document.title());
+
+                                bw.write(jsonFile);
+
+                            }
+
+
+                            noOfDocuments.addAndGet(1);
+                            System.out.println("Crawled number of documents: " + noOfDocuments.get() + "\n");
                         }
-
-                        if (response.statusCode() == 200) {
-
-                            Document document = response.parse();
-
-                            Elements links = linkExtractor(document);
-
-                            //Elements links2 = document.select(".g>.r>a");
-                            //absolute Links
-                            LinkedList<String> rel_links = absoulteURL(links);
-
-                            secondaryQueue.addAll(rel_links);
-
-                            String jsonFile = JsonGenerator.getJsonObject(document, "hw3", "ssk", response.headers(), rel_links, 0, poll_url, normalisedURL, document.title());
-
-                            bw.write(jsonFile);
-
-                        }
-
-
-                        visited.add(Urlnorm.norm(fetchedUrl));
-                        noOfDocuments.addAndGet(1);
-                        System.out.println("Crawled number of documents: " + noOfDocuments.get() + "\n");
-
 
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -210,17 +292,53 @@ public class CrawlWebs {
 
             }
 
-            if (linkQueue.isEmpty()) {
+            if (linksQueue.isEmpty()) {
                 System.out.println("Inside empty");
-                LinkedList<String> temp = new LinkedList<>();
-                temp.addAll(secondaryQueue);
-                linkQueue = temp;
+                //noOFKey.incrementAndGet();
+                tempQueueMap.forEach((link, queueElem) -> {
+
+                    if (queueElem.getNoOfkeywords() >= noOFKey.get())
+                        linksQueue.offer(queueElem);
+
+
+                });
+
+                tempQueueMap.clear();
                 depth.addAndGet(1);
-                secondaryQueue.clear();
+
+
             }
 
         }
 
+    }
+
+    private static Double calculateScore() {
+        return 0.0;
+    }
+
+    private static Integer getKeywordsCount(Element l) {
+        AtomicInteger count = new AtomicInteger(0);
+
+        URL url = null;
+        String path = "";
+        try {
+            url = new URL(Urlnorm.decode(l.attr("abs:href").toLowerCase()));
+            path = Urlnorm.decode(url.getPath());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        String finalPath = path;
+        String text = l.text().toLowerCase();
+        relavantList.stream().forEach(rel -> {
+
+            if (finalPath.contains(rel) || text.contains(rel)) {
+                count.incrementAndGet();
+            }
+        });
+
+        return count.get();
     }
 
     private static void checkForPoliteness(Map<String, Long> politenessMap, String poll_url) {
@@ -235,10 +353,10 @@ public class CrawlWebs {
 
             long diff = System.currentTimeMillis() - politenessMap.get(host);
 
-            if (diff < 1000) {
+            if (diff < 700) {
 
                 try {
-                    Thread.sleep(1000 - diff);
+                    Thread.sleep(700 - diff);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -303,33 +421,41 @@ public class CrawlWebs {
                 + (urlObj.getPort() > -1 ? ":" + urlObj.getPort() : "");
         BaseRobotRules rules = robotsTxtRules.get(hostId);
         if (rules == null) {
-            HttpGet httpget = new HttpGet(hostId + "/robots.txt");
-            HttpContext context = new BasicHttpContext();
-            HttpResponse response = null;
-            try {
-                response = httpclient.execute(httpget, context);
-            } catch (IOException e) {
-                e.printStackTrace();
-                return true;
-            }
-            if (response.getStatusLine() != null && response.getStatusLine().getStatusCode() == 404) {
-                rules = new SimpleRobotRules(SimpleRobotRules.RobotRulesMode.ALLOW_ALL);
-                // consume entity to deallocate connection
-                EntityUtils.consumeQuietly(response.getEntity());
-            } else {
 
+            try {
+                HttpGet httpget = new HttpGet(hostId + "/robots.txt");
+                HttpContext context = new BasicHttpContext();
+                HttpResponse response = null;
                 try {
-                    BufferedHttpEntity entity = new BufferedHttpEntity(response.getEntity());
-                    SimpleRobotRulesParser robotParser = new SimpleRobotRulesParser();
-                    rules = robotParser.parseContent(hostId, IOUtils.toByteArray(entity.getContent()),
-                            "text/plain", USER_AGENT);
+                    response = httpclient.execute(httpget, context);
                 } catch (IOException e) {
                     e.printStackTrace();
                     return true;
                 }
+                if (response.getStatusLine() != null && response.getStatusLine().getStatusCode() == 404) {
+                    rules = new SimpleRobotRules(SimpleRobotRules.RobotRulesMode.ALLOW_ALL);
+                    // consume entity to deallocate connection
+                    EntityUtils.consumeQuietly(response.getEntity());
+                } else {
+
+                    try {
+                        BufferedHttpEntity entity = new BufferedHttpEntity(response.getEntity());
+                        SimpleRobotRulesParser robotParser = new SimpleRobotRulesParser();
+                        rules = robotParser.parseContent(hostId, IOUtils.toByteArray(entity.getContent()),
+                                "text/plain", USER_AGENT);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        return true;
+                    }
+                }
+                robotsTxtRules.put(hostId, rules);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-            robotsTxtRules.put(hostId, rules);
         }
+        if (rules == null)
+            return true;
+
         boolean urlAllowed = rules.isAllowed(url);
 
         return urlAllowed;
@@ -340,6 +466,7 @@ public class CrawlWebs {
 
         HttpURLConnection connection;
         String finalUrl = url;
+        int count =0;
         try {
             do {
                 connection = (HttpURLConnection) new URL(finalUrl)
@@ -352,7 +479,6 @@ public class CrawlWebs {
                 if (responseCode >= 300 && responseCode < 400) {
 
 
-
                     String redirectedUrl = connection.getHeaderField("Location");
                     URL url1 = connection.getURL();
                     if (redirectedUrl.startsWith("/"))
@@ -362,9 +488,10 @@ public class CrawlWebs {
                     if (redirectedUrl.startsWith("www"))
                         redirectedUrl = "http://" + redirectedUrl;
 
-                    if (null == redirectedUrl)
+                    if (null == redirectedUrl || count==5)
                         break;
                     finalUrl = redirectedUrl;
+                    count+=1;
                     //System.out.println("redirected url: " + finalUrl);
                 } else
                     break;
