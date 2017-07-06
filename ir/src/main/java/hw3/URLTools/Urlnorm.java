@@ -129,7 +129,7 @@ public class Urlnorm {
 
     public static void main(String[] args) throws Exception {
 
-        System.out.println(norm( "https://web.archive.org/web/20061126122254/https://www.brookings.edu/metro/immigration.htm"));
+        System.out.println(norm( ""));
     }
 
     public static String encode(String poll_url) {

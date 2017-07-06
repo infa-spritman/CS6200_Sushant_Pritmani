@@ -50,6 +50,8 @@ public class CrawlRunner {
 
 
 
+//        seedURls.add("https://en.wikipedia.org/wiki/Illegal_immigrant");
+//        seedURls.add("http://en.wikipedia.org/wiki/Immigration_to_the_United_States");
 
 
 //          seedURls.add("http://www.ncsl.org/research/immigration/states-offering-driver-s-licenses-to-immigrants.aspx");

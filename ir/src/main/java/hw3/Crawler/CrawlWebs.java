@@ -44,7 +44,7 @@ public class CrawlWebs {
             "|rm|smil|wmv|swf|wma|zip|rar|gz|csv|xls|ppt|doc|docx|exe|dmg|midi|mid|qt|txt|ram|json))$)" +
             ":not([href~=(?i)^#])";
 
-
+    static long delay = 700;
     static BufferedWriter bw = null;
     static java.io.FileWriter fw = null;
 
@@ -103,14 +103,14 @@ public class CrawlWebs {
 
                         String fetchedUrl = getFinalRedirectedUrl(Urlnorm.decode(surl));
                         //System.out.println("FetchedURL is:" + Urlnorm.decode(fetchedUrl));
-                        if (!visited.contains(Urlnorm.norm(fetchedUrl))) {
-                            visited.add(Urlnorm.norm(fetchedUrl));
+                        String normFetch = Urlnorm.norm(fetchedUrl);
+                        if (!visited.contains(normFetch)) {
 
                             Connection.Response response = Jsoup.connect(Urlnorm.decode(fetchedUrl))
                                     //.userAgent("Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:25.0) Gecko/20100101 Firefox/25.0")
                                     .userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/535.2 (KHTML, like Gecko) Chrome/15.0.874.120 Safari/535.2 Firefox/25.0")
-                                    .referrer("http://www.google.com")
-                                    .timeout(12000)
+                                    //.referrer("http://www.google.com")
+                                    .timeout(7000)
                                     .followRedirects(true)
                                     .execute();
 
@@ -118,48 +118,65 @@ public class CrawlWebs {
 
                                 Document document = response.parse();
 
-                                Elements links = linkExtractor(document);
+                                String attrCannoical = document.select("head link[rel=\"canonical\"]").attr("abs:href");
 
-                                //Elements links2 = document.select(".g>.r>a");
-                                //absolute Links
-                                LinkedList<String> rel_links = new LinkedList<>();
+                                String canocialTag = Urlnorm.norm(attrCannoical);
 
-                                links.stream().forEach(l -> {
 
-                                    String linkAbsoluteURL = l.attr("abs:href");
+                                if (attrCannoical.equals("") || (!visited.contains(canocialTag) && !canocialTag.equals("INVALID_URL"))) {
 
-                                    if (!linkAbsoluteURL.isEmpty()) {
+                                    visited.add(canocialTag);
 
-                                        rel_links.add(linkAbsoluteURL);
+                                    Elements links = linkExtractor(document);
 
-                                        String linkNormalizedURL = Urlnorm.norm(linkAbsoluteURL);
+                                    //Elements links2 = document.select(".g>.r>a");
+                                    //absolute Links
+                                    LinkedList<String> rel_links = new LinkedList<>();
 
-                                        if (!linkNormalizedURL.equals("INVALID_URL") && !visited.contains(linkNormalizedURL)) {
-                                            if (tempQueueMap.containsKey(linkNormalizedURL)) {
-                                                QueueElement queueElement = tempQueueMap.get(linkNormalizedURL);
-                                                queueElement.increaseInlinks(1);
-                                                tempQueueMap.put(linkNormalizedURL, queueElement);
+                                    links.stream().forEach(l -> {
 
-                                            } else {
-                                                QueueElement queueElement = new QueueElement(linkAbsoluteURL,
-                                                        linkNormalizedURL,
-                                                        1,
-                                                        System.currentTimeMillis(),
-                                                        calculateScore(), getKeywordsCount(l));
-                                                tempQueueMap.put(linkNormalizedURL, queueElement);
+                                        String linkAbsoluteURL = l.attr("abs:href");
 
+                                        if (!linkAbsoluteURL.isEmpty() && !linkAbsoluteURL.toLowerCase().contains("web.archive")) {
+
+                                            rel_links.add(linkAbsoluteURL);
+
+                                            String linkNormalizedURL = Urlnorm.norm(linkAbsoluteURL);
+
+                                            if (!linkNormalizedURL.equals("INVALID_URL") && !visited.contains(linkNormalizedURL)) {
+                                                if (tempQueueMap.containsKey(linkNormalizedURL)) {
+                                                    QueueElement queueElement = tempQueueMap.get(linkNormalizedURL);
+                                                    queueElement.increaseInlinks(1);
+                                                    tempQueueMap.put(linkNormalizedURL, queueElement);
+
+                                                } else {
+                                                    QueueElement queueElement = new QueueElement(linkAbsoluteURL,
+                                                            linkNormalizedURL,
+                                                            1,
+                                                            System.currentTimeMillis(),
+                                                            calculateScore(), getKeywordsCount(l));
+                                                    tempQueueMap.put(linkNormalizedURL, queueElement);
+
+                                                }
                                             }
                                         }
-                                    }
-                                });
+                                    });
+                                    String jsonFile = "invalid_data";
+                                    if (attrCannoical.equals(""))
+                                        jsonFile = JsonGenerator.getJsonObject(document, "hw3", "ssk", response.headers(), rel_links, 0, surl, normFetch, document.title());
 
-                                String jsonFile = JsonGenerator.getJsonObject(document, "hw3", "ssk", response.headers(), rel_links, 0, surl, normalisedURL, document.title());
+                                    jsonFile = JsonGenerator.getJsonObject(document, "hw3", "ssk", response.headers(), rel_links, 0, surl, canocialTag, document.title());
+                                    bw.write(jsonFile);
+                                }
 
-                                bw.write(jsonFile);
 
                             }
 
                         }
+
+                        visited.add(normFetch);
+
+
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -167,9 +184,10 @@ public class CrawlWebs {
 
                 }
 
-                visited.add(normalisedURL);
 
             }
+
+            visited.add(normalisedURL);
 
         });
 
@@ -187,7 +205,7 @@ public class CrawlWebs {
 
         tempQueueMap.clear();
 
-        while (linksQueue.size() > 0 && noOfDocuments.intValue() < 40000) {
+        while (linksQueue.size() > 0 && noOfDocuments.intValue() < 50000) {
 
             String poll_url = linksQueue.poll().getURL();
             System.out.println("\nTrying to crawl: " + poll_url + "   depth:" + depth);
@@ -199,21 +217,19 @@ public class CrawlWebs {
 
                 if (checkRobot(poll_url)) {
 
-                    System.out.println("After checking robot: " + poll_url);
 
                     try {
 
                         checkForPoliteness(politenessMap, poll_url);
 
-                        System.out.println("Crawling url(after politecheck) : " + poll_url);
 
                         String fetchedUrl = getFinalRedirectedUrl(Urlnorm.decode(poll_url));
                         System.out.println("FetchedURL is:" + Urlnorm.decode(fetchedUrl));
-
-                        if (!visited.contains(Urlnorm.norm(fetchedUrl))) {
+                        String normFetch = Urlnorm.norm(fetchedUrl);
+                        if (!visited.contains(Urlnorm.norm(normFetch))) {
 
 //                            visited.add(normalisedURL);
-                            visited.add(Urlnorm.norm(fetchedUrl));
+                            //visited.add(Urlnorm.norm(fetchedUrl));
 
                             Connection.Response response = Jsoup.connect(Urlnorm.decode(fetchedUrl))
                                     //.userAgent("Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:25.0) Gecko/20100101 Firefox/25.0")
@@ -222,6 +238,7 @@ public class CrawlWebs {
                                     .timeout(7000)
                                     .followRedirects(true)
                                     .execute();
+
 
                             try {
                                 politenessMap.put(new URL(poll_url).getHost().toLowerCase().replaceFirst("www.", ""), System.currentTimeMillis());
@@ -233,52 +250,68 @@ public class CrawlWebs {
 
                                 Document document = response.parse();
 
-                                Elements links = linkExtractor(document);
 
-                                //Elements links2 = document.select(".g>.r>a");
-                                //absolute Links
-                                LinkedList<String> rel_links = new LinkedList<>();
+                                String attrCannoical = document.select("head link[rel=\"canonical\"]").attr("abs:href");
 
-                                links.stream().forEach(l -> {
+                                String canocialTag = Urlnorm.norm(attrCannoical);
 
-                                    String linkAbsoluteURL = l.attr("abs:href");
+                                if (attrCannoical.equals("") || (!visited.contains(canocialTag) && !canocialTag.equals("INVALID_URL"))) {
 
-                                    if (!linkAbsoluteURL.isEmpty()) {
+                                    visited.add(canocialTag);
 
-                                        rel_links.add(linkAbsoluteURL);
+                                    Elements links = linkExtractor(document);
 
-                                        String linkNormalizedURL = Urlnorm.norm(linkAbsoluteURL);
+                                    //Elements links2 = document.select(".g>.r>a");
+                                    //absolute Links
+                                    LinkedList<String> rel_links = new LinkedList<>();
 
-                                        if (!linkNormalizedURL.equals("INVALID_URL") && !visited.contains(linkNormalizedURL) && !linkNormalizedURL.equals(normalisedURL)) {
-                                            if (tempQueueMap.containsKey(linkNormalizedURL)) {
-                                                QueueElement queueElement = tempQueueMap.get(linkNormalizedURL);
-                                                queueElement.increaseInlinks(1);
-                                                tempQueueMap.put(linkNormalizedURL, queueElement);
+                                    links.stream().forEach(l -> {
 
-                                            } else {
-                                                QueueElement queueElement = new QueueElement(linkAbsoluteURL,
-                                                        linkNormalizedURL,
-                                                        1,
-                                                        System.currentTimeMillis(),
-                                                        calculateScore(), getKeywordsCount(l));
-                                                tempQueueMap.put(linkNormalizedURL, queueElement);
+                                        String linkAbsoluteURL = l.attr("abs:href");
 
+                                        if (!linkAbsoluteURL.isEmpty() && !linkAbsoluteURL.toLowerCase().contains("web.archive")) {
+
+                                            rel_links.add(linkAbsoluteURL);
+
+                                            String linkNormalizedURL = Urlnorm.norm(linkAbsoluteURL);
+
+                                            if (!linkNormalizedURL.equals("INVALID_URL") && !visited.contains(linkNormalizedURL) && !linkNormalizedURL.equals(normalisedURL)) {
+                                                if (tempQueueMap.containsKey(linkNormalizedURL)) {
+                                                    QueueElement queueElement = tempQueueMap.get(linkNormalizedURL);
+                                                    queueElement.increaseInlinks(1);
+                                                    tempQueueMap.put(linkNormalizedURL, queueElement);
+
+                                                } else {
+                                                    QueueElement queueElement = new QueueElement(linkAbsoluteURL,
+                                                            linkNormalizedURL,
+                                                            1,
+                                                            System.currentTimeMillis(),
+                                                            calculateScore(), getKeywordsCount(l));
+                                                    tempQueueMap.put(linkNormalizedURL, queueElement);
+
+                                                }
                                             }
                                         }
-                                    }
-                                });
+                                    });
 
-                                String jsonFile = JsonGenerator.getJsonObject(document, "hw3", "ssk", response.headers(), rel_links, depth.get(), poll_url, Urlnorm.norm(fetchedUrl), document.title());
+                                    String jsonFile = "invalid_data";
+                                    if (attrCannoical.equals(""))
+                                        jsonFile = JsonGenerator.getJsonObject(document, "hw3", "ssk", response.headers(), rel_links, depth.get(), fetchedUrl, normFetch, document.title());
+                                    else
+                                        jsonFile = JsonGenerator.getJsonObject(document, "hw3", "ssk", response.headers(), rel_links, depth.get(), fetchedUrl, canocialTag, document.title());
 
-                                bw.write(jsonFile);
 
+                                    bw.write(jsonFile);
+
+                                    noOfDocuments.addAndGet(1);
+                                    System.out.println("Crawled number of documents: " + noOfDocuments.get() + "\n");
+
+                                }
                             }
 
 
-                            noOfDocuments.addAndGet(1);
-                            System.out.println("Crawled number of documents: " + noOfDocuments.get() + "\n");
                         }
-
+                        visited.add(normFetch);
                     } catch (Exception e) {
                         e.printStackTrace();
                         System.out.println("Inside exceptioon");
@@ -287,17 +320,17 @@ public class CrawlWebs {
 
                 }
 
-                visited.add(normalisedURL);
-
 
             }
+
+            visited.add(normalisedURL);
 
             if (linksQueue.isEmpty()) {
                 System.out.println("Inside empty");
                 //noOFKey.incrementAndGet();
                 tempQueueMap.forEach((link, queueElem) -> {
 
-                    if (queueElem.getNoOfkeywords() >= noOFKey.get())
+                    if (queueElem.getNoOfkeywords() >= 3)
                         linksQueue.offer(queueElem);
 
 
@@ -353,10 +386,10 @@ public class CrawlWebs {
 
             long diff = System.currentTimeMillis() - politenessMap.get(host);
 
-            if (diff < 700) {
+            if (diff < delay) {
 
                 try {
-                    Thread.sleep(700 - diff);
+                    Thread.sleep(delay - diff);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -453,10 +486,18 @@ public class CrawlWebs {
                 e.printStackTrace();
             }
         }
-        if (rules == null)
+        if (rules == null) {
+            delay = 700;
             return true;
-
+        }
         boolean urlAllowed = rules.isAllowed(url);
+        long crawlDelay = rules.getCrawlDelay();
+        if (crawlDelay < 0) {
+            delay = 700;
+        } else {
+            delay = crawlDelay;
+        }
+
 
         return urlAllowed;
 
@@ -466,7 +507,7 @@ public class CrawlWebs {
 
         HttpURLConnection connection;
         String finalUrl = url;
-        int count =0;
+        int count = 0;
         try {
             do {
                 connection = (HttpURLConnection) new URL(finalUrl)
@@ -488,10 +529,10 @@ public class CrawlWebs {
                     if (redirectedUrl.startsWith("www"))
                         redirectedUrl = "http://" + redirectedUrl;
 
-                    if (null == redirectedUrl || count==5)
+                    if (null == redirectedUrl || count == 5)
                         break;
                     finalUrl = redirectedUrl;
-                    count+=1;
+                    count += 1;
                     //System.out.println("redirected url: " + finalUrl);
                 } else
                     break;
@@ -507,7 +548,8 @@ public class CrawlWebs {
     public static void main(String[] args) {
 
         boolean b = checkRobot(" http://facebook.com/charismanews");
-        System.out.println(b);
+        checkRobot("http://www.csnchicago.com/user");
+
 
     }
 }

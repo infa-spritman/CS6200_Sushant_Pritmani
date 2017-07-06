@@ -38,9 +38,9 @@ public class Merger {
         if (_Tclient == null) {
 
             try {
-//                Settings settings = Settings.builder()
-//                        .put("cluster.name", "bazinga").build();
-                _Tclient = new PreBuiltTransportClient(Settings.EMPTY)
+                Settings settings = Settings.builder()
+                        .put("cluster.name", "bazinga").build();
+                _Tclient = new PreBuiltTransportClient(settings)
                         .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("localhost"), 9300));
 
 
@@ -65,9 +65,9 @@ public class Merger {
 
             if (response.isExists()) {
 
-                System.out.println("\nTrying to merge DocNo: " + docNo);
+                System.out.println("Trying to merge DocNo: " + docNo);
 
-                String newAuthor = response.getSource().get("author") + " Sushant";
+                String newAuthor = response.getSource().get("author").toString() + " Saurin";
 
                 UpdateRequest updateRequest = new UpdateRequest(indexName, type, docNo)
                         .script(new Script("ctx._source.author = \"" + newAuthor + "\"")).timeout("5000ms");
@@ -83,7 +83,7 @@ public class Merger {
 
             } else {
 
-                System.out.println("\nTrying to insert DocNo: " + docNo);
+                System.out.println("Trying to insert DocNo: " + docNo);
                 IndexResponse indexResponse = client.prepareIndex(indexName, type,docNo)
                         .setSource(JSON)
                         .get();
@@ -113,7 +113,7 @@ public class Merger {
 
         Set<String> visited = new HashSet<>();
 
-        String filePath = "C:\\Users\\Sushant\\Desktop\\IR\\ResultAssignment3\\data.txt";
+        String filePath = "C:\\Users\\Sushant\\Desktop\\IR\\ResultAssignment3\\Try20k.json";
 
         ObjectMapper mapper = new ObjectMapper();
 
@@ -131,13 +131,13 @@ public class Merger {
 //                    String docno = jsonNode.get("docno").toString();
 //                    String docno1 = jsonNode.get("docno").asText();
                     String normURl  = jsonNode.get("docno").asText().toLowerCase();
+                    System.out.println("\nData from Stored:" + normURl);
+                    if(!visited.contains(normURl) && !normURl.equals("invalid_url")) {
 
-                    if(!visited.contains(normURl)) {
-
-                        getAuthor("test", "document", jsonNode.get("docno").asText(), line);
+                        getAuthor("mi", "document", normURl, line);
                         visited.add(normURl);
                     }
-                } catch (IOException e) {
+                }catch (IOException e) {
                     e.printStackTrace();
                 }
 
