@@ -1,4 +1,4 @@
-package hw3.MergeWriter;
+package hw4;
 
 import hw3.URLTools.Urlnorm;
 import org.elasticsearch.action.search.SearchResponse;
@@ -17,9 +17,9 @@ import java.net.UnknownHostException;
 import java.util.*;
 
 /**
- * Created by Sushant on 7/3/2017.
+ * Created by Sushant on 7/11/2017.
  */
-public class LinkGraphGenerator {
+public class LinkGraphOutlinkGenerator {
 
 
     private static Client _Tclient = null;
@@ -44,19 +44,19 @@ public class LinkGraphGenerator {
     }
 
     public static void generate(String dir, String indexName, String type) {
-        Map<String, Set<String>> inlink = new HashMap<>();
+        Map<String, Set<String>> outlink = new HashMap<>();
 
         Client client = null;
         BufferedWriter bw = null;
         java.io.FileWriter fw = null;
         int count = 0;
-        String finalGraphPath = dir + "linkgraph.txt";
+        String finalGraphPath = dir + "out-linkgraph.txt";
         try {
 
             client = getTransportESClient();
             SearchResponse scrollResp = client.prepareSearch(indexName)
                     .setTypes(type)
-                    .setFetchSource(new String[]{"docno", "out_links","url"}, null)
+                    .setFetchSource(new String[]{"docno", "out_links", "url"}, null)
                     .setScroll(new TimeValue(60000))
                     .setSize(10000)
                     .execute().actionGet();
@@ -77,26 +77,31 @@ public class LinkGraphGenerator {
                     if (!docno.equals("invalid_url")) {
 
                         List<String> out_links = (List<String>) map.get("out_links");
+                        HashSet temp = new HashSet();
 
-                        out_links.stream().forEach(outlink ->{
+                        out_links.stream().forEach(ol -> {
 
-                            String normOutlink = Urlnorm.norm(outlink).toLowerCase();
+                            String normOutlink = Urlnorm.norm(ol).toLowerCase();
 
-                            if(!normOutlink.equals("invalid_url")){
+                            if (!normOutlink.equals("invalid_url")) {
 
-                                if(inlink.containsKey(normOutlink)){
-                                    Set<String> strings = inlink.get(normOutlink);
-                                    strings.add(docno);
-                                    inlink.put(normOutlink,strings);
-
-                                }else{
-                                    inlink.put(normOutlink,new HashSet<String>(Arrays.asList(docno)));
-                                }
-
+                                temp.add(normOutlink);
                             }
 
 
                         });
+
+                        if (outlink.containsKey(docno)) {
+                            Set<String> strings = outlink.get(docno);
+                            strings.addAll(temp);
+                            outlink.put(docno, strings);
+
+                        } else {
+
+                            outlink.put(docno, temp);
+                        }
+
+
                     }
 
                 }
@@ -117,11 +122,11 @@ public class LinkGraphGenerator {
             bw = new BufferedWriter(fw);
 
             BufferedWriter finalBw = bw;
-            inlink.forEach((docId, inlinkSet)->{
+            outlink.forEach((docId, outlinkSet) -> {
                 StringBuilder sb = new StringBuilder();
                 sb.append(docId + " ");
-                inlinkSet.stream().forEach(ot->{
-                    sb.append(ot+ " ");
+                outlinkSet.stream().forEach(ot -> {
+                    sb.append(ot + " ");
                 });
 
                 sb.append("\n");
@@ -132,7 +137,6 @@ public class LinkGraphGenerator {
                 }
 
             });
-
 
 
         } catch (Exception e) {
@@ -152,5 +156,6 @@ public class LinkGraphGenerator {
         generate("C:\\Users\\Sushant\\Desktop\\IR\\ResultAssignment3\\", "mi", "document");
 
     }
+
 
 }

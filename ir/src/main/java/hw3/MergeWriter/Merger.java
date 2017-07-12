@@ -67,7 +67,7 @@ public class Merger {
 
                 System.out.println("Trying to merge DocNo: " + docNo);
 
-                String newAuthor = response.getSource().get("author").toString() + " Saurin";
+                String newAuthor = response.getSource().get("author").toString() + " Sushant";
 
                 UpdateRequest updateRequest = new UpdateRequest(indexName, type, docNo)
                         .script(new Script("ctx._source.author = \"" + newAuthor + "\"")).timeout("5000ms");

@@ -29,7 +29,7 @@ public class Urlnorm {
     public static String norm(String url) {
 
         try {
-            URL url1 = new URL(decode(url));
+            URL url1 = new URL(url);
             return normalizeUrl(url1);
 
         } catch (Exception e) {
@@ -63,8 +63,8 @@ public class Urlnorm {
         if(url1.getPath() != null && !url1.getPath().isEmpty())
             sb.append(normPath(url1.getPath()));
 
-        if(url1.getQuery()!= null && !url1.getQuery().isEmpty())
-            sb.append("?"+ url1.getQuery());
+//        if(url1.getQuery()!= null && !url1.getQuery().isEmpty())
+//            sb.append("?"+ url1.getQuery());
 
 //        if(host.contains("google") && url1.getRef()!= null && !url1.getRef().isEmpty())
 //            sb.append("#"+url1.getRef());
