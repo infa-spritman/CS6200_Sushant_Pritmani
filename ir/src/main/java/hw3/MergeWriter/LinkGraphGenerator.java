@@ -50,7 +50,7 @@ public class LinkGraphGenerator {
         BufferedWriter bw = null;
         java.io.FileWriter fw = null;
         int count = 0;
-        String finalGraphPath = dir + "linkgraph.txt";
+        String finalGraphPath = dir + "Inlinkgraph_deli.txt";
         try {
 
             client = getTransportESClient();
@@ -119,9 +119,9 @@ public class LinkGraphGenerator {
             BufferedWriter finalBw = bw;
             inlink.forEach((docId, inlinkSet)->{
                 StringBuilder sb = new StringBuilder();
-                sb.append(docId + " ");
+                sb.append(docId + "<:>");
                 inlinkSet.stream().forEach(ot->{
-                    sb.append(ot+ " ");
+                    sb.append(ot+ "<:>");
                 });
 
                 sb.append("\n");

@@ -15,6 +15,15 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
 import org.apache.http.util.EntityUtils;
+import org.elasticsearch.action.get.GetResponse;
+import org.elasticsearch.action.index.IndexResponse;
+import org.elasticsearch.action.update.UpdateRequest;
+import org.elasticsearch.action.update.UpdateResponse;
+import org.elasticsearch.client.Client;
+import org.elasticsearch.common.settings.Settings;
+import org.elasticsearch.common.transport.InetSocketTransportAddress;
+import org.elasticsearch.script.Script;
+import org.elasticsearch.transport.client.PreBuiltTransportClient;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -24,9 +33,7 @@ import org.jsoup.select.Elements;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.*;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -47,6 +54,9 @@ public class CrawlWebs {
     static long delay = 700;
     static BufferedWriter bw = null;
     static java.io.FileWriter fw = null;
+
+    private static Client _Tclient = null;
+
 
 //    static Queue<String> linkQueue;
 //    static LinkedList<String> secondaryQueue = new LinkedList<>();
@@ -162,11 +172,14 @@ public class CrawlWebs {
                                         }
                                     });
                                     String jsonFile = "invalid_data";
-                                    if (attrCannoical.equals(""))
+                                    if (attrCannoical.equals("")) {
                                         jsonFile = JsonGenerator.getJsonObject(document, "hw3", "ssk", response.headers(), rel_links, 0, surl, normFetch, document.title());
+                                        getAuthor("ssk", "document", normFetch, jsonFile);
+                                    } else {
+                                        jsonFile = JsonGenerator.getJsonObject(document, "hw3", "ssk", response.headers(), rel_links, 0, surl, canocialTag, document.title());
+                                        getAuthor("ssk", "document", canocialTag, jsonFile);
 
-                                    jsonFile = JsonGenerator.getJsonObject(document, "hw3", "ssk", response.headers(), rel_links, 0, surl, canocialTag, document.title());
-                                    bw.write(jsonFile);
+                                    }
                                 }
 
 
@@ -295,10 +308,14 @@ public class CrawlWebs {
                                     });
 
                                     String jsonFile = "invalid_data";
-                                    if (attrCannoical.equals(""))
-                                        jsonFile = JsonGenerator.getJsonObject(document, "hw3", "ssk", response.headers(), rel_links, depth.get(), fetchedUrl, normFetch, document.title());
-                                    else
-                                        jsonFile = JsonGenerator.getJsonObject(document, "hw3", "ssk", response.headers(), rel_links, depth.get(), fetchedUrl, canocialTag, document.title());
+                                    if (attrCannoical.equals("")) {
+                                        jsonFile = JsonGenerator.getJsonObject(document, "hw3", "ssk", response.headers(), rel_links, 0, poll_url, normFetch, document.title());
+                                        getAuthor("ssk", "document", normFetch, jsonFile);
+                                    } else {
+                                        jsonFile = JsonGenerator.getJsonObject(document, "hw3", "ssk", response.headers(), rel_links, 0, poll_url, canocialTag, document.title());
+                                        getAuthor("ssk", "document", canocialTag, jsonFile);
+
+                                    }
 
 
                                     bw.write(jsonFile);
@@ -544,6 +561,78 @@ public class CrawlWebs {
         return finalUrl;
     }
 
+    private static Client getTransportESClient() {
+        if (_Tclient == null) {
+
+            try {
+                Settings settings = Settings.builder()
+                        .put("cluster.name", "bazinga").build();
+                _Tclient = new PreBuiltTransportClient(settings)
+                        .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("localhost"), 9300));
+
+
+            } catch (UnknownHostException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return _Tclient;
+    }
+
+    public static String getAuthor(String indexName, String type, String docNo, String JSON) {
+        Client client = null;
+
+        try {
+            client = getTransportESClient();
+
+            GetResponse response = client.prepareGet(indexName, type, docNo)
+                    .setFetchSource(new String[]{"docno", "author"}, null)
+                    .get();
+
+
+            if (response.isExists()) {
+
+                System.out.println("Trying to merge DocNo: " + docNo);
+
+                String newAuthor = response.getSource().get("author").toString() + " Sushant";
+
+                UpdateRequest updateRequest = new UpdateRequest(indexName, type, docNo)
+                        .script(new Script("ctx._source.author = \"" + newAuthor + "\"")).timeout("5000ms");
+
+                UpdateResponse updateResponse = client.update(updateRequest).get();
+
+                if (updateResponse.status().getStatus() == 200)
+                    System.out.println("Merged Successfully, DocNo: " + docNo);
+                else
+                    System.out.println("Failed to Merge, DocNo: " + docNo);
+
+                //mergedOne.incrementAndGet();
+
+            } else {
+
+                System.out.println("Trying to insert DocNo: " + docNo);
+                IndexResponse indexResponse = client.prepareIndex(indexName, type, docNo)
+                        .setSource(JSON)
+                        .get();
+//                System.out.println(indexResponse.status());
+//                System.out.println(indexResponse.status().getStatus());
+                if (indexResponse.status().getStatus() == 201)
+                    System.out.println("Indexed Successfully, DocNo: " + docNo);
+                else
+                    System.out.println("Failed to Index, DocNo: " + docNo);
+
+                //insertOne.incrementAndGet();
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+
+        }
+
+        return null;
+    }
 
     public static void main(String[] args) {
 

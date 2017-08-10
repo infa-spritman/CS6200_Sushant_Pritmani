@@ -12,6 +12,9 @@ import org.elasticsearch.index.query.MatchQueryBuilder;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.transport.client.PreBuiltTransportClient;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.*;
@@ -97,7 +100,44 @@ public class HITS {
 
     private static void updateBaseSet() {
 
+    }
 
+    private static void writeRootSetToFile(String path) {
+
+        BufferedWriter bw = null;
+        java.io.FileWriter fw = null;
+
+        String rootSet = path + "root-set.txt";
+
+        File file = new File(rootSet);
+        try {
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+
+            fw = new java.io.FileWriter(file.getAbsoluteFile(), true);
+            bw = new BufferedWriter(fw);
+
+            BufferedWriter finalBw = bw;
+            RootSet.forEach(rt->{
+                try {
+                    finalBw.write(rt + "\n");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            });
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            try {
+                bw.close();
+                fw.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 
@@ -107,12 +147,14 @@ public class HITS {
         updateRoot("immigration donald trump", "mi", "document");
         updateRoot("immigration obama", "mi", "document");
 
-        System.out.println(RootSet.size());
+        writeRootSetToFile("C:\\Users\\Sushant\\Desktop\\IR\\ResultAssignment3\\");
 
 
-        updateBaseSet();
+
 
 
     }
+
+
 
 }

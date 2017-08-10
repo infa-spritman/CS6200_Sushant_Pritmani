@@ -24,6 +24,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
 
 /**
@@ -32,6 +33,10 @@ import java.util.stream.Stream;
 public class Merger {
 
     private static Client _Tclient = null;
+
+    static AtomicInteger mergedOne  = new AtomicInteger(0);
+    static AtomicInteger insertOne  = new AtomicInteger(0);
+
 
 
     private static Client getTransportESClient() {
@@ -79,7 +84,7 @@ public class Merger {
                 else
                     System.out.println("Failed to Merge, DocNo: " + docNo);
 
-
+                mergedOne.incrementAndGet();
 
             } else {
 
@@ -93,6 +98,8 @@ public class Merger {
                     System.out.println( "Indexed Successfully, DocNo: " + docNo);
                 else
                     System.out.println("Failed to Index, DocNo: " + docNo);
+
+                insertOne.incrementAndGet();
 
             }
 
@@ -113,7 +120,7 @@ public class Merger {
 
         Set<String> visited = new HashSet<>();
 
-        String filePath = "C:\\Users\\Sushant\\Desktop\\IR\\ResultAssignment3\\Try20k.json";
+        String filePath = "C:\\Users\\Sushant\\Desktop\\IR\\ResultAssignment3\\data_3keywords_350000_withNofollow_to_be_added_2.txt";
 
         ObjectMapper mapper = new ObjectMapper();
 
@@ -134,7 +141,9 @@ public class Merger {
                     System.out.println("\nData from Stored:" + normURl);
                     if(!visited.contains(normURl) && !normURl.equals("invalid_url")) {
 
-                        getAuthor("mi", "document", normURl, line);
+                        if(visited.size()>500)
+                            System.out.println("done");
+                        getAuthor("demo", "document", normURl, line);
                         visited.add(normURl);
                     }
                 }catch (IOException e) {
@@ -149,6 +158,8 @@ public class Merger {
                 _Tclient.close();
 
             System.out.println(visited.size());
+            System.out.println(mergedOne.get());
+            System.out.println(insertOne.get());
         }
 
     }

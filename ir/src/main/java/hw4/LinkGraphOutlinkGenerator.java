@@ -50,7 +50,7 @@ public class LinkGraphOutlinkGenerator {
         BufferedWriter bw = null;
         java.io.FileWriter fw = null;
         int count = 0;
-        String finalGraphPath = dir + "out-linkgraph.txt";
+        String finalGraphPath = dir + "out-linkgraph_deli.txt";
         try {
 
             client = getTransportESClient();
@@ -63,15 +63,7 @@ public class LinkGraphOutlinkGenerator {
             do {
                 for (SearchHit hit : scrollResp.getHits().getHits()) {
                     Map map = hit.getSource();
-//                    if(map.get("author").equals("Sushant"))
-//                        count = count +1;
-//
-//                    System.out.println(count);
-//                    StringBuilder sb = new StringBuilder();
-//                    sb.append(map.get("docno")+ " ");
-//                    sb.append(map.get("out_links") + "\n");
-//
-//                    bw.write(sb.toString());
+
                     String docno = Urlnorm.norm(map.get("url").toString()).toLowerCase();
 
                     if (!docno.equals("invalid_url")) {
@@ -124,9 +116,9 @@ public class LinkGraphOutlinkGenerator {
             BufferedWriter finalBw = bw;
             outlink.forEach((docId, outlinkSet) -> {
                 StringBuilder sb = new StringBuilder();
-                sb.append(docId + " ");
+                sb.append(docId + "<:>");
                 outlinkSet.stream().forEach(ot -> {
-                    sb.append(ot + " ");
+                    sb.append(ot + "<:>");
                 });
 
                 sb.append("\n");
