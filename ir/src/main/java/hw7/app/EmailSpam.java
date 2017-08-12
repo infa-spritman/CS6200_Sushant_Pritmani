@@ -7,8 +7,12 @@ import hw2.Searching.Search;
 import hw7.config.PropConfig;
 import hw7.feature.Ngram;
 import org.apache.commons.io.FileUtils;
+import org.apache.lucene.index.PostingsEnum;
+import org.apache.lucene.index.Terms;
+import org.apache.lucene.index.TermsEnum;
 import org.apache.poi.ss.formula.functions.IDStarAlgorithm;
 import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.action.termvectors.TermVectorsResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
@@ -94,7 +98,7 @@ public class EmailSpam {
 
         Set<Ngram> ngramSet = new HashSet<Ngram>();
 
-//        ngramSet.addAll(collectNgram(prop,trainIDs));
+        ngramSet.addAll(collectNgram(prop,trainIDs));
 
 //        if(prop.getBoolean("train.feature.filterBykeywords"))
 //            ngramSet = keywordFilter(prop,ngramSet);
@@ -129,7 +133,7 @@ public class EmailSpam {
         return ngrams;
     }
 
-    private static Set<Ngram> collectNgram(PropConfig prop, String[] trainIDs) {
+    private static Set<Ngram> collectNgram(PropConfig prop, String[] trainIDs) throws IOException {
 
         File featureFolder = new File(prop.getString("output.folder"),"meta_data");
         featureFolder.mkdirs();
@@ -145,8 +149,8 @@ public class EmailSpam {
 
 
                 Multiset<Ngram> allNgrams = null;
-//                if(nthgram==1 && slp==0)
-//                    allNgrams = getUnigrams(nthgram,slp,minimumDFFreq);
+                if(nthgram==1 && slp==0)
+                    allNgrams = getUnigrams(nthgram,slp,minimumDFFreq,trainIDs);
 
 //                if(nthgram==2)
 //                    allNgrams = getBigrams(nthgram,slp,minimumDFFreq);
@@ -165,6 +169,63 @@ public class EmailSpam {
         }
 
         return uniquengrams.elementSet();
+    }
+
+    private static Multiset<Ngram> getUnigrams(int nthgram, int slp, int minimumDFFreq, String[] trainIDs) throws IOException {
+        Multiset<Ngram> mset = ConcurrentHashMultiset.create();
+        Arrays.stream(trainIDs).parallel().forEach(tid -> {
+            try {
+                Map<Integer,String> termVector = getTermVector(tid);
+                System.out.println("Hi");
+                //updateMset(mset,termVector);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            
+        });
+        Multiset<Ngram> filteredMset = ConcurrentHashMultiset.create();
+        for(Multiset.Entry ent : mset.entrySet()){
+            Ngram ngram = (Ngram) ent.getElement();
+            int count = ent.getCount();
+            if(count>=minimumDFFreq)
+                filteredMset.add(ngram,count);
+
+        }
+        
+        return filteredMset;
+    }
+
+    private static Map<Integer,String> getTermVector(String tid) throws IOException {
+        TermVectorsResponse response = getTransportESClient().prepareTermVectors("classifier-email-1","test",tid)
+                .setOffsets(false).setPositions(true).setFieldStatistics(false)
+                .setTermStatistics(false)
+                .setSelectedFields("body")
+                .execute().actionGet();
+
+        Map<Integer,String> termPostionMap = new HashMap<>();
+        Terms terms = response.getFields().terms("body");
+
+        if(terms==null)
+            return termPostionMap;
+
+        TermsEnum iter = terms.iterator();
+
+        for (int i=0;i<terms.size();i++){
+
+            String term = iter.next().utf8ToString();
+
+            int term_freq  = iter.postings(null).freq();
+
+            PostingsEnum pstenum = iter.postings(null);
+
+            for(int k=0;k<term_freq;k++){
+                termPostionMap.put(pstenum.nextPosition(),term);
+            }
+
+        }
+
+        return termPostionMap;
     }
 
     private static boolean unique(Multiset<Ngram> uniquengrams, Ngram element, int count1) {
