@@ -27,6 +27,7 @@ public class Ngram {
 
     public void setIndex(Integer index) {
         this.index = index;
+        this.indexPresent = true;
     }
 
     public String getNgram() {
