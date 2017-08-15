@@ -69,4 +69,20 @@ public class Ngram {
 
    }
 
+   @Override
+   public boolean equals(Object o){
+
+       if(o instanceof Ngram){
+           Ngram n1 = (Ngram) o;
+           if(!ngram.equals(n1.getNgram())) return false;
+           if(inOrder != n1.isInOrder()) return false;
+           if(slop != n1.getSlop()) return false;
+       }
+       else {
+           return false;
+       }
+
+       return true;
+   }
+
 }

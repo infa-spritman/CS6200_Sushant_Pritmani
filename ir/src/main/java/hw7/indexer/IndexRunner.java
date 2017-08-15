@@ -24,7 +24,7 @@ public class IndexRunner {
         String dir = "C://Users//Sushant//Desktop//IR//data//trec07p";
         HashMap<String, String> labelMap = getLabelMap(dir + "//full//index");
         System.out.println(labelMap.size());
-        writeFiles("classifier-email-1", "test", "spam", labelMap, dir + "//data");
+        writeFiles("classifier-email-1", "test", "ham", labelMap, dir + "//data");
 
 //        File[] files = new File(dir).listFiles();
 //        for(File f : files){
